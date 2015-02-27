@@ -1,0 +1,97 @@
+﻿<Window x:Name="HomeScreenWindow" x:Class="Ascendancy.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="900" Width="1440" Background="Black" WindowStartupLocation="CenterScreen" WindowState="Maximized" WindowStyle="None" Loaded="HomeScreenWindow_Loaded" KeyDown="AscendancyHomeScreen_KeyDown">
+    <Grid x:Name="HomeScreenGrid" Height="900" Width="1440">
+
+        <!-- A Note On Media Players:
+        When distributing media with your application, you cannot use a media file as a project resource. 
+        In your project file, you must instead set the media type to Content and set CopyToOutputDirectory to PreserveNewest or Always
+        -->
+
+        <MediaElement x:Name="HomeScreenVideo"  Stretch="Uniform">
+            <MediaElement.Triggers>
+                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <MediaTimeline Storyboard.TargetName="HomeScreenVideo"  Source="Resources/Video/menu.avi" RepeatBehavior="Forever" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </MediaElement.Triggers>
+        </MediaElement>
+
+        <!-- Theme Song Handler-->
+
+        <MediaElement x:Name="HomeScreenThemeSong"  Stretch="Uniform" Volume=".0">
+            <MediaElement.Triggers>
+                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <MediaTimeline Storyboard.TargetName="HomeScreenThemeSong"   Source="Resources/Audio/ThemeSong.wav" RepeatBehavior="Forever" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </MediaElement.Triggers>
+        </MediaElement>
+
+        <ContentControl x:Name="HomeScreenContentControl" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="3" Width="1440" Height="900"/>
+        <Image x:Name="HomeScreenUserControlCatcher" HorizontalAlignment="Left" Height="900" VerticalAlignment="Top" Width="1440" Opacity="0.01" Panel.ZIndex="2" Source="Resources/Images/UserControlResources/ExitConfirmation/QuitBackdrop.png" Stretch="Fill"/>
+        <Label x:Name="MenuLogoGlow" Content="Ascendancy" HorizontalAlignment="Left" Margin="248,94,0,0" VerticalAlignment="Top" FontSize="72" FontFamily="Transformers Movie" Height="85" RenderTransformOrigin="0.5,0.5" Width="413" Panel.ZIndex="2">
+            <Label.Effect>
+                <BlurEffect KernelType="Box"/>
+            </Label.Effect>
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="2" ScaleX="1.5"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Label.RenderTransform>
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="#FF00354F"/>
+                    <GradientStop Color="#FF001729" Offset="1"/>
+                    <GradientStop Color="#FF8AAEC5" Offset="0.5"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Label x:Name="MenuLogo" Content="Ascendancy" HorizontalAlignment="Left" Margin="248,94,0,0" VerticalAlignment="Top" FontSize="72" FontFamily="Transformers Movie" Height="85" RenderTransformOrigin="0.5,0.5" Width="413" Panel.ZIndex="2" MouseEnter="MenuLogo_MouseEnter" MouseLeave="MenuLogo_MouseLeave">
+            <Label.Effect>
+                <BlurEffect Radius="1"/>
+            </Label.Effect>
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="2" ScaleX="1.5"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Label.RenderTransform>
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="#FF00354F"/>
+                    <GradientStop Color="#FF001729" Offset="1"/>
+                    <GradientStop x:Name="LogoGradient" Color="#FF8AAEC5" Offset="0.5"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+
+        <Canvas x:Name="HomeScreenButtons" Margin="124,245,816,57" Panel.ZIndex="2">
+            <Image x:Name="SinglePlayerIdle" HorizontalAlignment="Left" Height="86" VerticalAlignment="Top" Width="500" Source="Resources/Images/HomeScreenButtons/SinglePlayerIdle.png" Stretch="Fill" Panel.ZIndex="2"/>
+            <Image x:Name="SinglePlayerHover" HorizontalAlignment="Left" Height="86" VerticalAlignment="Top" Width="500" Source="Resources/Images/HomeScreenButtons/SinglePlayerHover.png" Opacity="0" Stretch="Fill" MouseLeftButtonUp="SinglePlayerHover_MouseLeftButtonUp" MouseEnter="HomeScreen_MouseEnter" MouseLeave="HomeScreen_MouseLeave" Panel.ZIndex="2"/>
+            <Image x:Name="MultiplayerIdle" HorizontalAlignment="Left" Height="86" VerticalAlignment="Top" Width="500" Source="Resources/Images/HomeScreenButtons/MutiplayerIdle.png" Stretch="Fill" Canvas.Top="128" Panel.ZIndex="2"/>
+            <Image x:Name="MultiplayerHover" HorizontalAlignment="Left" Height="86" VerticalAlignment="Top" Width="500" Source="Resources/Images/HomeScreenButtons/MutiplayerHover.png" Opacity="0" Stretch="Fill" Canvas.Top="128" MouseLeftButtonUp="MultiplayerHover_MouseLeftButtonUp" MouseEnter="HomeScreen_MouseEnter" MouseLeave="HomeScreen_MouseLeave" Panel.ZIndex="2"/>
+            <Image x:Name="HelpIdle" HorizontalAlignment="Left" Height="86" VerticalAlignment="Top" Width="500" Source="Resources/Images/HomeScreenButtons/HelpIdle.png" Stretch="Fill" Canvas.Top="256" Panel.ZIndex="2"/>
+            <Image x:Name="HelpHover" HorizontalAlignment="Left" Height="86" VerticalAlignment="Top" Width="500" Source="Resources/Images/HomeScreenButtons/HelpHover.png" Opacity="0" Stretch="Fill" Canvas.Top="256" MouseLeftButtonUp="HelpHover_MouseLeftButtonUp" MouseEnter="HomeScreen_MouseEnter" MouseLeave="HomeScreen_MouseLeave" Panel.ZIndex="2"/>
+            <Image x:Name="OptionsIdle" HorizontalAlignment="Left" Height="86" VerticalAlignment="Top" Width="500" Source="Resources/Images/HomeScreenButtons/OptionsIdle.png" Stretch="Fill" Canvas.Top="384" Panel.ZIndex="2"/>
+            <Image x:Name="OptionsHover" HorizontalAlignment="Left" Height="86" VerticalAlignment="Top" Width="500" Source="Resources/Images/HomeScreenButtons/OptionsHover.png" Opacity="0" Stretch="Fill" Canvas.Top="384" MouseLeftButtonUp="OptionsHover_MouseLeftButtonUp" MouseEnter="HomeScreen_MouseEnter" MouseLeave="HomeScreen_MouseLeave" Panel.ZIndex="2"/>
+            <Image x:Name="ExitIdle" HorizontalAlignment="Left" Height="86" VerticalAlignment="Top" Width="500" Source="Resources/Images/HomeScreenButtons/ExitIdle.png" Stretch="Fill" Canvas.Top="512" Panel.ZIndex="2"/>
+            <Image x:Name="ExitHover" HorizontalAlignment="Left" Height="86" VerticalAlignment="Top" Width="500" Source="Resources/Images/HomeScreenButtons/ExitHover.png" Opacity="0" Stretch="Fill" Canvas.Top="512" MouseLeftButtonUp="ExitHover_MouseLeftButtonUp" MouseEnter="HomeScreen_MouseEnter" MouseLeave="HomeScreen_MouseLeave" Panel.ZIndex="2"/>
+
+        </Canvas>
+
+
+    </Grid>
+</Window>

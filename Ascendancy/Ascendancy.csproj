@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D040B094-5AFB-4549-9FD3-4FC066C04834}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ascendancy</RootNamespace>
+    <AssemblyName>Ascendancy</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="ContentControlActionsWrapper.cs" />
+    <Compile Include="Game Engine\AIPlayer.cs" />
+    <Compile Include="Game Engine\Board.cs" />
+    <Compile Include="Game Engine\BoardSetup.cs" />
+    <Compile Include="Game Engine\BoardState.cs" />
+    <Compile Include="Game Engine\GameBoardEventArgs.cs" />
+    <Compile Include="Game Engine\GameEngine.cs" />
+    <Compile Include="Game Engine\GameEngineEvents.cs" />
+    <Compile Include="Game Engine\GameState.cs" />
+    <Compile Include="Game Engine\HumanPlayer.cs" />
+    <Compile Include="Game Engine\Move.cs" />
+    <Compile Include="Game Engine\Panel.cs" />
+    <Compile Include="Game Engine\PanelType.cs" />
+    <Compile Include="Game Engine\PieceType.cs" />
+    <Compile Include="Game Engine\Player.cs" />
+    <Compile Include="Game Engine\PlayerEventArgs.cs" />
+    <Compile Include="Game Engine\PlayerMoveEventArgs.cs" />
+    <Compile Include="GameBoardUserControl.xaml.cs">
+      <DependentUpon>GameBoardUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="User Controls\ExitConfirmationUserControl.xaml.cs">
+      <DependentUpon>ExitConfirmationUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="User Controls\OptionsUserControl.xaml.cs">
+      <DependentUpon>OptionsUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="User Controls\SinglePlayerUserControl.xaml.cs">
+      <DependentUpon>SinglePlayerUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlAnimation.cs" />
+    <Page Include="GameBoardUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HomeScreenAnimation.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="User Controls\ExitConfirmationUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="User Controls\OptionsUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="User Controls\SinglePlayerUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\HomeScreenButtons\ExitHover.png" />
+    <Resource Include="Resources\Images\HomeScreenButtons\ExitIdle.png" />
+    <Resource Include="Resources\Images\HomeScreenButtons\HelpHover.png" />
+    <Resource Include="Resources\Images\HomeScreenButtons\HelpIdle.png" />
+    <Resource Include="Resources\Images\HomeScreenButtons\MutiplayerHover.png" />
+    <Resource Include="Resources\Images\HomeScreenButtons\MutiplayerIdle.png" />
+    <Resource Include="Resources\Images\HomeScreenButtons\OptionsHover.png" />
+    <Resource Include="Resources\Images\HomeScreenButtons\OptionsIdle.png" />
+    <Resource Include="Resources\Images\HomeScreenButtons\SinglePlayerHover.png" />
+    <Resource Include="Resources\Images\HomeScreenButtons\SinglePlayerIdle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\UserControlResources\CancelClick.png" />
+    <Resource Include="Resources\Images\UserControlResources\CancelHover.png" />
+    <Resource Include="Resources\Images\UserControlResources\CancelIdle.png" />
+    <Resource Include="Resources\Images\UserControlResources\ExitConfirmation\QuitClick.png" />
+    <Resource Include="Resources\Images\UserControlResources\ExitConfirmation\QuitHover.png" />
+    <Resource Include="Resources\Images\UserControlResources\ExitConfirmation\QuitIdle.png" />
+    <Resource Include="Resources\Images\UserControlResources\ExitConfirmation\QuitBackdrop.png" />
+    <Content Include="Resources\Audio\hover.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Resources\Images\UserControlResources\Options\OkayClick.png" />
+    <Resource Include="Resources\Images\UserControlResources\Options\OkayHover.png" />
+    <Resource Include="Resources\Images\UserControlResources\Options\OkayIdle.png" />
+    <Content Include="Resources\Audio\ThemeSong.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Resources\Images\GameBoard\GameBoardBackground.jpg" />
+    <Resource Include="Resources\Images\dot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\greenDot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\redDot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="Resources\Video\menu.avi">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Video\menu.mov">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\Images\UserControlResources\HelpScreen\" />
+    <Folder Include="Resources\Images\UserControlResources\Multiplayer\" />
+    <Folder Include="Resources\Images\UserControlResources\SinglePlayer\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

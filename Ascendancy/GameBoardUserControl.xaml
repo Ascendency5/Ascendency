@@ -1,0 +1,87 @@
+﻿<UserControl x:Name="GameBoardUserControlView" x:Class="Ascendancy.GameBoardUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Width="1440" Height="900">
+    <Grid x:Name="GameBoardGrid" Width="1440" Height="900">
+        <Image x:Name="GameBoardBackground" Width="1440" Height="900" Source="Resources/Images/GameBoard/GameboardBackground.jpg"/>
+        <Image x:Name="CancelClick" Height="75" Margin="1150,815,0,0" Width="280" Source="Resources/Images/UserControlResources/CancelClick.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Image x:Name="CancelHover" Height="75" Margin="1150,815,0,0" Width="280" Source="Resources/Images/UserControlResources/CancelHover.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Image x:Name="CancelIdle" Height="75" Margin="1150,815,0,0" Width="280" Source="Resources/Images/UserControlResources/CancelIdle.png" VerticalAlignment="Top" HorizontalAlignment="Left" MouseDown="UserControlButton_MouseDown" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave" MouseLeftButtonUp="CancelIdle_MouseLeftButtonUp"/>
+
+        <Canvas HorizontalAlignment="Left" Height="900" VerticalAlignment="Top" Width="1440">
+            <Grid Name="PlayableGameBoardGridEventListener" Height="879" Canvas.Left="280
+                  " Canvas.Top="10" Width="879" MouseLeftButtonUp="PlayableGameBoardGridEventListener_MouseLeftButtonUp" MouseEnter="PlayableGameBoardGridEventListener_MouseEnter" MouseLeave="PlayableGameBoardGridEventListener_MouseLeave">
+                <Image Name="p00" HorizontalAlignment="Left" Height="68" Margin="10,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image Name="p01" HorizontalAlignment="Left" Height="68" Margin="123,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image Name="p10" HorizontalAlignment="Left" Height="68" Margin="10,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image Name="p11" HorizontalAlignment="Left" Height="68" Margin="123,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image Name="p02" HorizontalAlignment="Left" Height="68" Margin="236,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image Name="p03" HorizontalAlignment="Left" Height="68" Margin="349,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image Name="p12" HorizontalAlignment="Left" Height="68" Margin="236,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image Name="p13" HorizontalAlignment="Left" Height="68" Margin="349,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image Name="p04" HorizontalAlignment="Left" Height="68" Margin="462,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image Name="p05" HorizontalAlignment="Left" Height="68" Margin="575,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image Name="p14" HorizontalAlignment="Left" Height="68" Margin="462,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image Name="p15" HorizontalAlignment="Left" Height="68" Margin="575,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image Name="p06" HorizontalAlignment="Left" Height="68" Margin="688,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image Name="p07" HorizontalAlignment="Left" Height="68" Margin="801,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image Name="p16" HorizontalAlignment="Left" Height="68" Margin="688,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image Name="p17" HorizontalAlignment="Left" Height="68" Margin="801,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image Name="p20" HorizontalAlignment="Left" Height="68" Margin="10,236,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image Name="p21" HorizontalAlignment="Left" Height="68" Margin="123,236,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image Name="p30" HorizontalAlignment="Left" Height="68" Margin="10,349,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image Name="p31" HorizontalAlignment="Left" Height="68" Margin="123,349,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image Name="p22" HorizontalAlignment="Left" Height="68" Margin="236,236,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image Name="p23" HorizontalAlignment="Left" Height="68" Margin="349,236,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p32" HorizontalAlignment="Left" Height="68" Margin="236,349,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p33" HorizontalAlignment="Left" Height="68" Margin="349,349,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p24" HorizontalAlignment="Left" Height="68" Margin="462,236,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p25" HorizontalAlignment="Left" Height="68" Margin="575,236,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p34" HorizontalAlignment="Left" Height="68" Margin="462,349,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p35" HorizontalAlignment="Left" Height="68" Margin="575,349,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p26" HorizontalAlignment="Left" Height="68" Margin="688,236,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p27" HorizontalAlignment="Left" Height="68" Margin="801,236,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p36" HorizontalAlignment="Left" Height="68" Margin="688,349,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p37" HorizontalAlignment="Left" Height="68" Margin="801,349,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p40" HorizontalAlignment="Left" Height="68" Margin="10,462,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p41" HorizontalAlignment="Left" Height="68" Margin="123,462,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p50" HorizontalAlignment="Left" Height="68" Margin="10,575,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p51" HorizontalAlignment="Left" Height="68" Margin="123,575,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p42" HorizontalAlignment="Left" Height="68" Margin="236,462,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p43" HorizontalAlignment="Left" Height="68" Margin="349,462,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p52" HorizontalAlignment="Left" Height="68" Margin="236,575,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p53" HorizontalAlignment="Left" Height="68" Margin="349,575,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p44" HorizontalAlignment="Left" Height="68" Margin="462,462,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p45" HorizontalAlignment="Left" Height="68" Margin="575,462,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p54" HorizontalAlignment="Left" Height="68" Margin="462,575,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p55" HorizontalAlignment="Left" Height="68" Margin="575,575,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p46" HorizontalAlignment="Left" Height="68" Margin="688,462,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p47" HorizontalAlignment="Left" Height="68" Margin="801,462,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p56" HorizontalAlignment="Left" Height="68" Margin="688,575,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p57" HorizontalAlignment="Left" Height="68" Margin="801,575,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p60" HorizontalAlignment="Left" Height="68" Margin="10,688,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p61" HorizontalAlignment="Left" Height="68" Margin="123,688,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p70" HorizontalAlignment="Left" Height="68" Margin="10,801,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p71" HorizontalAlignment="Left" Height="68" Margin="123,801,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p62" HorizontalAlignment="Left" Height="68" Margin="236,688,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p63" HorizontalAlignment="Left" Height="68" Margin="349,688,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p72" HorizontalAlignment="Left" Height="68" Margin="236,801,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p73" HorizontalAlignment="Left" Height="68" Margin="349,801,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p64" HorizontalAlignment="Left" Height="68" Margin="462,688,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p65" HorizontalAlignment="Left" Height="68" Margin="575,688,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p74" HorizontalAlignment="Left" Height="68" Margin="462,801,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p75" HorizontalAlignment="Left" Height="68" Margin="575,801,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p66" HorizontalAlignment="Left" Height="68" Margin="688,688,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p67" HorizontalAlignment="Left" Height="68" Margin="801,688,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p76" HorizontalAlignment="Left" Height="68" Margin="688,801,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p77" HorizontalAlignment="Left" Height="68" Margin="801,801,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+            </Grid>
+        </Canvas>
+
+
+    </Grid>
+
+</UserControl>
