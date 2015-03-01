@@ -6,7 +6,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Width="1440" Height="900">
     <Grid x:Name="GameBoardGrid" Width="1440" Height="900">
-        <Image x:Name="GameBoardBackground" Width="1440" Height="900" Source="Resources/Images/GameBoard/GameboardBackground.jpg"/>
+        <MediaElement x:Name="myMediaElement" Margin="19,22,1411,868" Width="10" Height="10" Stretch="Fill"/>
+        <Image x:Name="GameBoardBackground" Width="1440" Height="900" Source="Resources/Images/GameBoard/matchingboard2.png"/>
+        <ContentControl Content="ContentControl" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Image x:Name="CancelClick" Height="75" Margin="1150,815,0,0" Width="280" Source="Resources/Images/UserControlResources/CancelClick.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Image x:Name="CancelHover" Height="75" Margin="1150,815,0,0" Width="280" Source="Resources/Images/UserControlResources/CancelHover.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Image x:Name="CancelIdle" Height="75" Margin="1150,815,0,0" Width="280" Source="Resources/Images/UserControlResources/CancelIdle.png" VerticalAlignment="Top" HorizontalAlignment="Left" MouseDown="UserControlButton_MouseDown" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave" MouseLeftButtonUp="CancelIdle_MouseLeftButtonUp"/>
@@ -79,9 +81,27 @@
                 <Image x:Name="p76" HorizontalAlignment="Left" Height="68" Margin="688,801,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
                 <Image x:Name="p77" HorizontalAlignment="Left" Height="68" Margin="801,801,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
             </Grid>
+            <Label Content="Score: " Canvas.Left="59" Canvas.Top="70" FontSize="36" FontFamily="Transformers Movie" Foreground="White"/>
         </Canvas>
 
 
+
     </Grid>
+
+    <UserControl.Resources>
+        <Storyboard x:Key="DropPod" Completed="DropPod_Storyboard_Completed">
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" BeginTime="0:0:0" Duration="0:0:.1"  />
+            <DoubleAnimation Storyboard.TargetProperty="(Canvas.Top)" BeginTime="0:0:1" Duration="0:0:2.5">
+                <DoubleAnimation.EasingFunction>
+                    <BounceEase Bounces="3" Bounciness="3" EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <MediaTimeline Source="Resources/Audio/HumanPodDown.wav" Storyboard.TargetName="myMediaElement"  
+             BeginTime="0:0:.1"/>
+        </Storyboard>
+    </UserControl.Resources>
 
 </UserControl>

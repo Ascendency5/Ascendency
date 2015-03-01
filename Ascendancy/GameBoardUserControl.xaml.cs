@@ -24,9 +24,13 @@ namespace Ascendancy
     /// </summary>
     public partial class GameBoardUserControl : UserControl
     {
+        private GameEngine engine;
+
         private Image[,] images;
         private ImageSource blackDot;
         private ImageSource redDot;
+        private Sprite currentSprite;
+        private Image currentImageInPlay;
 
         private Move[] validMoves;
         private static bool humanTurn;
@@ -74,10 +78,14 @@ namespace Ascendancy
                 if (state[move] == PieceType.Red)
                 {
                     images[row, col].Source = redDot;
+                    images[row, col].Opacity = 0;
+                    currentSprite = addPod("droptest1", images[row, col], row, col);
                 }
                 else if (state[move] == PieceType.Black)
                 {
                     images[row, col].Source = blackDot;
+                    images[row, col].Opacity = 0;
+                    currentSprite = addPod("droptestRobot", images[row, col], row, col);
                 }
             });
         }
@@ -90,10 +98,12 @@ namespace Ascendancy
 
         private void CancelIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            //animate the cancel button from the ExitControl, then kill anim object
+            // animate the cancel button from the ExitControl, then kill anim object
             UserControlAnimation.FadeInUserControlButton(CancelHover, false);
             
             ContentControlActionsWrapper.FadeOut();
+
+            //engine.kill(); Yes, this does indeed kill the engine.
         }
 
         private void UserControlButton_MouseDown(object sender, MouseButtonEventArgs e)
@@ -157,5 +167,176 @@ namespace Ascendancy
 
             return returnMove;
         }
+
+
+
+        /******************************* Sprite Handler *********************************/
+
+        #region Animations
+
+        private static void MoveTo(Image target, double newX, double newY)
+        {
+            //var top = Canvas.GetTop(target);
+            //var left = Canvas.GetLeft(target);
+            TranslateTransform trans = new TranslateTransform();
+            target.RenderTransform = trans;
+            //DoubleAnimation anim1 = new DoubleAnimation(top, newY - top, TimeSpan.FromSeconds(10));
+            //DoubleAnimation anim2 = new DoubleAnimation(left, newX - left, TimeSpan.FromSeconds(10));
+            //DoubleAnimation anim1 = new DoubleAnimation(0 - newY,0, TimeSpan.FromMilliseconds(300));
+            //DoubleAnimation anim2 = new DoubleAnimation(0 - newX,0, TimeSpan.FromMilliseconds(300));
+
+            //start it from the top of the screen
+            DoubleAnimation anim1 = new DoubleAnimation(0 - newY, 0, TimeSpan.FromMilliseconds(300));
+            DoubleAnimation anim2 = new DoubleAnimation(0 - newX - 1000, 0, TimeSpan.FromMilliseconds(300));
+            trans.BeginAnimation(TranslateTransform.XProperty, anim1);
+            trans.BeginAnimation(TranslateTransform.YProperty, anim2);
+
+            //add in a little recoil
+
+        }
+
+        private void animationTest(Image flyToImage)
+        {
+            //ImageSource giffy = new BitmapImage(new Uri(@"/Resources/images/GameBoard/podTest.gif", UriKind.Relative));
+            //humanPods[humanMoveCount].Source = giffy;
+
+            Vector offset = VisualTreeHelper.GetOffset(flyToImage);
+            MoveTo(flyToImage, offset.Y, offset.X);
+
+            //MoveTo(humanPods[humanMoveCount], offset.Y, offset.X);
+            //humanMoveCount++;
+        }
+
+        //credit goes to infiniteLoop, the creators of Locomotion
+        private Sprite addPod(string podType, Image flyToImage, int row, int col)
+        {
+            Sprite img;
+
+            img = new Sprite(podType, 311, 310, 75, 29);
+
+            // Physical attributes
+            img.Width = 145;
+            img.Height = 145;
+            img.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
+            img.VerticalAlignment = System.Windows.VerticalAlignment.Top;
+            img.Stretch = Stretch.Fill;
+
+            // Positional attributes
+            //img.RenderTransform = new RotateTransform(-45);
+            //img.Name = "pod" + row + col;
+            //img.Uid = "pod" + row + col;
+
+            img.Name = "podX";
+            img.Uid = "podX";
+
+            //attempt to resolve the location of the piece
+            Vector offset = VisualTreeHelper.GetOffset(flyToImage);
+            MoveTo(img, offset.Y, offset.X);
+
+            double sizeIsOffBecauseThePiecesWereDesignedHastily = 50;
+            double idk = 15;
+
+            double left = offset.X + idk - sizeIsOffBecauseThePiecesWereDesignedHastily;          //getPegLeft(row, col) - 6 + (col - row);
+            double top = offset.Y - sizeIsOffBecauseThePiecesWereDesignedHastily;           //getPegTop(row, col) + 109 + (row + col);
+
+            img.Margin = new Thickness(left, top, 0, 0);
+            img.Visibility = System.Windows.Visibility.Hidden;
+            //img.Opacity = 0;
+
+            Storyboard bounceDisk = FindResource("DropPod") as Storyboard;
+
+            DoubleAnimation temp = (DoubleAnimation)bounceDisk.Children[2];
+
+            temp.From = -150;
+            temp.To = 0;
+
+            //bounceDisk.Children[2] = temp;
+
+            //Storyboard.SetTarget(bounceDisk.Children[0], img);  //visibility
+            //Storyboard.SetTarget(bounceDisk.Children[1], img);  //opacity
+            //Storyboard.SetTarget(bounceDisk.Children[2], img);  //bounciness
+
+            PlayableGameBoardGridEventListener.Children.Add(img);
+            //System.Windows.Controls.Panel.SetZIndex(img, 2 * (row + col) + 1);
+            System.Windows.Controls.Panel.SetZIndex(img, 3);
+
+
+            img.BeginStoryboard(bounceDisk);
+
+            //attempt to make pigs fly
+            MoveTo(img, offset.Y, offset.X);
+
+            return img;
+        }
+
+        private void DropPod_Storyboard_Completed(object sender, EventArgs e)
+        {
+            //send it to the back
+            currentSprite.StopAnimation();
+
+            #region very roundabout way of doing currentSprite.StopAnimation();
+
+            /*********** I guess I solved it with one line of code *********/
+
+            //Panel.SetZIndex(currentSprite,3);
+            //Image img = new Image();
+
+            //// Physical attributes
+            //currentImageInPlay.Width = 180;
+            //img.Height = 112;
+            //img.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
+            //img.VerticalAlignment = System.Windows.VerticalAlignment.Top;
+            //img.Stretch = Stretch.Fill;
+            //img.Name = "podX";
+            //img.Uid = "podX";
+            //GridFullOfPods.Children.Add(img);
+
+            ////attempt to resolve the location of the piece
+            //Vector offset = VisualTreeHelper.GetOffset((Image)currentSprite);
+
+            //double left = offset.X;          //getPegLeft(row, col) - 6 + (col - row);
+            //double top = offset.Y;           //getPegTop(row, col) + 109 + (row + col);
+
+            //img.Margin = new Thickness(left, top, 0, 0);
+            //img.Visibility = System.Windows.Visibility.Visible;
+
+            //Logger.Content = "CompletedCalled";
+            ////foreach (FrameworkElement element in GridFullOfPods.Children)
+            ////{
+            ////    //if (uie.Uid != null && uie.Uid.Length > 2 && uie.Uid.Substring(0, 2) == "po")
+            ////    if (element.Uid != null && element.Uid.Length > 2 && element.Uid.Substring(0, 2) == "po")
+            ////        Panel.SetZIndex(element, 1);
+            ////    element.Opacity = 0;
+            ////}
+
+            ////ATTEMPT TO FADE OUT THE SPRITE UPON COMPLETION
+            //Storyboard buttonStoryboard = new Storyboard();
+            //DoubleAnimation woosh;
+
+            ////usage: DoubleAnimation(to, from, new Duration(TimeSpan.FromMilliseconds(TRANSITION_TIME)))
+            //woosh = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromMilliseconds(400)));
+
+            ////add to the storyboard
+            //buttonStoryboard.Children.Add(woosh);
+            //Storyboard.SetTarget(woosh,currentSprite);
+            //Storyboard.SetTargetProperty(woosh, new PropertyPath("Opacity"));
+
+            ////animate this object
+            //buttonStoryboard.Begin((FrameworkElement)currentSprite);
+
+            ////set the image of the current image in action
+            //ImageSource changeSource = new BitmapImage(new Uri(@"/Resources/images/GameBoard/podFinish.png", UriKind.Relative));
+
+            //currentImageInPlay.Source = changeSource;
+            //currentImageInPlay.Opacity = 1;
+            //Panel.SetZIndex(currentImageInPlay, 3);
+
+            #endregion
+
+        }
+        #endregion
+
+        /**************************** End Sprite Handler ********************************/
+        /********************************************************************************/
     }
 }

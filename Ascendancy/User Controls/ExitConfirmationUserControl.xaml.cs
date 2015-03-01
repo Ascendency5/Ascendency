@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Ascendancy.Game_Engine;
 
 namespace Ascendancy.User_Controls
 {
@@ -44,29 +45,28 @@ namespace Ascendancy.User_Controls
         private void UserControlButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (sender == QuitIdle)
-                UserControlAnimation.FadeInUserControlButton(QuitHover, true);
+                UserControlAnimation.FadeInUserControlButton(QuitHover, false);
             else
-                UserControlAnimation.FadeInUserControlButton(CancelHover, true);
+                UserControlAnimation.FadeInUserControlButton(CancelHover, false);
             
-            MediaPlayer player = new MediaPlayer();
-            player.Open(new Uri(@"/Resources/Audio/hover.wav", UriKind.Relative));
-            player.Volume = 0.67;
+            //added sound effect for the button
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"Resources/Audio/UserControlButtonHover.wav");
             player.Play();
         }
 
         private void UserControlButton_MouseEnter(object sender, MouseEventArgs e)
         {
-            UserControlAnimation.FadeInUserControlButton(sender, true);
+            UserControlAnimation.FadeInUserControlButton(sender, false);
         }
 
         private void UserControlButton_MouseLeave(object sender, MouseEventArgs e)
         {
-            //if (sender == QuitIdle)
-            //    currentUserControlAnimation.FadeInUserControlButton(QuitHover, false);
-            //else// if(sender == CancelIdle)
-            //    currentUserControlAnimation.FadeInUserControlButton(CancelHover, false);
+            if (QuitHover.Opacity < 1)
+                UserControlAnimation.FadeInUserControlButton(QuitHover, true);
+            if (CancelHover.Opacity < 1)
+                UserControlAnimation.FadeInUserControlButton(CancelHover, true);
 
-            UserControlAnimation.FadeInUserControlButton(sender, false);
+            UserControlAnimation.FadeInUserControlButton(sender, true);
         }
 
     }

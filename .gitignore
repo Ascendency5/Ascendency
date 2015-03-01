@@ -200,3 +200,4 @@ FakesAssemblies/
 
 # Ascendancy specific files
 Ascendancy/Resources/Video/*
+Ascendancy/Resources/Audio/*

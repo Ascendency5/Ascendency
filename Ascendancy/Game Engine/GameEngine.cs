@@ -164,5 +164,10 @@ namespace Ascendancy.Game_Engine
         {
             return board;
         }
+
+        public void kill()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

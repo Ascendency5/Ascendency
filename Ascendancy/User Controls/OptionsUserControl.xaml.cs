@@ -20,45 +20,84 @@ namespace Ascendancy.User_Controls
     /// </summary>
     public partial class OptionsUserControl : UserControl
     {
+        private int loadedCounterSoundSlider;
+        private int loadedCounterMusicSlider;
 
         public OptionsUserControl()
         {
             InitializeComponent();
+
+            loadedCounterSoundSlider = 0;
+            loadedCounterMusicSlider = 0;
+            SoundPercentageLabel.Content = SoundManager.SoundVolume + "%";
+            MusicPercentageLabel.Content = SoundManager.MusicVolume + "%";
+            SoundSlider.Value = SoundManager.SoundVolume;
+            MusicSlider.Value = SoundManager.MusicVolume;
+        }
+
+        private void OptionsUserControlView_Loaded(object sender, RoutedEventArgs e)
+        {
+            //SoundSlider.Value = SoundManager.SoundVolume;
+            //MusicSlider.Value = SoundManager.MusicVolume;
         }
 
         private void OkayIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             //animate the cancel button from the ExitControl, then kill anim object
-            UserControlAnimation.FadeInUserControlButton(OkayHover, false);
+            UserControlAnimation.FadeInUserControlButton(OkayHover, true);
 
             ContentControlActionsWrapper.FadeOut();
         }
 
-        /**
+        private void SoundSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (loadedCounterSoundSlider <= 1)
+            {
+                loadedCounterSoundSlider++;
+                SoundSlider.Value = 50;
+            }
+            else
+            {
+                SoundManager.SoundVolume = SoundSlider.Value;
+                SoundPercentageLabel.Content = SoundManager.SoundVolume + "%";
+            }
+        }
+
+        private void MusicSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (loadedCounterMusicSlider <= 1)
+            {
+                loadedCounterMusicSlider++;
+                MusicSlider.Value = 50;
+            }
+            else
+            {
+                SoundManager.MusicVolume = MusicSlider.Value;
+                MusicPercentageLabel.Content = SoundManager.MusicVolume + "%";
+            }
+        }
+
+
         private void UserControlButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            //if (sender == QuitIdle)
-              //  currentUserControlAnimation.FadeInUserControlButton(QuitHover, true);
-            //else
-            //    currentUserControlAnimation.FadeInUserControlButton(OkayHover, true);
+            UserControlAnimation.FadeInUserControlButton(OkayHover, false);
 
-
-            currentUserControlAnimation.MenuButtonSound.Open(new Uri(@"/Resources/Audio/hover.wav", UriKind.Relative));
-            currentUserControlAnimation.MenuButtonSound.Volume = 0.67;
-            currentUserControlAnimation.MenuButtonSound.Play();
+            //added sound effect for the button
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"Resources/Audio/UserControlButtonHover.wav");
+            player.Play();
         }
 
         private void UserControlButton_MouseEnter(object sender, MouseEventArgs e)
         {
-            currentUserControlAnimation.FadeInUserControlButton(sender, true);
-            currentUserControlAnimation = new UserControlAnimation();
+            UserControlAnimation.FadeInUserControlButton(sender, false);
         }
 
         private void UserControlButton_MouseLeave(object sender, MouseEventArgs e)
         {
-            currentUserControlAnimation.FadeInUserControlButton(sender, false);
-            currentUserControlAnimation = new UserControlAnimation();
+            if (OkayHover.Opacity < 1)
+                UserControlAnimation.FadeInUserControlButton(OkayHover, true);
+
+            UserControlAnimation.FadeInUserControlButton(sender, true);
         }
-        */
     }
 }

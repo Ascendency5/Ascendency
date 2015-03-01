@@ -75,6 +75,8 @@
     <Compile Include="GameBoardUserControl.xaml.cs">
       <DependentUpon>GameBoardUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SoundManager.cs" />
+    <Compile Include="Sprite.cs" />
     <Compile Include="User Controls\ExitConfirmationUserControl.xaml.cs">
       <DependentUpon>ExitConfirmationUserControl.xaml</DependentUpon>
     </Compile>
@@ -155,6 +157,21 @@
     <Resource Include="Resources\Images\HomeScreenButtons\SinglePlayerIdle.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Audio\HomeScreenButtonHover.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Audio\LogoHover.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Audio\UserControlButtonHover.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Video\Intro.avi">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Video\menu.avi">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resources\Images\UserControlResources\CancelClick.png" />
     <Resource Include="Resources\Images\UserControlResources\CancelHover.png" />
     <Resource Include="Resources\Images\UserControlResources\CancelIdle.png" />
@@ -168,6 +185,9 @@
     <Resource Include="Resources\Images\UserControlResources\Options\OkayClick.png" />
     <Resource Include="Resources\Images\UserControlResources\Options\OkayHover.png" />
     <Resource Include="Resources\Images\UserControlResources\Options\OkayIdle.png" />
+    <Content Include="Resources\Audio\HumanPodDown.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Audio\ThemeSong.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -181,17 +201,36 @@
     <Resource Include="Resources\Images\redDot.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Content Include="Resources\Video\menu.avi">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Video\menu.mov">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Resources\Images\Sprites\droptest1.png" />
+    <Resource Include="Resources\Images\Sprites\droptestRobot.png" />
+    <Resource Include="Resources\Images\GameBoard\matchingboard2.png" />
+    <Resource Include="Resources\Images\UserControlResources\HelpScreen\NextClick.png" />
+    <Resource Include="Resources\Images\UserControlResources\HelpScreen\NextHover.png" />
+    <Resource Include="Resources\Images\UserControlResources\HelpScreen\NextIdle.png" />
+    <Resource Include="Resources\Images\UserControlResources\HelpScreen\PreviousClick.png" />
+    <Resource Include="Resources\Images\UserControlResources\HelpScreen\PreviousHover.png" />
+    <Resource Include="Resources\Images\UserControlResources\HelpScreen\PreviousIdle.png" />
+    <Resource Include="Resources\Images\UserControlResources\HelpScreen\CloseHelpClick.png" />
+    <Resource Include="Resources\Images\UserControlResources\HelpScreen\CloseHelpHover.png" />
+    <Resource Include="Resources\Images\UserControlResources\HelpScreen\CloseHelpIdle.png" />
+    <Resource Include="Resources\Images\UserControlResources\SinglePlayer\EasyClick.png" />
+    <Resource Include="Resources\Images\UserControlResources\SinglePlayer\EasyHover.png" />
+    <Resource Include="Resources\Images\UserControlResources\SinglePlayer\EasyIdle.png" />
+    <Resource Include="Resources\Images\UserControlResources\SinglePlayer\GoFirstClick.png" />
+    <Resource Include="Resources\Images\UserControlResources\SinglePlayer\GoFirstHover.png" />
+    <Resource Include="Resources\Images\UserControlResources\SinglePlayer\GoFirstIdle.png" />
+    <Resource Include="Resources\Images\UserControlResources\SinglePlayer\GoSecondClick.png" />
+    <Resource Include="Resources\Images\UserControlResources\SinglePlayer\GoSecondHover.png" />
+    <Resource Include="Resources\Images\UserControlResources\SinglePlayer\GoSecondIdle.png" />
+    <Resource Include="Resources\Images\UserControlResources\SinglePlayer\HardClick.png" />
+    <Resource Include="Resources\Images\UserControlResources\SinglePlayer\HardHover.png" />
+    <Resource Include="Resources\Images\UserControlResources\SinglePlayer\HardIdle.png" />
+    <Resource Include="Resources\Images\UserControlResources\SinglePlayer\PlayClick.png" />
+    <Resource Include="Resources\Images\UserControlResources\SinglePlayer\PlayHover.png" />
+    <Resource Include="Resources\Images\UserControlResources\SinglePlayer\PlayIdle.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\Images\UserControlResources\HelpScreen\" />
     <Folder Include="Resources\Images\UserControlResources\Multiplayer\" />
-    <Folder Include="Resources\Images\UserControlResources\SinglePlayer\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

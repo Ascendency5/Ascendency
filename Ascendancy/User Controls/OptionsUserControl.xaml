@@ -4,20 +4,40 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" Width="1440" Height="900">
+             d:DesignHeight="300" d:DesignWidth="300" Width="1440" Height="900" Loaded="OptionsUserControlView_Loaded">
     <UserControl.Background>
         <ImageBrush ImageSource="/Ascendancy;component/Resources/Images/UserControlResources/ExitConfirmation/QuitBackdrop.png" Stretch="None"/>
     </UserControl.Background>
     <Grid x:Name="OptionsGrid" Width="1440" Height="900">
-        <Slider HorizontalAlignment="Left" Margin="591,362,0,0" VerticalAlignment="Top" Foreground="White" Width="275" Height="24"/>
-        <Slider HorizontalAlignment="Left" Margin="591,460,574,0" VerticalAlignment="Top" Foreground="White" Width="275" Height="40"/>
-        <Label x:Name="Sounds" Content="Sounds" HorizontalAlignment="Left" Margin="361,321,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Ubuntu Mono" Height="83" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <Label x:Name="Sounds_Copy" Content="Options" HorizontalAlignment="Left" Margin="664,253,0,0" VerticalAlignment="Top" FontSize="36" Background="#00000000" FontFamily="Ubuntu Mono" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-        <Label x:Name="Sounds_Copy1" Content="Music" HorizontalAlignment="Left" Margin="361,417,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Ubuntu Mono" Height="83" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Label x:Name="MusicLabel_Copy" Content="Music" HorizontalAlignment="Left" Margin="361,417,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Ubuntu Mono" Height="83" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Effect>
+                <BlurEffect Radius="10"/>
+            </Label.Effect>
+        </Label>
+        <Label x:Name="OptionsLabel_Copy" Content="Options" HorizontalAlignment="Left" Margin="661,261,0,0" VerticalAlignment="Top" FontSize="36" Background="#00000000" FontFamily="Ubuntu Mono" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+            <Label.Effect>
+                <BlurEffect Radius="10"/>
+            </Label.Effect>
+        </Label>
+
+        <Label x:Name="SoundsLabel_Copy" Content="Sounds" HorizontalAlignment="Left" Margin="361,321,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Ubuntu Mono" Height="83" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Effect>
+                <BlurEffect Radius="10"/>
+            </Label.Effect>
+        </Label>
+
+        <Label x:Name="SoundsLabel" Content="Sounds" HorizontalAlignment="Left" Margin="361,321,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Ubuntu Mono" Height="83" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Label x:Name="OptionsLabel" Content="Options" HorizontalAlignment="Left" Margin="661,261,0,0" VerticalAlignment="Top" FontSize="36" Background="#00000000" FontFamily="Ubuntu Mono" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <Label x:Name="MusicLabel" Content="Music" HorizontalAlignment="Left" Margin="361,417,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Ubuntu Mono" Height="83" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
+        <Slider x:Name="SoundSlider" HorizontalAlignment="Left" Margin="579,354,0,0" VerticalAlignment="Top" Foreground="White" Width="300" Height="24" Maximum="100" Minimum="0" Value="{Binding SoundVolume}" ValueChanged="SoundSlider_ValueChanged" IsSnapToTickEnabled="True" TickFrequency="5"/>
+        <Slider x:Name="MusicSlider" HorizontalAlignment="Left" Margin="579,450,0,0" VerticalAlignment="Top" Foreground="White" Width="300" Height="24" Maximum="100" Minimum="0" Value="{Binding MusicVolume}" ValueChanged="MusicSlider_ValueChanged" IsSnapToTickEnabled="True" TickFrequency="5"/>
 
         <Image x:Name="OkayClick" Height="75" Margin="779,532,0,0" VerticalAlignment="Top" Width="280" Source="/Resources/Images/UserControlResources/Options/OkayClick.png" Stretch="UniformToFill" HorizontalAlignment="Left"/>
         <Image x:Name="OkayHover" Height="75" Margin="779,532,0,0" VerticalAlignment="Top" Width="280" Source="/Resources/Images/UserControlResources/Options/OkayHover.png" Stretch="UniformToFill" HorizontalAlignment="Left"/>
-        <Image x:Name="OkayIdle" Height="75" Margin="779,532,0,0" VerticalAlignment="Top" Width="280" Source="/Resources/Images/UserControlResources/Options/OkayIdle.png" Stretch="UniformToFill" HorizontalAlignment="Left" MouseLeftButtonUp="OkayIdle_MouseLeftButtonUp"/>
+        <Image x:Name="OkayIdle" Height="75" Margin="779,532,0,0" VerticalAlignment="Top" Width="280" Source="/Resources/Images/UserControlResources/Options/OkayIdle.png" Stretch="UniformToFill" HorizontalAlignment="Left" MouseLeftButtonUp="OkayIdle_MouseLeftButtonUp" MouseLeftButtonDown="UserControlButton_MouseDown" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave"/>
+        <Label x:Name="SoundPercentageLabel" Content="50%" HorizontalAlignment="Left" Margin="698,374,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="65" Height="30" FontSize="24" FontFamily="Ubuntu Mono" Foreground="White"/>
+        <Label x:Name="MusicPercentageLabel" Content="50%" HorizontalAlignment="Left" Margin="698,465,0,0" VerticalAlignment="Top" FontSize="24" FontFamily="Ubuntu Mono" Width="65" Height="36" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="White"/>
 
     </Grid>
 </UserControl>

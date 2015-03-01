@@ -21,23 +21,23 @@ namespace Ascendancy
         //Context animation methods
 
         //all user control objects animate their buttons with this method
-        public static void FadeInUserControlButton(object sender, bool easeIn)
+        public static void FadeInUserControlButton(object sender, bool fadeIn)
         {
             Storyboard buttonStoryboard = new Storyboard();
+            DoubleAnimation changeButtonOpacity;
             DependencyObject currentControl = sender as DependencyObject;
             string item = currentControl.GetValue(FrameworkElement.NameProperty) as string;
-            DoubleAnimation woosh;
 
             //usage: DoubleAnimation(to, from, new Duration(TimeSpan.FromMilliseconds(TRANSITION_TIME)))
-            if (easeIn)
-                woosh = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(400)));
+            if (fadeIn)
+                changeButtonOpacity = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(150)));
             else
-                woosh = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromMilliseconds(400)));
+                changeButtonOpacity = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromMilliseconds(170)));
 
             //add to the storyboard
-            buttonStoryboard.Children.Add(woosh);
-            Storyboard.SetTargetName(woosh, item);
-            Storyboard.SetTargetProperty(woosh, new PropertyPath("Opacity"));
+            buttonStoryboard.Children.Add(changeButtonOpacity);
+            Storyboard.SetTargetName(changeButtonOpacity, item);
+            Storyboard.SetTargetProperty(changeButtonOpacity, new PropertyPath("Opacity"));
 
             //animate this object
             buttonStoryboard.Begin((FrameworkElement)sender);
@@ -47,20 +47,20 @@ namespace Ascendancy
         public static void FadeInContentControl(object sender, bool easeIn)
         {
             Storyboard userControlStoryboard = new Storyboard();
+            DoubleAnimation changeContentOpacity;
             DependencyObject currentContentControl = sender as DependencyObject;
             string item = currentContentControl.GetValue(FrameworkElement.NameProperty) as string;
-            DoubleAnimation woosh;
 
             //usage: DoubleAnimation(to, from, new Duration(TimeSpan.FromMilliseconds(TRANSITION_TIME)))
             if (easeIn)
-                woosh = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(400)));
+                changeContentOpacity = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(400)));
             else
-                woosh = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromMilliseconds(400)));
+                changeContentOpacity = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromMilliseconds(400)));
 
             //add to the storyboard
-            userControlStoryboard.Children.Add(woosh);
-            Storyboard.SetTargetName(woosh, item);
-            Storyboard.SetTargetProperty(woosh, new PropertyPath("Opacity"));
+            userControlStoryboard.Children.Add(changeContentOpacity);
+            Storyboard.SetTargetName(changeContentOpacity, item);
+            Storyboard.SetTargetProperty(changeContentOpacity, new PropertyPath("Opacity"));
 
             //animate this object
             userControlStoryboard.Begin((FrameworkElement)sender);

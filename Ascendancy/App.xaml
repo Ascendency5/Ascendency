@@ -4,5 +4,7 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <BitmapImage x:Key="inactivePosition" UriSource="resources/images/dot.png"/>
+        <MediaElement x:Key="UserControlButtonHover"/>
+        <MediaElement x:Key="HomeScreenButtonHover"/>
     </Application.Resources>
 </Application>
