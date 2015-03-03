@@ -61,7 +61,11 @@ namespace Ascendancy
             engine.OnPlayerChanged += on_player_changed;
             engine.OnPlayerMove += on_player_moved;
 
+            // ContentControler for Options/OptionsManager
+            //ContentControlActionsWrapper.baseContentControl = GameBoardContentControl;
+
             engine.start();
+            this.engine = engine;
         }
 
         private void on_player_moved(object gameengine, PlayerMoveEventArgs eventargs)
@@ -87,6 +91,12 @@ namespace Ascendancy
                     images[row, col].Opacity = 0;
                     currentSprite = addPod("droptestRobot", images[row, col], row, col);
                 }
+
+                int redScore, blackScore;
+                eventargs.Board.GetScore(state, out redScore, out blackScore);
+
+                HumanScoreLabel.Content = "Humans: " + redScore;
+                RobotScoreLabel.Content = "Robots: " + blackScore;
             });
         }
 
@@ -99,18 +109,18 @@ namespace Ascendancy
         private void CancelIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             // animate the cancel button from the ExitControl, then kill anim object
-            UserControlAnimation.FadeInUserControlButton(CancelHover, false);
+            UserControlAnimation.FadeInUserControlButton(CloseHover, false);
             
             ContentControlActionsWrapper.FadeOut();
 
-            //engine.kill(); Yes, this does indeed kill the engine.
+            engine.kill();
         }
 
         private void UserControlButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
             MediaPlayer player = new MediaPlayer();
             player.Open(new Uri(@"/Resources/Audio/hover.wav", UriKind.Relative));
-            player.Volume = 0.97;
+            player.Volume = 0.5;
             player.Play();
         }
 
@@ -335,6 +345,16 @@ namespace Ascendancy
 
         }
         #endregion
+
+        private void HelpIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            //HomeScreenContentControl.Content = new User_Controls.HelpUserControl(this, HomeScreenContentControl);
+        }
+
+        private void SoundIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+
+        }
 
         /**************************** End Sprite Handler ********************************/
         /********************************************************************************/

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,9 +22,15 @@ namespace Ascendancy.User_Controls
     /// </summary>
     public partial class SinglePlayerUserControl : UserControl
     {
+        private bool easy;
+        private bool first;
         public SinglePlayerUserControl()
         {
             InitializeComponent();
+            easy = true;
+            first = true;
+            System.Windows.Controls.Panel.SetZIndex(EasyClick, 3);
+            System.Windows.Controls.Panel.SetZIndex(GoFirstClick, 3);
         }
 
         private void CancelIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -42,11 +49,14 @@ namespace Ascendancy.User_Controls
             // Set up game engine
             // todo Add code for easy/hard AI
             HumanPlayer humanPlayer = new HumanPlayer(GameBoardUserControl.human_move_handler);
+            //HumanPlayer aiPlayer = new HumanPlayer(GameBoardUserControl.human_move_handler);
             AIPlayer aiPlayer = new AIPlayer();
 
             Board board = BoardSetup.board_team5;
 
-            GameEngine engine = new GameEngine(board, humanPlayer, aiPlayer, PieceType.Red);
+            GameEngine engine = new GameEngine(board, humanPlayer, aiPlayer,
+                first ? PieceType.Red : PieceType.Black
+                );
 
             ContentControlActionsWrapper.setUpControl(new GameBoardUserControl(engine));
         }
@@ -55,6 +65,48 @@ namespace Ascendancy.User_Controls
 
         private void UserControlButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            //Displays whether the Easy AI is selected, or the Hard AI
+            if (easy)
+            {
+                if (sender == HardIdle)
+                {
+                    easy = false;
+                    System.Windows.Controls.Panel.SetZIndex(HardClick, 3);
+                    System.Windows.Controls.Panel.SetZIndex(EasyClick, 2);
+                }
+            }
+            else if (easy == false)
+            {
+                if (sender == EasyIdle)
+                {
+                    easy = true;
+                    System.Windows.Controls.Panel.SetZIndex(EasyClick, 3);
+                    System.Windows.Controls.Panel.SetZIndex(HardClick, 2);
+                }
+            }
+
+            //Displays whether the Human Player plays first or second
+            if (first)
+            {
+                if (sender == GoSecondIdle)
+                {
+                    first = false;
+                    System.Windows.Controls.Panel.SetZIndex(GoSecondClick, 3);
+                    System.Windows.Controls.Panel.SetZIndex(GoFirstClick, 2);
+                }
+            }
+            else if (first == false)
+            {
+                if (sender == GoFirstIdle)
+                {
+                    first = true;
+                    System.Windows.Controls.Panel.SetZIndex(GoFirstClick, 3);
+                    System.Windows.Controls.Panel.SetZIndex(GoSecondClick, 2);
+                }
+            }
+
+
+
             if (sender == EasyIdle)
                 UserControlAnimation.FadeInUserControlButton(EasyHover, false);
             else if (sender == HardIdle)
@@ -77,21 +129,30 @@ namespace Ascendancy.User_Controls
         {
             //UserControlButton_MouseLeave(sender, e);
             if (sender == EasyIdle)
+            {
                 UserControlAnimation.FadeInUserControlButton(EasyHover, true);
+            }
             else if (sender == HardIdle)
+            {
                 UserControlAnimation.FadeInUserControlButton(HardHover, true);
+            }
             else if (sender == GoFirstIdle)
+            {
                 UserControlAnimation.FadeInUserControlButton(GoFirstHover, true);
+            }
             else if (sender == GoSecondIdle)
+            {
                 UserControlAnimation.FadeInUserControlButton(GoSecondHover, true);
+            }
             else if (sender == CancelIdle)
+            {
                 UserControlAnimation.FadeInUserControlButton(CancelHover, true);
+            }
         }
-
 
         private void UserControlButton_MouseEnter(object sender, MouseEventArgs e)
         {
-            UserControlAnimation.FadeInUserControlButton(sender, false);
+                UserControlAnimation.FadeInUserControlButton(sender, false);
         }
 
         private void UserControlButton_MouseLeave(object sender, MouseEventArgs e)

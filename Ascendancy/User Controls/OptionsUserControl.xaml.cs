@@ -29,16 +29,16 @@ namespace Ascendancy.User_Controls
 
             loadedCounterSoundSlider = 0;
             loadedCounterMusicSlider = 0;
-            SoundPercentageLabel.Content = SoundManager.SoundVolume + "%";
-            MusicPercentageLabel.Content = SoundManager.MusicVolume + "%";
-            SoundSlider.Value = SoundManager.SoundVolume;
-            MusicSlider.Value = SoundManager.MusicVolume;
+            SoundPercentageLabel.Content = OptionsManager.SoundVolume + "%";
+            MusicPercentageLabel.Content = OptionsManager.MusicVolume + "%";
+            SoundSlider.Value = OptionsManager.SoundVolume;
+            MusicSlider.Value = OptionsManager.MusicVolume;
         }
 
         private void OptionsUserControlView_Loaded(object sender, RoutedEventArgs e)
         {
-            //SoundSlider.Value = SoundManager.SoundVolume;
-            //MusicSlider.Value = SoundManager.MusicVolume;
+            //SoundSlider.Value = OptionsManager.SoundVolume;
+            //MusicSlider.Value = OptionsManager.MusicVolume;
         }
 
         private void OkayIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -58,9 +58,11 @@ namespace Ascendancy.User_Controls
             }
             else
             {
-                SoundManager.SoundVolume = SoundSlider.Value;
-                SoundPercentageLabel.Content = SoundManager.SoundVolume + "%";
+                OptionsManager.SoundVolume = SoundSlider.Value;
+                SoundPercentageLabel.Content = OptionsManager.SoundVolume + "%";
+                //MainWindow.ChangeMusicVolume();
             }
+            
         }
 
         private void MusicSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -72,8 +74,9 @@ namespace Ascendancy.User_Controls
             }
             else
             {
-                SoundManager.MusicVolume = MusicSlider.Value;
-                MusicPercentageLabel.Content = SoundManager.MusicVolume + "%";
+                OptionsManager.MusicVolume = MusicSlider.Value;
+                MusicPercentageLabel.Content = OptionsManager.MusicVolume + "%";
+                
             }
         }
 

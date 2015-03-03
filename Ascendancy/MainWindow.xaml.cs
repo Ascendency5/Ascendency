@@ -13,7 +13,9 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Ascendancy.User_Control;
 using Ascendancy.User_Controls;
+using Ascendancy.User_Controls.Multiplayer;
 
 namespace Ascendancy
 {
@@ -25,17 +27,18 @@ namespace Ascendancy
         //local variables
         private HomeScreenAnimation localStoryboard;
         private OptionsUserControl globalOptions;
-        private static Storyboard playIntro;
+        //private static Storyboard playIntro;
         private Storyboard fadeout;
         private Storyboard playThemeSong;
         private Storyboard playHomeScreenBackground;
+        private bool introIsDone;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            SoundManager.MusicVolume = 50;
-            SoundManager.SoundVolume = 50;
+            OptionsManager.MusicVolume = 50;
+            OptionsManager.SoundVolume = 50;
 
             //Nik added this in to try making a global options controller,
             //accessible from any context (even during gameplay)
@@ -44,12 +47,19 @@ namespace Ascendancy
 
             //boot up other local variables
             localStoryboard = new HomeScreenAnimation();
+            introIsDone = false;
 
             //i'm loading the content controller upon finishing the intro animation
             ContentControlActionsWrapper.baseContentControl = HomeScreenContentControl;
 
-            playIntro = FindResource("IntroStoryboard") as Storyboard;
-            HomeScreenIntro.BeginStoryboard(playIntro);
+            //playIntro = FindResource("IntroStoryboard") as Storyboard;
+            //HomeScreenIntro.BeginStoryboard(playIntro);
+        }
+
+        public void ChangeMusicVolume()
+        {
+            //event is fired, volume is changed to updated volume
+            HomeScreenThemeSong.Volume = OptionsManager.MusicVolume;
         }
 
         #region User Control Callers
@@ -61,12 +71,12 @@ namespace Ascendancy
 
         private void MultiplayerHover_MouseLeftButtonUp(object sender, RoutedEventArgs e)
         {
-            //HomeScreenContentControl.Content = new User_Controls.MultiplayerUserControl(this, HomeScreenContentControl);
+            setContent(new MultiplayerStarterUserControl());
         }
 
         private void HelpHover_MouseLeftButtonUp(object sender, RoutedEventArgs e)
         {
-            //HomeScreenContentControl.Content = new User_Controls.HelpUserControl(this, HomeScreenContentControl);
+            setContent(new HelpPopUpUserControl());
         }
 
         private void OptionsHover_MouseLeftButtonUp(object sender, RoutedEventArgs e)
@@ -95,12 +105,21 @@ namespace Ascendancy
             this.WindowStyle = WindowStyle.None;
             this.Focus();
         }
-
+ 
         private void AscendancyHomeScreen_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Escape)
+            //if the intro isn't in progress, and no other UserControl is active...
+            if (((e.Key == Key.Escape) && introIsDone) 
+                && Panel.GetZIndex(ContentControlActionsWrapper.baseContentControl) != 3)
             {
                 ExitHover_MouseLeftButtonUp(sender, e);
+            }
+            if (e.Key == Key.Space && !introIsDone)
+            {
+                //IntroStoryboard_OnCompleted(sender, e);
+                //SkipIntroWithSpacebar(sender,e);
+                HomeScreenIntroStoryboard.Remove();
+                IntroStoryboard_OnCompleted(sender, e);
             }
         }
 
@@ -113,15 +132,34 @@ namespace Ascendancy
 
         #region Intro Functions
 
+        //private void SkipIntroWithSpacebar(object sender, EventArgs e)
+        //{
+
+        //    HomeScreenIntro.Stop();
+        //    HomeScreenIntro.Volume = 0;
+        //    HomeScreenIntro.Close();
+        //    IntroStoryboard_OnCompleted(sender, e);
+        //}
+
         private void IntroStoryboard_OnCompleted(object sender, EventArgs e)
         {
             //throw new NotImplementedException();
 
-            //stop all the things
-            playIntro.Remove();
-            playIntro.Stop();
+            //OMG KILL IT WITH FIRE
+            //playIntro.Remove();
+            //playIntro.Stop();
+            //playIntro.Duration = new Duration(new TimeSpan(0,0,1));
+            //playIntro.SkipToFill();
+            //playIntro.Pause();
+
+            //if the player has already finished
+            if (sender == HomeScreenIntro && introIsDone)
+                return;
+
             HomeScreenIntro.Stop();
             HomeScreenIntro.Volume = 0;
+            HomeScreenIntro.Close();
+
 
             //send the intro materials to the back
             Panel.SetZIndex(HomeScreenIntro, 1);
@@ -139,17 +177,15 @@ namespace Ascendancy
             HomeScreenThemeSong.BeginStoryboard(playThemeSong);
             playHomeScreenBackground = FindResource("HomeScreenBackgroundVideoStoryboard") as Storyboard;
             HomeScreenVideo.BeginStoryboard(playHomeScreenBackground);
+
+            //don't accept keystrokes from spacebar anymore
+            introIsDone = true;
         }
 
-        private void HomeScreenIntro_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            IntroStoryboard_OnCompleted(sender, e);
-        }
-
-        private void HomeScreenIntro_KeyDown(object sender, KeyEventArgs e)
-        {
-            IntroStoryboard_OnCompleted(sender, e);
-        }
+        //private void HomeScreenIntro_MouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    IntroStoryboard_OnCompleted(sender, e);
+        //}
 
         private void FadeTransitionHandler_OnCompleted(object sender, EventArgs e)
         {

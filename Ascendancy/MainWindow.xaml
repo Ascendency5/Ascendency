@@ -15,10 +15,25 @@
         -->
 
         <MediaElement x:Name="HomeScreenButtonSoundEffect" Panel.ZIndex="2"/>
-        <MediaElement x:Name="HomeScreenIntro" LoadedBehavior="Manual" Stretch="Uniform" Panel.ZIndex="3" MouseDown="HomeScreenIntro_MouseDown" KeyDown="HomeScreenIntro_KeyDown"/>
-        <Label x:Name="IntroSkipText" Content="&#xD;&#xA;&#xD;&#xA;&#x9;[continue to key any press...]" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Panel.ZIndex="3" Width="1430" Height="602" FontSize="16" MouseDown="HomeScreenIntro_MouseDown"/>
+
+        <MediaElement x:Name="HomeScreenIntro" LoadedBehavior="Manual"
+                      Panel.ZIndex="3" MediaEnded="IntroStoryboard_OnCompleted" Width="1440" Height="900">
+            <MediaElement.Triggers>
+                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard x:Name="HomeScreenIntroStoryboard" Completed="IntroStoryboard_OnCompleted">
+                            <MediaTimeline Source="Resources/Video/Intro.avi" Storyboard.TargetName="HomeScreenIntro" BeginTime="0:0:0" Duration="0:0:21"/>
+                            <!--<DoubleAnimation Storyboard.TargetProperty="FontSize" From="16" To="48" BeginTime="0:0:20" Duration="0:0:1" Storyboard.TargetName="IntroSkipText"/> -->
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" BeginTime="0:0:19.7" Duration="0:0:.5"  />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </MediaElement.Triggers>
+        </MediaElement>
+
+        <Label x:Name="IntroSkipText" Content="&#xD;&#xA;&#xD;&#xA;&#x9; Press Space to Continue..." HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Panel.ZIndex="3" Width="313" Height="117" FontSize="16"/>
         <MediaElement x:Name="HomeScreenThemeSong"  Stretch="Uniform" Volume=".5" Panel.ZIndex="2"/>
-        <MediaElement x:Name="HomeScreenVideo"  Stretch="Uniform" Panel.ZIndex="2"/>
+        <MediaElement x:Name="HomeScreenVideo"  Stretch="Uniform" Panel.ZIndex="2" Width="1440" Height="900"/>
 
         <ContentControl x:Name="HomeScreenContentControl" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="2" Width="1440" Height="900"/>
         <Image x:Name="HomeScreenUserControlCatcher" HorizontalAlignment="Left" Height="900" VerticalAlignment="Top" Width="1440" Opacity="0.01" Panel.ZIndex="2" Source="Resources/Images/UserControlResources/ExitConfirmation/QuitBackdrop.png" Stretch="Fill"/>
@@ -66,7 +81,7 @@
         <Canvas x:Name="HomeScreenButtons" Margin="124,245,816,57" Panel.ZIndex="2">
             <Image x:Name="SinglePlayerIdle" HorizontalAlignment="Left" Height="86" VerticalAlignment="Top" Width="500" Source="Resources/Images/HomeScreenButtons/SinglePlayerIdle.png" Stretch="Fill" Panel.ZIndex="2"/>
             <Image x:Name="SinglePlayerHover" HorizontalAlignment="Left" Height="86" VerticalAlignment="Top" Width="500" Source="Resources/Images/HomeScreenButtons/SinglePlayerHover.png" Opacity="0" Stretch="Fill" MouseLeftButtonUp="SinglePlayerHover_MouseLeftButtonUp" MouseEnter="HomeScreen_MouseEnter" MouseLeave="HomeScreen_MouseLeave" Panel.ZIndex="2"/>
-            <Image x:Name="MultiplayerIdle" HorizontalAlignment="Left" Height="86" VerticalAlignment="Top" Width="500" Source="Resources/Images/HomeScreenButtons/MutiplayerIdle.png" Stretch="Fill" Canvas.Top="128" Panel.ZIndex="2"/>
+            <Image x:Name="MultiplayerIdle" HorizontalAlignment="Left" Height="86" VerticalAlignment="Top" Width="500" Source="Resources/Images/HomeScreenButtons/MultiplayerIdle.png" Stretch="Fill" Canvas.Top="128" Panel.ZIndex="2"/>
             <Image x:Name="MultiplayerHover" HorizontalAlignment="Left" Height="86" VerticalAlignment="Top" Width="500" Source="Resources/Images/HomeScreenButtons/MutiplayerHover.png" Opacity="0" Stretch="Fill" Canvas.Top="128" MouseLeftButtonUp="MultiplayerHover_MouseLeftButtonUp" MouseEnter="HomeScreen_MouseEnter" MouseLeave="HomeScreen_MouseLeave" Panel.ZIndex="2"/>
             <Image x:Name="HelpIdle" HorizontalAlignment="Left" Height="86" VerticalAlignment="Top" Width="500" Source="Resources/Images/HomeScreenButtons/HelpIdle.png" Stretch="Fill" Canvas.Top="256" Panel.ZIndex="2"/>
             <Image x:Name="HelpHover" HorizontalAlignment="Left" Height="86" VerticalAlignment="Top" Width="500" Source="Resources/Images/HomeScreenButtons/HelpHover.png" Opacity="0" Stretch="Fill" Canvas.Top="256" MouseLeftButtonUp="HelpHover_MouseLeftButtonUp" MouseEnter="HomeScreen_MouseEnter" MouseLeave="HomeScreen_MouseLeave" Panel.ZIndex="2"/>
@@ -84,20 +99,15 @@
         <Storyboard x:Key="PlayHomeButtonSoundEffect">
             <MediaTimeline Source="Resources/Audio/HomeScreenButtonHover.wav" Storyboard.TargetName="HomeScreenButtonSoundEffect" BeginTime="0:0:0"/>
         </Storyboard>
-        <Storyboard x:Key="IntroStoryboard">
-            <MediaTimeline Source="Resources/Video/Intro.avi" Storyboard.TargetName="HomeScreenIntro" BeginTime="0:0:0"/>
-            <DoubleAnimation Storyboard.TargetProperty="FontSize" From="16" To="48" BeginTime="0:0:20" Duration="0:0:1" Storyboard.TargetName="IntroSkipText"/>
-            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" BeginTime="0:0:20" Duration="0:0:.5"  />
-        </Storyboard>
 
         <!-- this gives the background video enough time to load -->
-        <Storyboard x:Key="FadeTransitionHandler" Completed="FadeTransitionHandler_OnCompleted" Duration="0:0:3">
-            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" BeginTime="0:0:1.5" Duration="0:0:1.5"  />
+        <Storyboard x:Key="FadeTransitionHandler" Completed="FadeTransitionHandler_OnCompleted" Duration="0:0:2.2">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" BeginTime="0:0:1.7" Duration="0:0:.5"  />
         </Storyboard>
 
 
         <Storyboard x:Key="HomeScreenThemeSongStoryboard">
-            <MediaTimeline Storyboard.TargetName="HomeScreenThemeSong" Source="Resources/Audio/ThemeSong.wav" RepeatBehavior="Forever" />
+            <MediaTimeline Storyboard.TargetName="HomeScreenThemeSong" Source="Resources/Audio/ThemeSong.wav" RepeatBehavior="Forever"/>
         </Storyboard>
         <Storyboard x:Key="HomeScreenBackgroundVideoStoryboard">
             <MediaTimeline Storyboard.TargetName="HomeScreenVideo" Source="Resources/Video/menu.avi" RepeatBehavior="Forever" />

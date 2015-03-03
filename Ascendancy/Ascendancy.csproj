@@ -75,10 +75,25 @@
     <Compile Include="GameBoardUserControl.xaml.cs">
       <DependentUpon>GameBoardUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SoundManager.cs" />
+    <Compile Include="OptionsManager.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="User Controls\ExitConfirmationUserControl.xaml.cs">
       <DependentUpon>ExitConfirmationUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="User Controls\HelpPopUpUserControl.xaml.cs">
+      <DependentUpon>HelpPopUpUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="User Controls\Multiplayer\LocalMultiplayerUserControl.xaml.cs">
+      <DependentUpon>LocalMultiplayerUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="User Controls\Multiplayer\MultiplayerStarterUserControl.xaml.cs">
+      <DependentUpon>MultiplayerStarterUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="User Controls\Multiplayer\OnlineLobbyUserControl.xaml.cs">
+      <DependentUpon>OnlineLobbyUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="User Controls\Multiplayer\OnlineNamePromptUserControl.xaml.cs">
+      <DependentUpon>OnlineNamePromptUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="User Controls\OptionsUserControl.xaml.cs">
       <DependentUpon>OptionsUserControl.xaml</DependentUpon>
@@ -105,6 +120,26 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="User Controls\ExitConfirmationUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="User Controls\HelpPopUpUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="User Controls\Multiplayer\LocalMultiplayerUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="User Controls\Multiplayer\MultiplayerStarterUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="User Controls\Multiplayer\OnlineLobbyUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="User Controls\Multiplayer\OnlineNamePromptUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -150,7 +185,6 @@
     <Resource Include="Resources\Images\HomeScreenButtons\HelpHover.png" />
     <Resource Include="Resources\Images\HomeScreenButtons\HelpIdle.png" />
     <Resource Include="Resources\Images\HomeScreenButtons\MutiplayerHover.png" />
-    <Resource Include="Resources\Images\HomeScreenButtons\MutiplayerIdle.png" />
     <Resource Include="Resources\Images\HomeScreenButtons\OptionsHover.png" />
     <Resource Include="Resources\Images\HomeScreenButtons\OptionsIdle.png" />
     <Resource Include="Resources\Images\HomeScreenButtons\SinglePlayerHover.png" />
@@ -166,6 +200,39 @@
     <Content Include="Resources\Audio\UserControlButtonHover.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Images\UserControlResources\GameBoard\CloseHelpClick.png" />
+    <Resource Include="Resources\Images\UserControlResources\GameBoard\CloseHelpHover.png" />
+    <Resource Include="Resources\Images\UserControlResources\GameBoard\CloseHelpIdle.png" />
+    <Resource Include="Resources\Images\UserControlResources\GameBoard\SoundClick.png" />
+    <Resource Include="Resources\Images\UserControlResources\GameBoard\SoundHover.png" />
+    <Resource Include="Resources\Images\UserControlResources\GameBoard\SoundIdle.png" />
+    <Resource Include="Resources\Images\UserControlResources\GameBoard\HelpClick.png" />
+    <Resource Include="Resources\Images\UserControlResources\GameBoard\HelpHover.png" />
+    <Resource Include="Resources\Images\UserControlResources\GameBoard\HelpIdle.png" />
+    <Resource Include="Resources\Images\UserControlResources\HelpScreen\Screenshots\ScreenShot1.png" />
+    <Resource Include="Resources\Images\UserControlResources\HelpScreen\Screenshots\ScreenShot2.png" />
+    <Resource Include="Resources\Images\UserControlResources\HelpScreen\Screenshots\Screenshot3.png" />
+    <Resource Include="Resources\Images\UserControlResources\HelpScreen\Screenshots\Screenshot4.png" />
+    <Resource Include="Resources\Images\HomeScreenButtons\MultiplayerIdle.png" />
+    <Resource Include="Resources\Images\UserControlResources\Multiplayer\MultiplayerStarter\LocalClick.png" />
+    <Resource Include="Resources\Images\UserControlResources\Multiplayer\MultiplayerStarter\LocalHover.png" />
+    <Resource Include="Resources\Images\UserControlResources\Multiplayer\MultiplayerStarter\LocalIdle.png" />
+    <Resource Include="Resources\Images\UserControlResources\Multiplayer\MultiplayerStarter\OnlineClick.png" />
+    <Resource Include="Resources\Images\UserControlResources\Multiplayer\MultiplayerStarter\OnlineHover.png" />
+    <Resource Include="Resources\Images\UserControlResources\Multiplayer\MultiplayerStarter\OnlineIdle.png" />
+    <Resource Include="Resources\Images\UserControlResources\Multiplayer\OnlineNamePrompt\EnterLobbyClick.png" />
+    <Resource Include="Resources\Images\UserControlResources\Multiplayer\OnlineNamePrompt\EnterLobbyHover.png" />
+    <Resource Include="Resources\Images\UserControlResources\Multiplayer\OnlineNamePrompt\EnterLobbyIdle.png" />
+    <Resource Include="Resources\Images\UserControlResources\Multiplayer\OnlineLobby\ChallengeClick.png" />
+    <Resource Include="Resources\Images\UserControlResources\Multiplayer\OnlineLobby\ChallengeHover.png" />
+    <Resource Include="Resources\Images\UserControlResources\Multiplayer\OnlineLobby\ChallengeIdle.png" />
+    <Resource Include="Resources\Images\UserControlResources\Multiplayer\OnlineLobby\ConnectClick.png" />
+    <Resource Include="Resources\Images\UserControlResources\Multiplayer\OnlineLobby\ConnectHover.png" />
+    <Resource Include="Resources\Images\UserControlResources\Multiplayer\OnlineLobby\ConnectIdle.png" />
+    <Resource Include="Resources\Images\UserControlResources\SinglePlayer\EasyClickGlow.png" />
+    <Resource Include="Resources\Images\UserControlResources\SinglePlayer\GoFirstClickGlow.png" />
+    <Resource Include="Resources\Images\UserControlResources\SinglePlayer\GoSecondClickGlow.png" />
+    <Resource Include="Resources\Images\UserControlResources\SinglePlayer\HardClickGlow.png" />
     <Content Include="Resources\Video\Intro.avi">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -230,7 +297,7 @@
     <Resource Include="Resources\Images\UserControlResources\SinglePlayer\PlayIdle.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\Images\UserControlResources\Multiplayer\" />
+    <Folder Include="Resources\Images\UserControlResources\Multiplayer\Local\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

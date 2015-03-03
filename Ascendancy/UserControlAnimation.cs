@@ -25,8 +25,8 @@ namespace Ascendancy
         {
             Storyboard buttonStoryboard = new Storyboard();
             DoubleAnimation changeButtonOpacity;
-            DependencyObject currentControl = sender as DependencyObject;
-            string item = currentControl.GetValue(FrameworkElement.NameProperty) as string;
+            DependencyObject currentButton = sender as DependencyObject;
+            string item = currentButton.GetValue(FrameworkElement.NameProperty) as string;
 
             //usage: DoubleAnimation(to, from, new Duration(TimeSpan.FromMilliseconds(TRANSITION_TIME)))
             if (fadeIn)

@@ -1,0 +1,31 @@
+﻿<UserControl x:Name="HelpScreenUC" x:Class="Ascendancy.User_Control.HelpPopUpUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Width="1440" Height="900">
+    <Grid x:Name="HelpScreenGrid" Width="1440" Height="900">
+        <Label x:Name="ScreenShotCatcher" Content="" Margin="179,115,180,110" Width="1080" Height="675" Panel.ZIndex="2" Foreground="{x:Null}" Background="Black"/>
+        <Grid x:Name="ScreenShotGrid" Margin="179,115,180,110" Width="1080" Height="675" Panel.ZIndex="2">
+            <Image x:Name="Page1PodPlacement" Source="/Ascendancy;component/Resources/Images/UserControlResources/HelpScreen/Screenshots/ScreenShot1.png" Width="1080" Height="675" Opacity="0" Panel.ZIndex="2"/>
+            <Image x:Name="Page2EnemyTakesPanel" Source="/Ascendancy;component/Resources/Images/UserControlResources/HelpScreen/Screenshots/ScreenShot2.png" Width="1080" Height="675" Opacity="0" Panel.ZIndex="2"/>
+            <Image x:Name="Page3HighlightHoles" Source="/Ascendancy;component/Resources/Images/UserControlResources/HelpScreen/Screenshots/Screenshot3.png" Width="1080" Height="675" Opacity="0" Panel.ZIndex="2"/>
+            <Image x:Name="Page4HighlightWonPanel" Source="/Ascendancy;component/Resources/Images/UserControlResources/HelpScreen/Screenshots/Screenshot4.png" Width="1080" Height="675" Opacity="0" Panel.ZIndex="2"/>
+            <Image x:Name="Page5WinningScreen" Source="/Ascendancy;component/Resources/Images/UserControlResources/HelpScreen/Screenshots/Screenshot4.png" Width="1080" Height="675" Opacity="0" Panel.ZIndex="2"/>
+            <Image x:Name="Page6HeadsUpDisplayDescription" Source="/Ascendancy;component/Resources/Images/GameBoard/matchingboard2.png" Width="1080" Height="675" Opacity="0" Panel.ZIndex="2"/>
+        </Grid>
+        <Image x:Name="closeHelpClick" Height="55" Margin="1192,122,0,0" VerticalAlignment="Top" Width="59" Source="/Resources/Images/UserControlResources/HelpScreen/CloseHelpClick.png" Stretch="Fill" HorizontalAlignment="Left" Panel.ZIndex="2"/>
+        <Image x:Name="closeHelpHover" Height="55" Margin="1192,122,0,0" VerticalAlignment="Top" Width="59" Source="/Resources/Images/UserControlResources/HelpScreen/CloseHelpHover.png" Stretch="Fill" HorizontalAlignment="Left" Panel.ZIndex="2"/>
+        <Image x:Name="closeHelpIdle" Height="55" Margin="1192,122,0,0" VerticalAlignment="Top" Width="59" Source="/Resources/Images/UserControlResources/HelpScreen/CloseHelpIdle.png" Stretch="Fill" HorizontalAlignment="Left" MouseUp="closeHelpIdle_MouseUp" MouseDown="userControlButton_MouseDown" MouseEnter="userControlButton_MouseEnter" MouseLeave="userControlButton_MouseLeave" Panel.ZIndex="2"/>
+        <Canvas x:Name="buttonCatcher" HorizontalAlignment="Left" Height="75" VerticalAlignment="Top" Width="673" Panel.ZIndex="2" Margin="390,675,0,0" Opacity="0"/>
+        <Image x:Name="previousClick" Height="75" Margin="390,675,0,0" VerticalAlignment="Top" Width="280" Source="/Resources/Images/UserControlResources/HelpScreen/PreviousClick.png" Stretch="UniformToFill" HorizontalAlignment="Left" Panel.ZIndex="2"/>
+        <Image x:Name="previousHover" Height="75" Margin="390,675,0,0" VerticalAlignment="Top" Width="280" Source="/Resources/Images/UserControlResources/HelpScreen/PreviousHover.png" Stretch="UniformToFill" HorizontalAlignment="Left" Panel.ZIndex="2"/>
+        <Image x:Name="previousIdle" Height="75" Margin="390,675,0,0" VerticalAlignment="Top" Width="280" Source="/Resources/Images/UserControlResources/HelpScreen/PreviousIdle.png" Stretch="UniformToFill" HorizontalAlignment="Left" MouseUp="previousIdle_MouseUp" MouseDown="userControlButton_MouseDown" MouseEnter="userControlButton_MouseEnter" MouseLeave="userControlButton_MouseLeave" Panel.ZIndex="2"/>
+        <Image x:Name="nextClick" Height="75" Margin="783,675,0,0" VerticalAlignment="Top" Width="280" Source="/Resources/Images/UserControlResources/HelpScreen/NextClick.png" Stretch="UniformToFill" HorizontalAlignment="Left" Panel.ZIndex="2"/>
+        <Image x:Name="nextHover" Height="75" Margin="783,675,0,0" VerticalAlignment="Top" Width="280" Source="/Resources/Images/UserControlResources/HelpScreen/NextHover.png" Stretch="UniformToFill" HorizontalAlignment="Left" Panel.ZIndex="2"/>
+        <Image x:Name="nextIdle" Height="75" Margin="783,675,0,0" VerticalAlignment="Top" Width="280" Source="/Resources/Images/UserControlResources/HelpScreen/NextIdle.png" Stretch="UniformToFill" HorizontalAlignment="Left" MouseUp="nextIdle_MouseUp" MouseDown="userControlButton_MouseDown" MouseEnter="userControlButton_MouseEnter" MouseLeave="userControlButton_MouseLeave" Panel.ZIndex="2"/>
+
+    </Grid>
+</UserControl>
+

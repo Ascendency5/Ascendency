@@ -11,6 +11,8 @@ namespace Ascendancy.Game_Engine
         private readonly Player redPlayer;
         private readonly Player blackPlayer;
 
+        private Thread gameEngineThread;
+
         public event GameEngineEvents.GameStateHandler OnGameStart;
         public event GameEngineEvents.PlayerChangedHandler OnPlayerChanged;
         public event GameEngineEvents.PlayerMovedHandler OnPlayerMove;
@@ -32,8 +34,8 @@ namespace Ascendancy.Game_Engine
 
         public void start()
         {
-            Thread thread = new Thread(new ThreadStart(run)) {IsBackground = true};
-            thread.Start();
+            gameEngineThread = new Thread(run) {IsBackground = true};
+            gameEngineThread.Start();
         }
 
         private void run()
@@ -167,7 +169,7 @@ namespace Ascendancy.Game_Engine
 
         public void kill()
         {
-            throw new System.NotImplementedException();
+            gameEngineThread.Abort();
         }
     }
 }

@@ -6,38 +6,47 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Width="1440" Height="900">
     <Grid x:Name="GameBoardGrid" Width="1440" Height="900">
-        <MediaElement x:Name="myMediaElement" Margin="19,22,1411,868" Width="10" Height="10" Stretch="Fill"/>
-        <Image x:Name="GameBoardBackground" Width="1440" Height="900" Source="Resources/Images/GameBoard/matchingboard2.png"/>
-        <ContentControl Content="ContentControl" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Image x:Name="CancelClick" Height="75" Margin="1150,815,0,0" Width="280" Source="Resources/Images/UserControlResources/CancelClick.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Image x:Name="CancelHover" Height="75" Margin="1150,815,0,0" Width="280" Source="Resources/Images/UserControlResources/CancelHover.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Image x:Name="CancelIdle" Height="75" Margin="1150,815,0,0" Width="280" Source="Resources/Images/UserControlResources/CancelIdle.png" VerticalAlignment="Top" HorizontalAlignment="Left" MouseDown="UserControlButton_MouseDown" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave" MouseLeftButtonUp="CancelIdle_MouseLeftButtonUp"/>
+        <ContentControl x:Name="GameBoardContentControl" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="1" Width="1440" Height="900"/>
+        <Image x:Name="GameBoardUserControlCatcher" HorizontalAlignment="Left" Height="900" VerticalAlignment="Top" Width="1440" Opacity="0.01" Panel.ZIndex="1" Source="Resources/Images/UserControlResources/ExitConfirmation/QuitBackdrop.png" Stretch="Fill"/>
 
-        <Canvas HorizontalAlignment="Left" Height="900" VerticalAlignment="Top" Width="1440">
-            <Grid Name="PlayableGameBoardGridEventListener" Height="879" Canvas.Left="280
-                  " Canvas.Top="10" Width="879" MouseLeftButtonUp="PlayableGameBoardGridEventListener_MouseLeftButtonUp" MouseEnter="PlayableGameBoardGridEventListener_MouseEnter" MouseLeave="PlayableGameBoardGridEventListener_MouseLeave">
-                <Image Name="p00" HorizontalAlignment="Left" Height="68" Margin="10,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
-                <Image Name="p01" HorizontalAlignment="Left" Height="68" Margin="123,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
-                <Image Name="p10" HorizontalAlignment="Left" Height="68" Margin="10,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
-                <Image Name="p11" HorizontalAlignment="Left" Height="68" Margin="123,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
-                <Image Name="p02" HorizontalAlignment="Left" Height="68" Margin="236,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
-                <Image Name="p03" HorizontalAlignment="Left" Height="68" Margin="349,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
-                <Image Name="p12" HorizontalAlignment="Left" Height="68" Margin="236,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
-                <Image Name="p13" HorizontalAlignment="Left" Height="68" Margin="349,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
-                <Image Name="p04" HorizontalAlignment="Left" Height="68" Margin="462,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
-                <Image Name="p05" HorizontalAlignment="Left" Height="68" Margin="575,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
-                <Image Name="p14" HorizontalAlignment="Left" Height="68" Margin="462,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
-                <Image Name="p15" HorizontalAlignment="Left" Height="68" Margin="575,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
-                <Image Name="p06" HorizontalAlignment="Left" Height="68" Margin="688,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
-                <Image Name="p07" HorizontalAlignment="Left" Height="68" Margin="801,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
-                <Image Name="p16" HorizontalAlignment="Left" Height="68" Margin="688,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
-                <Image Name="p17" HorizontalAlignment="Left" Height="68" Margin="801,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
-                <Image Name="p20" HorizontalAlignment="Left" Height="68" Margin="10,236,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
-                <Image Name="p21" HorizontalAlignment="Left" Height="68" Margin="123,236,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
-                <Image Name="p30" HorizontalAlignment="Left" Height="68" Margin="10,349,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
-                <Image Name="p31" HorizontalAlignment="Left" Height="68" Margin="123,349,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
-                <Image Name="p22" HorizontalAlignment="Left" Height="68" Margin="236,236,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
-                <Image Name="p23" HorizontalAlignment="Left" Height="68" Margin="349,236,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+
+
+        <MediaElement x:Name="myMediaElement" Margin="19,22,1411,868" Width="10" Height="10" Stretch="Fill" Panel.ZIndex="2"/>
+        <Image x:Name="GameBoardBackground" Width="1440" Height="900" Source="Resources/Images/GameBoard/matchingboard2.png" Panel.ZIndex="2"/>
+        <Image x:Name="CloseClick" Height="75" Margin="1355,10,0,0" Width="75" Source="Resources/Images/UserControlResources/GameBoard/CloseHelpClick.png" VerticalAlignment="Top" HorizontalAlignment="Left" Panel.ZIndex="2"/>
+        <Image x:Name="CloseHover" Height="75" Margin="1355,10,0,0" Width="75" Source="Resources/Images/UserControlResources/GameBoard/CloseHelpHover.png" VerticalAlignment="Top" HorizontalAlignment="Left" Panel.ZIndex="2"/>
+        <Image x:Name="CloseIdle" Height="75" Margin="1355,10,0,0" Width="75" Source="Resources/Images/UserControlResources/GameBoard/CloseHelpIdle.png" VerticalAlignment="Top" HorizontalAlignment="Left" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave" MouseLeftButtonUp="CancelIdle_MouseLeftButtonUp" RenderTransformOrigin="0.243,-4.667" MouseLeftButtonDown="UserControlButton_MouseDown" Panel.ZIndex="2"/>
+        <Image x:Name="HelpClick" Height="75" Margin="1270,10,0,0" Width="75" Source="Resources/Images/UserControlResources/GameBoard/HelpClick.png" VerticalAlignment="Top" HorizontalAlignment="Left" Panel.ZIndex="2" Visibility="Hidden"/>
+        <Image x:Name="HelpHover" Height="75" Margin="1270,10,0,0" Width="75" Source="Resources/Images/UserControlResources/GameBoard/HelpHover.png" VerticalAlignment="Top" HorizontalAlignment="Left" Panel.ZIndex="2" Visibility="Hidden"/>
+        <Image x:Name="HelpIdle" Height="75" Margin="1270,10,0,0" Width="75" Source="Resources/Images/UserControlResources/GameBoard/HelpIdle.png" VerticalAlignment="Top" HorizontalAlignment="Left" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave" MouseLeftButtonUp="HelpIdle_MouseLeftButtonUp" RenderTransformOrigin="0.243,-4.667" MouseLeftButtonDown="UserControlButton_MouseDown" Panel.ZIndex="2" Visibility="Hidden"/>
+        <Image x:Name="SoundClick" Height="75" Margin="1190,10,0,0" Width="75" Source="Resources/Images/UserControlResources/GameBoard/SoundClick.png" VerticalAlignment="Top" HorizontalAlignment="Left" Panel.ZIndex="2" Visibility="Hidden"/>
+        <Image x:Name="SoundHover" Height="75" Margin="1190,10,0,0" Width="75" Source="Resources/Images/UserControlResources/GameBoard/SoundHover.png" VerticalAlignment="Top" HorizontalAlignment="Left" Panel.ZIndex="2" Visibility="Hidden"/>
+        <Image x:Name="SoundIdle" Height="75" Margin="1190,10,0,0" Width="75" Source="Resources/Images/UserControlResources/GameBoard/SoundIdle.png" VerticalAlignment="Top" HorizontalAlignment="Left" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave" MouseLeftButtonUp="SoundIdle_MouseLeftButtonUp" RenderTransformOrigin="0.243,-4.667" MouseLeftButtonDown="UserControlButton_MouseDown" Panel.ZIndex="2" Visibility="Hidden"/>
+
+        <Canvas HorizontalAlignment="Left" Height="900" VerticalAlignment="Top" Width="1440" Panel.ZIndex="2">
+            <Grid x:Name="PlayableGameBoardGridEventListener" Height="879" Canvas.Left="280                   " Canvas.Top="10" Width="879" MouseLeftButtonUp="PlayableGameBoardGridEventListener_MouseLeftButtonUp" MouseEnter="PlayableGameBoardGridEventListener_MouseEnter" MouseLeave="PlayableGameBoardGridEventListener_MouseLeave">
+                <Image x:Name="p00" HorizontalAlignment="Left" Height="68" Margin="10,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p01" HorizontalAlignment="Left" Height="68" Margin="123,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p10" HorizontalAlignment="Left" Height="68" Margin="10,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p11" HorizontalAlignment="Left" Height="68" Margin="123,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p02" HorizontalAlignment="Left" Height="68" Margin="236,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p03" HorizontalAlignment="Left" Height="68" Margin="349,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p12" HorizontalAlignment="Left" Height="68" Margin="236,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p13" HorizontalAlignment="Left" Height="68" Margin="349,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p04" HorizontalAlignment="Left" Height="68" Margin="462,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p05" HorizontalAlignment="Left" Height="68" Margin="575,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p14" HorizontalAlignment="Left" Height="68" Margin="462,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p15" HorizontalAlignment="Left" Height="68" Margin="575,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p06" HorizontalAlignment="Left" Height="68" Margin="688,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p07" HorizontalAlignment="Left" Height="68" Margin="801,10,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p16" HorizontalAlignment="Left" Height="68" Margin="688,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p17" HorizontalAlignment="Left" Height="68" Margin="801,123,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p20" HorizontalAlignment="Left" Height="68" Margin="10,236,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p21" HorizontalAlignment="Left" Height="68" Margin="123,236,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p30" HorizontalAlignment="Left" Height="68" Margin="10,349,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p31" HorizontalAlignment="Left" Height="68" Margin="123,349,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p22" HorizontalAlignment="Left" Height="68" Margin="236,236,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
+                <Image x:Name="p23" HorizontalAlignment="Left" Height="68" Margin="349,236,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
                 <Image x:Name="p32" HorizontalAlignment="Left" Height="68" Margin="236,349,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
                 <Image x:Name="p33" HorizontalAlignment="Left" Height="68" Margin="349,349,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
                 <Image x:Name="p24" HorizontalAlignment="Left" Height="68" Margin="462,236,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
@@ -81,7 +90,8 @@
                 <Image x:Name="p76" HorizontalAlignment="Left" Height="68" Margin="688,801,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
                 <Image x:Name="p77" HorizontalAlignment="Left" Height="68" Margin="801,801,0,0" VerticalAlignment="Top" Width="68" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}"/>
             </Grid>
-            <Label Content="Score: " Canvas.Left="59" Canvas.Top="70" FontSize="36" FontFamily="Transformers Movie" Foreground="White"/>
+            <Label x:Name="HumanScoreLabel" Content="Humans: 0" Canvas.Left="10" Canvas.Top="32" FontSize="36" FontFamily="Transformers Movie" Foreground="White"/>
+            <Label x:Name="RobotScoreLabel" Content="Robots: 0" Canvas.Left="10" Canvas.Top="87" FontSize="36" FontFamily="Transformers Movie" Foreground="White"/>
         </Canvas>
 
 

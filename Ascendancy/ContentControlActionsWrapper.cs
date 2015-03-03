@@ -28,7 +28,7 @@ namespace Ascendancy
             UserControlAnimation.FadeInContentControl(baseContentControl, false);
 
             //set the HomeScreenContentControl to back, then empty it
-            Panel.SetZIndex(baseContentControl, 1);
+            Panel.SetZIndex(baseContentControl, 2);
         }
     }
 }

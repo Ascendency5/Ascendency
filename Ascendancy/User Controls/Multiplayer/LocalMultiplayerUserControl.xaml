@@ -1,0 +1,20 @@
+﻿<UserControl x:Name="LocalMultiplayerUserControlView" x:Class="Ascendancy.User_Controls.Multiplayer.LocalMultiplayerUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Width="1440" Height="900">
+    <UserControl.Background>
+        <ImageBrush ImageSource="/Ascendancy;component/Resources/Images/UserControlResources/ExitConfirmation/QuitBackdrop.png" Stretch="Uniform"/>
+    </UserControl.Background>
+    <Grid x:Name="LocalMultiplayerGrid" Width="1440" Height="900">
+        <Image x:Name="PlayClick" Height="75" Margin="368,590,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/SinglePlayer/PlayClick.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Image x:Name="PlayHover" Height="75" Margin="368,590,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/SinglePlayer/PlayHover.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Image x:Name="PlayIdle" Height="75" Margin="368,590,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/SinglePlayer/PlayIdle.png" VerticalAlignment="Top" HorizontalAlignment="Left" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave" MouseLeftButtonDown="UserControlButton_MouseDown" MouseLeftButtonUp="PlayIdle_MouseLeftButtonUp"/>
+        <Image x:Name="CancelClick" Height="75" Margin="786,590,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/CancelClick.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Image x:Name="CancelHover" Height="75" Margin="786,590,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/CancelHover.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Image x:Name="CancelIdle" Height="75" Margin="786,590,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/CancelIdle.png" VerticalAlignment="Top" HorizontalAlignment="Left" MouseDown="UserControlButton_MouseDown" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave" MouseLeftButtonUp="CancelIdle_MouseLeftButtonUp"/>
+
+    </Grid>
+</UserControl>
