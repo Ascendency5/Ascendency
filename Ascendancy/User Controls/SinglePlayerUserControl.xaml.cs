@@ -38,13 +38,13 @@ namespace Ascendancy.User_Controls
             //animate the cancel button from the ExitControl, then kill anim object
             UserControlAnimation.FadeInUserControlButton(CancelHover, false);
 
-            ContentControlActionsWrapper.FadeOut();
+            ContentControlActions.FadeOut();
         }
 
         //Click to Play the Game
         private void PlaySinglePlayerIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            ContentControlActionsWrapper.FadeOut();
+            ContentControlActions.FadeOut();
 
             // Set up game engine
             // todo Add code for easy/hard AI
@@ -58,7 +58,7 @@ namespace Ascendancy.User_Controls
                 first ? PieceType.Red : PieceType.Black
                 );
 
-            ContentControlActionsWrapper.setUpControl(new GameBoardUserControl(engine));
+            ContentControlActions.setUpControl(new GameBoardUserControl(engine));
         }
 
 

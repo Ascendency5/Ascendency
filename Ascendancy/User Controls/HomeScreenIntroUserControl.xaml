@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="Ascendancy.User_Controls.HomeScreenIntroUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="1440" d:DesignWidth="900">
+    <Grid>
+        <MediaElement x:Name="HomeScreenIntro" LoadedBehavior="Manual"
+                      Panel.ZIndex="3" MediaEnded="IntroStoryboard_OnCompleted" Width="1440" Height="900">
+            <MediaElement.Triggers>
+                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard x:Name="HomeScreenIntroStoryboard">
+                            <MediaTimeline Source="Resources/Video/Intro.avi" Storyboard.TargetName="HomeScreenIntro" BeginTime="0:0:0" Duration="0:0:21"/>
+                            <!--<DoubleAnimation Storyboard.TargetProperty="FontSize" From="16" To="48" BeginTime="0:0:20" Duration="0:0:1" Storyboard.TargetName="IntroSkipText"/> -->
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" BeginTime="0:0:19.7" Duration="0:0:.5"  />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </MediaElement.Triggers>
+        </MediaElement>
+
+
+        <Label x:Name="IntroSkipText" Content="&#xD;&#xA;&#xD;&#xA;&#x9; Press Space to Continue..." HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Panel.ZIndex="3" Width="313" Height="117" FontSize="16"/>
+
+        
+
+        <Label x:Name="TransitionHandler" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Background="Black" Width="1440" Height="900" Panel.ZIndex="2" Foreground="White"/>
+        
+    </Grid>
+    
+    <UserControl.Resources>
+        <!-- this gives the background video enough time to load -->
+        <Storyboard x:Key="FadeTransitionHandler" Duration="0:0:2.2">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" BeginTime="0:0:1.7" Duration="0:0:.5"  />
+        </Storyboard>
+    </UserControl.Resources>
+</UserControl>

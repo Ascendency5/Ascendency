@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,9 +29,6 @@ namespace Ascendancy.User_Controls
 
         private void QuitIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            //todo: fix exit animation
-            //anim.animateWindow(Application.Current.MainWindow, false);
-            //homeScreen.Close();
             Application.Current.Shutdown();
         }
 
@@ -39,7 +37,7 @@ namespace Ascendancy.User_Controls
             //animate the cancel button from the ExitControl, then kill anim object
             UserControlAnimation.FadeInUserControlButton(CancelHover, false);
 
-            ContentControlActionsWrapper.FadeOut();
+            ContentControlActions.FadeOut();
         }
 
         private void UserControlButton_MouseDown(object sender, MouseButtonEventArgs e)

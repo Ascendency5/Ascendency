@@ -29,16 +29,16 @@ namespace Ascendancy.User_Controls
 
             loadedCounterSoundSlider = 0;
             loadedCounterMusicSlider = 0;
-            SoundPercentageLabel.Content = OptionsManager.SoundVolume + "%";
-            MusicPercentageLabel.Content = OptionsManager.MusicVolume + "%";
-            SoundSlider.Value = OptionsManager.SoundVolume;
-            MusicSlider.Value = OptionsManager.MusicVolume;
+            SoundPercentageLabel.Content = VolumeManager.SoundVolume + "%";
+            MusicPercentageLabel.Content = VolumeManager.MusicVolume + "%";
+            SoundSlider.Value = VolumeManager.SoundVolume;
+            MusicSlider.Value = VolumeManager.MusicVolume;
         }
 
         private void OptionsUserControlView_Loaded(object sender, RoutedEventArgs e)
         {
-            //SoundSlider.Value = OptionsManager.SoundVolume;
-            //MusicSlider.Value = OptionsManager.MusicVolume;
+            //SoundSlider.Value = VolumeManager.SoundVolume;
+            //MusicSlider.Value = VolumeManager.MusicVolume;
         }
 
         private void OkayIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -46,7 +46,7 @@ namespace Ascendancy.User_Controls
             //animate the cancel button from the ExitControl, then kill anim object
             UserControlAnimation.FadeInUserControlButton(OkayHover, true);
 
-            ContentControlActionsWrapper.FadeOut();
+            ContentControlActions.FadeOut();
         }
 
         private void SoundSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -58,8 +58,8 @@ namespace Ascendancy.User_Controls
             }
             else
             {
-                OptionsManager.SoundVolume = SoundSlider.Value;
-                SoundPercentageLabel.Content = OptionsManager.SoundVolume + "%";
+                VolumeManager.SoundVolume = SoundSlider.Value;
+                SoundPercentageLabel.Content = VolumeManager.SoundVolume + "%";
                 //MainWindow.ChangeMusicVolume();
             }
             
@@ -74,8 +74,8 @@ namespace Ascendancy.User_Controls
             }
             else
             {
-                OptionsManager.MusicVolume = MusicSlider.Value;
-                MusicPercentageLabel.Content = OptionsManager.MusicVolume + "%";
+                VolumeManager.MusicVolume = MusicSlider.Value;
+                MusicPercentageLabel.Content = VolumeManager.MusicVolume + "%";
                 
             }
         }

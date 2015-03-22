@@ -13,6 +13,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Ascendancy.Networking;
 using Ascendancy.User_Control;
 using Ascendancy.User_Controls;
 using Ascendancy.User_Controls.Multiplayer;
@@ -24,77 +25,36 @@ namespace Ascendancy
     /// </summary>
     public partial class MainWindow : Window
     {
-        //local variables
-        private HomeScreenAnimation localStoryboard;
-        private OptionsUserControl globalOptions;
-        //private static Storyboard playIntro;
-        private Storyboard fadeout;
-        private Storyboard playThemeSong;
-        private Storyboard playHomeScreenBackground;
-        private bool introIsDone;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            OptionsManager.MusicVolume = 50;
-            OptionsManager.SoundVolume = 50;
+            ContentControlActions.baseContentControl = HomeScreenContentControl;
+            ContentControlActions.popupContentControl = PopupContentControl;
 
-            //Nik added this in to try making a global options controller,
-            //accessible from any context (even during gameplay)
-            globalOptions = new OptionsUserControl();
+            VolumeManager.MusicVolume = .5;
+            VolumeManager.SoundVolume = .5;
 
+            //HomeScreenIntroUserControl intro = new HomeScreenIntroUserControl();
+            //intro.OnComplete += on_intro_completed;
+            setBaseContent(new HomeScreenUserControl());
 
-            //boot up other local variables
-            localStoryboard = new HomeScreenAnimation();
-            introIsDone = false;
+            Networkmanager.OnDiscovery += PeerHolder.on_peer_discovery;
+            Networkmanager.OnDisconnect += PeerHolder.on_peer_disconnect;
 
-            //i'm loading the content controller upon finishing the intro animation
-            ContentControlActionsWrapper.baseContentControl = HomeScreenContentControl;
-
-            //playIntro = FindResource("IntroStoryboard") as Storyboard;
-            //HomeScreenIntro.BeginStoryboard(playIntro);
+            Networkmanager.Start();
         }
 
-        public void ChangeMusicVolume()
+        private void on_intro_completed(object sender, EventArgs e)
         {
-            //event is fired, volume is changed to updated volume
-            HomeScreenThemeSong.Volume = OptionsManager.MusicVolume;
+            setBaseContent(new HomeScreenUserControl());
         }
 
-        #region User Control Callers
-
-        private void SinglePlayerHover_MouseLeftButtonUp(object sender, RoutedEventArgs e)
+        private void setBaseContent(UserControl control)
         {
-            setContent(new SinglePlayerUserControl());
+            ContentControlActions.setUpControl(control);
         }
-
-        private void MultiplayerHover_MouseLeftButtonUp(object sender, RoutedEventArgs e)
-        {
-            setContent(new MultiplayerStarterUserControl());
-        }
-
-        private void HelpHover_MouseLeftButtonUp(object sender, RoutedEventArgs e)
-        {
-            setContent(new HelpPopUpUserControl());
-        }
-
-        private void OptionsHover_MouseLeftButtonUp(object sender, RoutedEventArgs e)
-        {
-            //use the global options controller
-            setContent(globalOptions);
-        }
-
-        private void ExitHover_MouseLeftButtonUp(object sender, RoutedEventArgs e)
-        {
-            setContent(new ExitConfirmationUserControl());
-        }
-
-        private void setContent(UserControl control)
-        {
-            ContentControlActionsWrapper.setUpControl(control);
-        }
-        #endregion
 
         /********** Misc Event Functions *********/
 
@@ -109,169 +69,29 @@ namespace Ascendancy
         private void AscendancyHomeScreen_KeyDown(object sender, KeyEventArgs e)
         {
             //if the intro isn't in progress, and no other UserControl is active...
-            if (((e.Key == Key.Escape) && introIsDone) 
-                && Panel.GetZIndex(ContentControlActionsWrapper.baseContentControl) != 3)
+            ContentControl baseControl = ContentControlActions.baseContentControl;
+            if (baseControl.Content is HomeScreenIntroUserControl)
             {
-                ExitHover_MouseLeftButtonUp(sender, e);
+                if (e.Key == Key.Space)
+                {
+                    ((HomeScreenIntroUserControl) baseControl.Content).stopIntro();
+                }
             }
-            if (e.Key == Key.Space && !introIsDone)
+
+            if (baseControl.Content is HomeScreenUserControl)
             {
-                //IntroStoryboard_OnCompleted(sender, e);
-                //SkipIntroWithSpacebar(sender,e);
-                HomeScreenIntroStoryboard.Remove();
-                IntroStoryboard_OnCompleted(sender, e);
+                if (e.Key == Key.Escape)
+                {
+                    ContentControlActions.setPopup(new ExitConfirmationUserControl());
+                }
             }
         }
 
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
+            Networkmanager.Shutdown();
             Application.Current.Shutdown();
         }
-
-
-        #region Intro Functions
-
-        //private void SkipIntroWithSpacebar(object sender, EventArgs e)
-        //{
-
-        //    HomeScreenIntro.Stop();
-        //    HomeScreenIntro.Volume = 0;
-        //    HomeScreenIntro.Close();
-        //    IntroStoryboard_OnCompleted(sender, e);
-        //}
-
-        private void IntroStoryboard_OnCompleted(object sender, EventArgs e)
-        {
-            //throw new NotImplementedException();
-
-            //OMG KILL IT WITH FIRE
-            //playIntro.Remove();
-            //playIntro.Stop();
-            //playIntro.Duration = new Duration(new TimeSpan(0,0,1));
-            //playIntro.SkipToFill();
-            //playIntro.Pause();
-
-            //if the player has already finished
-            if (sender == HomeScreenIntro && introIsDone)
-                return;
-
-            HomeScreenIntro.Stop();
-            HomeScreenIntro.Volume = 0;
-            HomeScreenIntro.Close();
-
-
-            //send the intro materials to the back
-            Panel.SetZIndex(HomeScreenIntro, 1);
-            Panel.SetZIndex(IntroSkipText, 1);
-            UserControlAnimation.FadeInContentControl(HomeScreenIntro, false);
-
-
-            //instantiate content controller
-            ContentControlActionsWrapper.baseContentControl = HomeScreenContentControl;
-
-            //start up the looped media
-            fadeout = FindResource("FadeTransitionHandler") as Storyboard;
-            TransitionHandler.BeginStoryboard(fadeout);
-            playThemeSong = FindResource("HomeScreenThemeSongStoryboard") as Storyboard;
-            HomeScreenThemeSong.BeginStoryboard(playThemeSong);
-            playHomeScreenBackground = FindResource("HomeScreenBackgroundVideoStoryboard") as Storyboard;
-            HomeScreenVideo.BeginStoryboard(playHomeScreenBackground);
-
-            //don't accept keystrokes from spacebar anymore
-            introIsDone = true;
-        }
-
-        //private void HomeScreenIntro_MouseDown(object sender, MouseButtonEventArgs e)
-        //{
-        //    IntroStoryboard_OnCompleted(sender, e);
-        //}
-
-        private void FadeTransitionHandler_OnCompleted(object sender, EventArgs e)
-        {
-            //throw new NotImplementedException();
-            Panel.SetZIndex(TransitionHandler, 1);
-        }
-
-        #endregion
-
-        /*************************** Animations ************************/
-        private void HomeScreen_MouseEnter(object sender, MouseEventArgs e)
-        {
-            localStoryboard.FadeInHomeScreenButton(sender, true);
-
-            //todo: do all sound effects have to interrupt each other?
-
-            //sound effect style 1
-            System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"Resources/Audio/HomeScreenButtonHover.wav");
-            player.Play();
-            
-
-            //sound effect style 2
-            //MediaElement m = new MediaElement();
-            //HomeScreenGrid.Children.Add(m);
-            //m.BeginStoryboard(FindResource("PlayHomeButtonSoundEffect") as Storyboard);
-        }
-
-        private void HomeScreen_MouseLeave(object sender, MouseEventArgs e)
-        {
-            localStoryboard.FadeInHomeScreenButton(sender, false);
-            localStoryboard = new HomeScreenAnimation();
-        }
-
-
-
-        private void MenuLogo_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            localStoryboard.HomeScreenLogo_MouseEnter(sender);
-            System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"Resources/Audio/LogoHover.wav");
-            player.Play();
-        }
-
-        private void MenuLogo_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            localStoryboard = new HomeScreenAnimation();
-        }
-
-
-
-
-
-        /********************** End animation Block *********************/
-
-
     }
 }
-
-
-
-
-
-//get the video going
-//MediaPlayer mp = new MediaPlayer();
-//mp.Open(new Uri(@"/Resources/video/menu.mp4", UriKind.Relative));
-//VideoDrawing vd = new VideoDrawing();
-//vd.Player = mp;
-//vd.Rect = new Rect(0, 0, 100, 100);
-//DrawingBrush db = new DrawingBrush(vd); 
-////foreach (Button b in videoGrid.Children)
-////    b.Background = db;
-//MainGrid.Background = db;
-//mp.Play();
-
-
-
-//timeline = new MediaTimeline(new Uri(@"Resources/video/menu.mp4", UriKind.Relative));
-//timeline.RepeatBehavior = RepeatBehavior.Forever;
-
-//clock = timeline.CreateClock();
-
-//player = new MediaPlayer();
-//player.Clock = clock;
-
-//VideoDrawing drawing = new VideoDrawing();
-//drawing.Rect = new Rect(new Size(1440,900));
-//drawing.Player = player;
-
-//DrawingBrush brush = new DrawingBrush(drawing);
-//this.Background = brush;

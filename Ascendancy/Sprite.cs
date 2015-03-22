@@ -1,144 +1,172 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Media.Effects;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 using System.Diagnostics;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
-using System.Windows.Interop;
+using System.Windows;
+using System.Windows.Forms;
+using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 
 namespace Ascendancy
 {
     public class Sprite : System.Windows.Controls.Image
     {
-        private int sheetHeight;
-        private int sheetWidth;
-        private int spriteHeight;
-        private int spriteWidth;
-        private int numSheetImages;
-        private int currentFrame = 0;
-        //private bool pauseAnim = false;
-        private bool firstTime = true;
-        private string sheetName;
-        private Timer animationTimer = new Timer();
-        private CroppedBitmap[] croppedImages;
-        private bool animateOnceHide = true;
-        private bool animateOnce = false;
+        private readonly int numSprites;
+        private int currentFrame;
+        private readonly Timer animationTimer = new Timer();
+        private readonly CroppedBitmap[] croppedImages;
+        private readonly AnimationType animationType;
 
+        private List<Sprite> dependents;
+        private Sprite original;
 
-        public Sprite(string name, int width, int height, int numImages, int animSpeed)
+        public Sprite(string name, int spriteWidth, AnimationType type)
+            : this(name, spriteWidth, AnimationSpeed.Normal, type) { }
+
+        public Sprite(string name, int spriteWidth, AnimationSpeed speed = AnimationSpeed.Normal, AnimationType type = AnimationType.AnimateOnce)
         {
-            spriteHeight = height;
-            spriteWidth = width;
-            numSheetImages = numImages;
-            sheetName = name;
-            //this.Source = new BitmapImage(new Uri("/Locomotion;component/Media/Sprites/" + name + ".png", UriKind.Relative));
-            Debug.Write("Sprite created.\n");
+            BitmapImage spriteSheet =
+                new BitmapImage(UriFromImageName(name)) { BaseUri = BaseUriHelper.GetBaseUri(this) };
 
+            numSprites = (int)((spriteSheet.Width / spriteWidth) - 1);
+            int spriteHeight = (int)spriteSheet.Height;
 
-            if (numImages > 1)
+            croppedImages = new CroppedBitmap[numSprites];
+
+            for (int i = 0; i < numSprites; i++)
             {
-                BitmapImage spriteSheet = new BitmapImage(new Uri("/Ascendancy;component/Resources/Images/Sprites/" + name + ".png", UriKind.Relative));
-                spriteSheet.BaseUri = BaseUriHelper.GetBaseUri(this);
+                Int32Rect cropWindow = new Int32Rect(spriteWidth * i, 0, spriteWidth, spriteHeight);
+                croppedImages[i] = new CroppedBitmap(spriteSheet, cropWindow);
+            }
 
-                croppedImages = new CroppedBitmap[numImages];
+            animationType = type;
 
-                for (int i = 0; i < numImages; i++)
+            this.Source = croppedImages[0];
+
+            animationTimer.Interval = (int)speed;
+            animationTimer.Tick += animationTimer_Tick;
+
+            animationTimer.Start();
+        }
+
+        public Sprite(Sprite sprite)
+        {
+            numSprites = sprite.numSprites;
+            croppedImages = sprite.croppedImages;
+            animationType = sprite.animationType;
+
+            Width = sprite.Width;
+            Height = sprite.Height;
+            HorizontalAlignment = sprite.HorizontalAlignment;
+            VerticalAlignment = sprite.VerticalAlignment;
+            Stretch = sprite.Stretch;
+            Name = sprite.Name;
+
+            if (sprite.original == null)
+            {
+                // The sprite we're copying from is the original
+                if (sprite.dependents == null)
                 {
-                    System.Windows.Int32Rect cropWindow = new System.Windows.Int32Rect(spriteWidth * i, 0, spriteWidth, spriteHeight);
-                    croppedImages[i] = new CroppedBitmap(spriteSheet, cropWindow);
+                    sprite.dependents = new List<Sprite>();
                 }
-
-                this.Source = croppedImages[0];
-                currentFrame++;
-
-                animationTimer.Interval = animSpeed;
-                animationTimer.Tick += new EventHandler(animationTimer_Tick);
-
-                animationTimer.Start();
+                sprite.dependents.Add(this);
+                original = sprite;
             }
             else
             {
-                this.Source = new BitmapImage(new Uri("/Ascendancy;component/Resources/Images/Sprites/" + name + ".png", UriKind.Relative));
-                this.StopAnimation();
+                original = sprite.original;
+                original.dependents.Add(this);
             }
         }
 
-        public Sprite()
+        public Sprite Duplicate()
         {
+            return new Sprite(this);
+        }
 
+        public void RemoveDependent(Sprite sprite)
+        {
+            dependents.Remove(sprite);
+        }
+
+        private static Uri UriFromImageName(string name)
+        {
+            return new Uri(@"/Ascendancy;component/Resources/Images/Sprites/" + name + @".png", UriKind.Relative);
         }
 
         void animationTimer_Tick(object sender, EventArgs e)
         {
-            if (currentFrame < numSheetImages - 1)
-                currentFrame++;
-            else if (animateOnceHide)
+            currentFrame++;
+            if (currentFrame >= numSprites)
             {
-                animationTimer.Stop();
-                animateOnceHide = false;
-                this.Visibility = System.Windows.Visibility.Visible;
+                if (animationType != AnimationType.AnimateForever)
+                {
+                    StopAnimation();
+                    if (animationType == AnimationType.AnimateOnceThenHide)
+                    {
+                        // todo apply this to all dependents, but see if it works first
+                        this.Visibility = Visibility.Hidden;
+                    }
+                    return;
+                }
                 currentFrame = 0;
             }
-            else if (animateOnce)
-            {
-                animationTimer.Stop();
-                animateOnce = false;
-                currentFrame = 0;
-            }
-            else
-                currentFrame = 0;
 
             this.Source = croppedImages[currentFrame];
-        }
 
+            if (dependents == null) return;
+            foreach (Sprite dependent in dependents)
+            {
+                dependent.Source = dependent.croppedImages[currentFrame];
+            }
+        }
 
         public void StopAnimation()
         {
-            animationTimer.Stop();
+            if (original != null)
+            {
+                original.StopAnimation();
+            }
+            else
+            {
+                animationTimer.Stop();
+            }
         }
-
-        public void StartAnimation()
-        {
-            animationTimer.Start();
-        }
-
-        public void AnimateOnce()
-        {
-            animationTimer.Start();
-            animateOnce = true;
-        }
-
-        public void AnimateOnceHide()
-        {
-            animationTimer.Start();
-            animateOnceHide = true;
-        }
-
 
         public void ChangeAnimationSpeed(int speed)
         {
-            animationTimer.Interval = speed;
+            if (original != null)
+            {
+                original.ChangeAnimationSpeed(speed);
+            }
+            else
+            {
+                animationTimer.Interval = speed;
+            }
         }
 
-        private void ResetAnimation()
+        public void ResetAnimation()
         {
-            currentFrame = 0;
+            if (original != null)
+            {
+                original.ResetAnimation();
+            }
+            else
+            {
+                currentFrame = 0;
+                animationTimer.Start();
+            }
         }
+    }
 
+    public enum AnimationType
+    {
+        AnimateOnce,
+        AnimateOnceThenHide,
+        AnimateForever
+    }
+
+    public enum AnimationSpeed
+    {
+        Normal = 29
     }
 }

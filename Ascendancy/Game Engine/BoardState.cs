@@ -8,25 +8,20 @@ namespace Ascendancy.Game_Engine
 {
     public struct BoardState
     {
-        private PieceType currentPieceType;
-        private Move lastMove;
-        private Move moveBeforeLast;
+        public PieceType CurrentPlayer { get; private set; }
 
-        private int redMovesLeft;
-        private int blackMovesLeft;
+        public int RedMovesLeft { get; private set; }
+        public int BlackMovesLeft { get; private set; }
 
         private PieceType[,] pieces;
 
-        public BoardState(PieceType type)
+        public Move LastMove { get; private set; }
+        public Move MoveBeforeLast { get; private set; }
+
+        // this is explicitely called so properties can be used
+        public BoardState(PieceType type) : this()
         {
-            currentPieceType = type;
-            lastMove = Move.None;
-            moveBeforeLast = Move.None;
-
-            redMovesLeft = 28;
-            blackMovesLeft = 28;
-
-            pieces = new PieceType[8,8];
+            pieces = new PieceType[8, 8];
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
@@ -34,25 +29,29 @@ namespace Ascendancy.Game_Engine
                     pieces[i, j] = PieceType.Empty;
                 }
             }
+
+            CurrentPlayer = type;
+
+            RedMovesLeft = 28;
+            BlackMovesLeft = 28;
+
+            LastMove = Move.None;
+            MoveBeforeLast = Move.None;
         }
 
-        private BoardState(BoardState oldState)
+        // this is explicitely called so properties can be used
+        private BoardState(BoardState oldState) : this()
         {
-            currentPieceType = oldState.currentPieceType;
-            lastMove = oldState.lastMove;
-            moveBeforeLast = oldState.moveBeforeLast;
-
-            redMovesLeft = oldState.redMovesLeft;
-            blackMovesLeft = oldState.blackMovesLeft;
-
             pieces = new PieceType[8, 8];
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    pieces[i, j] = oldState.pieces[i, j];
-                }
-            }
+            Array.Copy(oldState.pieces, pieces, oldState.pieces.Length);
+
+            CurrentPlayer = oldState.CurrentPlayer;
+
+            RedMovesLeft = oldState.RedMovesLeft;
+            BlackMovesLeft = oldState.BlackMovesLeft;
+
+            LastMove = oldState.LastMove;
+            MoveBeforeLast = oldState.MoveBeforeLast;
         }
 
         public PieceType this[Move move]
@@ -70,48 +69,23 @@ namespace Ascendancy.Game_Engine
             return pieces[row, col];
         }
 
-        public Move LastMove
-        {
-            get { return lastMove; }
-        }
-
-        public Move MoveBeforeLast
-        {
-            get { return moveBeforeLast; }
-        }
-
-        public int BlackMovesLeft
-        {
-            get { return blackMovesLeft; }
-        }
-
-        public int RedMovesLeft
-        {
-            get { return redMovesLeft; }
-        }
-
-        public PieceType CurrentPlayer
-        {
-            get { return currentPieceType; }
-        }
-
         public BoardState PlayMove(Move move)
         {
             BoardState newState = new BoardState(this);
-            if (currentPieceType == PieceType.Red)
+            if (CurrentPlayer == PieceType.Red)
             {
-                newState.currentPieceType = PieceType.Black;
-                newState.redMovesLeft--;
+                newState.CurrentPlayer = PieceType.Black;
+                newState.RedMovesLeft--;
             }
-            else if (currentPieceType == PieceType.Black)
+            else if (CurrentPlayer == PieceType.Black)
             {
-                newState.currentPieceType = PieceType.Red;
-                newState.blackMovesLeft--;
+                newState.CurrentPlayer = PieceType.Red;
+                newState.BlackMovesLeft--;
             }
 
-            newState.pieces[move.Row, move.Col] = currentPieceType;
-            newState.moveBeforeLast = lastMove;
-            newState.lastMove = move;
+            newState.pieces[move.Row, move.Col] = CurrentPlayer;
+            newState.MoveBeforeLast = LastMove;
+            newState.LastMove = move;
 
             return newState;
         }

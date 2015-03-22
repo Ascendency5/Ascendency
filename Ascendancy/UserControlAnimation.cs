@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
@@ -26,9 +27,8 @@ namespace Ascendancy
             Storyboard buttonStoryboard = new Storyboard();
             DoubleAnimation changeButtonOpacity;
             DependencyObject currentButton = sender as DependencyObject;
-            string item = currentButton.GetValue(FrameworkElement.NameProperty) as string;
+            if (currentButton == null) return;
 
-            //usage: DoubleAnimation(to, from, new Duration(TimeSpan.FromMilliseconds(TRANSITION_TIME)))
             if (fadeIn)
                 changeButtonOpacity = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(150)));
             else
@@ -36,7 +36,7 @@ namespace Ascendancy
 
             //add to the storyboard
             buttonStoryboard.Children.Add(changeButtonOpacity);
-            Storyboard.SetTargetName(changeButtonOpacity, item);
+            Storyboard.SetTarget(changeButtonOpacity, currentButton);
             Storyboard.SetTargetProperty(changeButtonOpacity, new PropertyPath("Opacity"));
 
             //animate this object
@@ -44,28 +44,34 @@ namespace Ascendancy
         }
 
         //all user control "views" fade in and out the same way
-        public static void FadeInContentControl(object sender, bool easeIn)
+        private static void FadeContentControl(FrameworkElement currentContentControl, bool fadeIn)
         {
             Storyboard userControlStoryboard = new Storyboard();
             DoubleAnimation changeContentOpacity;
-            DependencyObject currentContentControl = sender as DependencyObject;
-            string item = currentContentControl.GetValue(FrameworkElement.NameProperty) as string;
 
-            //usage: DoubleAnimation(to, from, new Duration(TimeSpan.FromMilliseconds(TRANSITION_TIME)))
-            if (easeIn)
-                changeContentOpacity = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(400)));
+            Duration transitionDuration = new Duration(TimeSpan.FromMilliseconds(400));
+            if (fadeIn)
+                changeContentOpacity = new DoubleAnimation(0, 1, transitionDuration);
             else
-                changeContentOpacity = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromMilliseconds(400)));
+                changeContentOpacity = new DoubleAnimation(1, 0, transitionDuration);
 
             //add to the storyboard
             userControlStoryboard.Children.Add(changeContentOpacity);
-            Storyboard.SetTargetName(changeContentOpacity, item);
+            Storyboard.SetTarget(changeContentOpacity, currentContentControl);
             Storyboard.SetTargetProperty(changeContentOpacity, new PropertyPath("Opacity"));
 
             //animate this object
-            userControlStoryboard.Begin((FrameworkElement)sender);
+            userControlStoryboard.Begin(currentContentControl);
         }
 
+        public static void FadeInContentControl(ContentControl currentContentControl)
+        {
+            FadeContentControl(currentContentControl, true);
+        }
 
+        public static void FadeOutContentControl(ContentControl currentContentControl)
+        {
+            FadeContentControl(currentContentControl, false);
+        }
     }
 }

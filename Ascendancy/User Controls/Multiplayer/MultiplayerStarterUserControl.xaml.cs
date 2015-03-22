@@ -30,17 +30,17 @@ namespace Ascendancy.User_Controls.Multiplayer
             //animate the cancel button from the ExitControl, then kill anim object
             UserControlAnimation.FadeInUserControlButton(CancelHover, false);
 
-            ContentControlActionsWrapper.FadeOut();
+            ContentControlActions.FadeOut();
         }
 
         private void OnlineIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            ContentControlActionsWrapper.setUpControl(new OnlineNamePromptUserControl());
+            ContentControlActions.setPopup(new OnlineNamePromptUserControl());
         }
 
         private void LocalIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            ContentControlActionsWrapper.setUpControl(new LocalMultiplayerUserControl());
+            ContentControlActions.setPopup(new LocalMultiplayerUserControl());
         }
 
         private void UserControlButton_MouseDown(object sender, MouseButtonEventArgs e)

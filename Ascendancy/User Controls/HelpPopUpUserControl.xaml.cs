@@ -51,7 +51,7 @@ namespace Ascendancy.User_Control
             //animate the cancel button from the ExitControl, then kill anim object
             UserControlAnimation.FadeInUserControlButton(closeHelpIdle, true);
 
-            ContentControlActionsWrapper.FadeOut();
+            ContentControlActions.FadeOut();
         }
 
 

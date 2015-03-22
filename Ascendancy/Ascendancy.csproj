@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Lidgren.Network">
+      <HintPath>Networking\Lidgren.Network.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -55,7 +59,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ContentControlActionsWrapper.cs" />
+    <Compile Include="ConcurrentSet.cs" />
+    <Compile Include="ContentControlActions.cs" />
     <Compile Include="Game Engine\AIPlayer.cs" />
     <Compile Include="Game Engine\Board.cs" />
     <Compile Include="Game Engine\BoardSetup.cs" />
@@ -75,10 +80,30 @@
     <Compile Include="GameBoardUserControl.xaml.cs">
       <DependentUpon>GameBoardUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OptionsManager.cs" />
+    <Compile Include="Networking\KulamiPeer.cs" />
+    <Compile Include="Networking\NetChatEventArgs.cs" />
+    <Compile Include="Networking\NetGameRequestEventArgs.cs" />
+    <Compile Include="Networking\NetGameResponseEventArgs.cs" />
+    <Compile Include="Networking\NetOutgoingMessageHelper.cs" />
+    <Compile Include="Networking\NetPacketBuilder.cs" />
+    <Compile Include="Networking\NetPlayerMoveEventArgs.cs" />
+    <Compile Include="Networking\NetworkManager.cs" />
+    <Compile Include="Networking\NetworkPlayer.cs" />
+    <Compile Include="Networking\Packet.cs" />
+    <Compile Include="Networking\PeerHolder.cs" />
+    <Compile Include="User Controls\HomeScreenIntroUserControl.xaml.cs">
+      <DependentUpon>HomeScreenIntroUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="User Controls\HomeScreenUserControl.xaml.cs">
+      <DependentUpon>HomeScreenUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VolumeManager.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="User Controls\ExitConfirmationUserControl.xaml.cs">
       <DependentUpon>ExitConfirmationUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="User Controls\GameCompleteUserControl.xaml.cs">
+      <DependentUpon>GameCompleteUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="User Controls\HelpPopUpUserControl.xaml.cs">
       <DependentUpon>HelpPopUpUserControl.xaml</DependentUpon>
@@ -114,7 +139,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HomeScreenAnimation.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -123,7 +147,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="User Controls\GameCompleteUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="User Controls\HelpPopUpUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="User Controls\HomeScreenIntroUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="User Controls\HomeScreenUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -197,6 +233,9 @@
     <Content Include="Resources\Audio\LogoHover.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Audio\RobotPodDown.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Audio\UserControlButtonHover.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -233,6 +272,16 @@
     <Resource Include="Resources\Images\UserControlResources\SinglePlayer\GoFirstClickGlow.png" />
     <Resource Include="Resources\Images\UserControlResources\SinglePlayer\GoSecondClickGlow.png" />
     <Resource Include="Resources\Images\UserControlResources\SinglePlayer\HardClickGlow.png" />
+    <Resource Include="Resources\Images\Sprites\dropPodHuman.png" />
+    <Resource Include="Resources\Images\Sprites\dropPodRobot.png" />
+    <Resource Include="Resources\Images\Sprites\possibleMoveX.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\GameBoard\masked.png" />
+    <Resource Include="Resources\Images\GameBoard\matchingboard2X.png" />
+    <Resource Include="Resources\Images\Sprites\possibleMoveY.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Resources\Video\Intro.avi">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -262,14 +311,6 @@
     <Resource Include="Resources\Images\dot.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\Images\greenDot.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Images\redDot.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Images\Sprites\droptest1.png" />
-    <Resource Include="Resources\Images\Sprites\droptestRobot.png" />
     <Resource Include="Resources\Images\GameBoard\matchingboard2.png" />
     <Resource Include="Resources\Images\UserControlResources\HelpScreen\NextClick.png" />
     <Resource Include="Resources\Images\UserControlResources\HelpScreen\NextHover.png" />

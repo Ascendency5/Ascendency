@@ -27,7 +27,7 @@ namespace Ascendancy.User_Controls.Multiplayer
         
         private void EnterLobbyIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            ContentControlActionsWrapper.setUpControl(new OnlineLobbyUserControl());
+            ContentControlActions.setPopup(new OnlineLobbyUserControl());
         }
 
         private void CancelIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -35,8 +35,7 @@ namespace Ascendancy.User_Controls.Multiplayer
             //animate the cancel button from the ExitControl, then kill anim object
             UserControlAnimation.FadeInUserControlButton(CancelHover, false);
 
-            //ContentControlActionsWrapper.FadeOut();
-            ContentControlActionsWrapper.setUpControl(new MultiplayerStarterUserControl());
+            ContentControlActions.FadeOut();
         }
 
         private void UserControlButton_MouseDown(object sender, MouseButtonEventArgs e)

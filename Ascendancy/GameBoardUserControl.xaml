@@ -12,7 +12,18 @@
 
 
         <MediaElement x:Name="myMediaElement" Margin="19,22,1411,868" Width="10" Height="10" Stretch="Fill" Panel.ZIndex="2"/>
-        <Image x:Name="GameBoardBackground" Width="1440" Height="900" Source="Resources/Images/GameBoard/matchingboard2.png" Panel.ZIndex="2"/>
+        <Rectangle x:Name="yay" HorizontalAlignment="Left" Height="900" Stroke="Black" VerticalAlignment="Top" Width="1430">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop x:Name="GradRed" Color="#FF02D9FB" Offset="0.50"/>
+                    <GradientStop x:Name="GradRedBack" Color="Black" Offset="0.45"/>
+                    <GradientStop x:Name="GradRedFront" Color="Black" Offset="0.55"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Image x:Name="GameBoardBackground" Width="1440" Height="900" Source="Resources/Images/GameBoard/matchingboard2X.png" Panel.ZIndex="2"/>
         <Image x:Name="CloseClick" Height="75" Margin="1355,10,0,0" Width="75" Source="Resources/Images/UserControlResources/GameBoard/CloseHelpClick.png" VerticalAlignment="Top" HorizontalAlignment="Left" Panel.ZIndex="2"/>
         <Image x:Name="CloseHover" Height="75" Margin="1355,10,0,0" Width="75" Source="Resources/Images/UserControlResources/GameBoard/CloseHelpHover.png" VerticalAlignment="Top" HorizontalAlignment="Left" Panel.ZIndex="2"/>
         <Image x:Name="CloseIdle" Height="75" Margin="1355,10,0,0" Width="75" Source="Resources/Images/UserControlResources/GameBoard/CloseHelpIdle.png" VerticalAlignment="Top" HorizontalAlignment="Left" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave" MouseLeftButtonUp="CancelIdle_MouseLeftButtonUp" RenderTransformOrigin="0.243,-4.667" MouseLeftButtonDown="UserControlButton_MouseDown" Panel.ZIndex="2"/>
@@ -97,14 +108,15 @@
 
 
     </Grid>
+    
 
     <UserControl.Resources>
-        <Storyboard x:Key="DropPod" Completed="DropPod_Storyboard_Completed">
+        <Storyboard x:Key="DropHumanPod">
             <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Visibility)">
                 <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
             </ObjectAnimationUsingKeyFrames>
             <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" BeginTime="0:0:0" Duration="0:0:.1"  />
-            <DoubleAnimation Storyboard.TargetProperty="(Canvas.Top)" BeginTime="0:0:1" Duration="0:0:2.5">
+            <DoubleAnimation Storyboard.TargetProperty="(Canvas.Top)" From="-150" To="0" BeginTime="0:0:1" Duration="0:0:2.5">
                 <DoubleAnimation.EasingFunction>
                     <BounceEase Bounces="3" Bounciness="3" EasingMode="EaseOut" />
                 </DoubleAnimation.EasingFunction>
@@ -112,6 +124,57 @@
             <MediaTimeline Source="Resources/Audio/HumanPodDown.wav" Storyboard.TargetName="myMediaElement"  
              BeginTime="0:0:.1"/>
         </Storyboard>
+
+
+        <Storyboard x:Key="DropRobotPod">
+            <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" BeginTime="0:0:0" Duration="0:0:.1"  />
+            <DoubleAnimation Storyboard.TargetProperty="(Canvas.Top)" From="-150" To="0" BeginTime="0:0:1" Duration="0:0:2.5">
+                <DoubleAnimation.EasingFunction>
+                    <BounceEase Bounces="3" Bounciness="3" EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <MediaTimeline Source="Resources/Audio/RobotPodDown.wav" Storyboard.TargetName="myMediaElement"  
+             BeginTime="0:0:.1"/>
+        </Storyboard>
+
+
+
+        <Storyboard x:Key="RedFrontStoryboard" TargetName="GradRedFront" TargetProperty="Offset">
+            <DoubleAnimationUsingKeyFrames RepeatBehavior="Forever">
+                <EasingDoubleKeyFrame Value=".55" KeyTime="0:0:0"/>
+                <EasingDoubleKeyFrame Value=".15" KeyTime="0:0:3"/>
+                <EasingDoubleKeyFrame Value=".95" KeyTime="0:0:7"/>
+                <EasingDoubleKeyFrame Value=".55" KeyTime="0:0:10"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <Storyboard x:Key="RedBackStoryboard" TargetName="GradRedBack" TargetProperty="Offset">
+            <DoubleAnimationUsingKeyFrames RepeatBehavior="Forever">
+                <EasingDoubleKeyFrame Value=".45" KeyTime="0:0:0"/>
+                <EasingDoubleKeyFrame Value=".05" KeyTime="0:0:3"/>
+                <EasingDoubleKeyFrame Value=".85" KeyTime="0:0:7"/>
+                <EasingDoubleKeyFrame Value=".45" KeyTime="0:0:10"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <Storyboard x:Key="RedStoryboard" TargetName="GradRed" TargetProperty="Offset">
+            <DoubleAnimationUsingKeyFrames RepeatBehavior="Forever">
+                <EasingDoubleKeyFrame Value=".5" KeyTime="0:0:0"/>
+                <EasingDoubleKeyFrame Value=".1" KeyTime="0:0:3"/>
+                <EasingDoubleKeyFrame Value=".9" KeyTime="0:0:7"/>
+                <EasingDoubleKeyFrame Value=".5" KeyTime="0:0:10"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
     </UserControl.Resources>
 
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource RedFrontStoryboard}"/>
+            <BeginStoryboard Storyboard="{StaticResource RedBackStoryboard}"/>
+            <BeginStoryboard Storyboard="{StaticResource RedStoryboard}"/>
+        </EventTrigger>
+    </UserControl.Triggers>
 </UserControl>

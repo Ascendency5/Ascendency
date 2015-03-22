@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.Design.Serialization;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -11,7 +13,6 @@ namespace Ascendancy.Game_Engine
     class AIPlayer : Player
     {
         private MCTSNode root;
-
         public Move getMove(Board board, BoardState state)
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
@@ -23,53 +24,38 @@ namespace Ascendancy.Game_Engine
             {
                 // First pick the move we selected, then the move they selected to be the new root
                 MCTSNode child = root.Children.Single(x => state.MoveBeforeLast == x.State.LastMove);
+                if(child.IsLeaf) child.Expand(root.State.CurrentPlayer);
                 root = child.Children.Single(x => state.LastMove == x.State.LastMove);
+                root.Orphan();
             }
 
             while(stopwatch.ElapsedMilliseconds < 5800)
+            //while(!root.IsTerminal)
             {
-                RunMCTS();
+                if (root.IsTerminal)
+                     break;
+                MCTSNode current = root.RecursiveSelect();
+                if (current != null)
+                {
+                    current.Expand(root.State.CurrentPlayer);
+                }
+                else
+                {
+                    break;
+                }
             }
+            /*
+            Console.WriteLine("Terminal search finished in {0} ms", stopwatch.ElapsedMilliseconds);
+            Console.WriteLine("Total possible moves: {0}", root.RecursiveChildCount());
 
-            return root.Select().State.LastMove;
-        }
-
-        private void RunMCTS()
-        {
-            List<MCTSNode> visitedNodes = new List<MCTSNode> {root};
-
-            MCTSNode current = root;
-
-            // Selection
-            while (!current.IsLeaf)
+            if (root.IsTerminal)
             {
-                current = current.Select();
-                visitedNodes.Add(current);
+                Console.WriteLine("Root node is terminal");
+                Console.WriteLine(root);
             }
+            */
 
-            // Expansion
-            current.Expand();
-
-            MCTSNode newNode;
-            if (current.Children.Length != 0)
-            {
-                newNode = current.Select();
-                visitedNodes.Add(newNode);
-            }
-            else
-            {
-                // todo Figure out what's actually correct here
-                newNode = current;
-            }
-
-            // Simulation
-            double value = newNode.Simulate(root.State.CurrentPlayer);
-            
-            // Bakcpropagation
-            foreach (MCTSNode node in visitedNodes)
-            {
-                node.UpdateValue(value);
-            }
+            return root.bestMove();
         }
     }
 
@@ -78,25 +64,52 @@ namespace Ascendancy.Game_Engine
         private static Random random = new Random();
 
         private readonly Board board;
-        private BoardState state;
 
-        public BoardState State
-        {
-            get { return state; }
-        }
+        public BoardState State { get; private set; }
 
+        public bool IsTerminal { get; private set; }
+
+        public MCTSNode Parent { get; private set; }
         public MCTSNode[] Children { get; private set; }
 
         public int Visits { get; private set; }
-
         public double Score { get; private set; }
 
-        public MCTSNode(Board board, BoardState state)
+        public MCTSNode(Board board, BoardState state) :
+            this(null, board, state)
+        {}
+
+        private MCTSNode(MCTSNode parent, Board board, BoardState state)
         {
             this.board = board;
-            this.state = state;
-            this.Visits = 0;
-            this.Score = 0;
+            State = state;
+            Visits = 0;
+            Score = 0;
+            Parent = parent;
+
+            IsTerminal = board.GetPossibleMoves(state).Length == 0;
+        }
+
+        public override string ToString()
+        {
+            return toString("");
+        }
+
+        public string toString(string indent)
+        {
+            string result = indent + State.LastMove + ": " +
+                   "Visits: " + Visits + " " +
+                   "Score: " + Score + " " +
+                   "Terminal: " + IsTerminal + " " + 
+                   "Player: " + State.CurrentPlayer + "\n";
+            if(!IsLeaf)
+                result = Children.Aggregate(result, (current, child) => current + child.toString(indent + ' '));
+            return result;
+        }
+
+        public void Orphan()
+        {
+            Parent = null;
         }
 
         public bool IsLeaf
@@ -104,21 +117,59 @@ namespace Ascendancy.Game_Engine
             get { return Children == null || Children.Length == 0; }
         }
 
-        public void Expand()
+        public void Expand(PieceType currentPieceType)
         {
-            // todo Make the function only select unvisited nodes at first
-            Children = board.GetPossibleMoves(state).Select(
-                x => new MCTSNode(board,
-                    state.PlayMove(x)
+            Children = board.GetPossibleMoves(State).Select(
+                x => new MCTSNode(this, board,
+                    State.PlayMove(x)
                     )
                 ).ToArray();
+
+            bool allTerminal = true;
+            double totalValue = 0;
+
+            foreach (MCTSNode child in Children)
+            {
+                child.Visits = 1;
+                double value;
+                if (child.IsTerminal)
+                {
+                    value = child.Score = child.GetTerminalScore(currentPieceType);
+                }
+                else
+                {
+                    allTerminal = false;
+                    value = child.Score = child.Simulate(currentPieceType);
+                }
+                totalValue += value;
+            }
+
+            if (allTerminal)
+            {
+                IsTerminal = true;
+                UpdateTerminal();
+            }
+            else
+            {
+                UpdateValue(totalValue, Children.Length);
+            }
+        }
+
+        private void UpdateTerminal()
+        {
+            IsTerminal = Children.All(x => x.IsTerminal);
+            Score = Children.Sum(x => x.Score);
+            Visits = Children.Sum(x => x.Visits);
+
+            if(Parent != null)
+                Parent.UpdateTerminal();
         }
 
         public double Simulate(PieceType currentPieceType)
         {
-            BoardState currentState = state;
+            BoardState currentState = State;
 
-            Move[] moves = board.GetPossibleMoves(state);
+            Move[] moves = board.GetPossibleMoves(State);
             while (moves.Length != 0)
             {
                 Move randomMove = moves[random.Next(moves.Length)];
@@ -126,8 +177,14 @@ namespace Ascendancy.Game_Engine
                 moves = board.GetPossibleMoves(currentState);
             }
 
+            return new MCTSNode(board, currentState).GetTerminalScore(currentPieceType);
+        }
+
+        private double GetTerminalScore(PieceType currentPieceType)
+        {
+
             int redScore, blackScore;
-            board.GetScore(state, out redScore, out blackScore);
+            board.GetScore(State, out redScore, out blackScore);
 
             if (currentPieceType == PieceType.Red)
             {
@@ -152,19 +209,22 @@ namespace Ascendancy.Game_Engine
                 }
             }
 
-            // We tied, which counts as a loss
+            // We tied
             return 0;
         }
 
         public MCTSNode Select()
         {
+            return Select(x => true);
+        }
+
+        public MCTSNode Select(Func<MCTSNode, Boolean> function )
+        {
             MCTSNode minNode = null;
             double bestValue = Double.MinValue;
-            foreach (MCTSNode child in Children)
+            foreach (MCTSNode child in Children.Where(function))
             {
-                double uctValue = child.Score / (child.Visits + Double.Epsilon) +
-                               Math.Sqrt(Math.Log10(Visits + 1) / (child.Visits + Double.Epsilon)) +
-                               random.NextDouble()*Double.Epsilon;
+                double uctValue = child.UCTValue();
                 if (uctValue > bestValue)
                 {
                     minNode = child;
@@ -174,10 +234,51 @@ namespace Ascendancy.Game_Engine
             return minNode;
         }
 
-        public void UpdateValue(double value)
+        public double UCTValue()
         {
-            Visits++;
+            return (Score/Visits) +
+                   5*Math.Sqrt(Math.Log(Visits + 1)/Visits);
+        }
+
+        public void UpdateValue(double value, int numVisits)
+        {
+            Visits += numVisits;
             Score += value;
+
+            if(Parent != null)
+                Parent.UpdateValue(value, numVisits);
+        }
+
+        public MCTSNode RecursiveSelect()
+        {
+            MCTSNode current = this;
+            while (!current.IsLeaf)
+            {
+                current = current.Select(x => !x.IsTerminal);
+            }
+            return current;
+        }
+
+        public int RecursiveChildCount()
+        {
+            if (IsLeaf) return 1;
+            return Children.Sum(x => x.RecursiveChildCount());
+        }
+
+        public Move bestMove()
+        {
+            MCTSNode minNode = null;
+            double bestValue = Double.MinValue;
+            foreach (MCTSNode child in Children)
+            {
+                double uctValue = child.Score;
+                if (uctValue > bestValue)
+                {
+                    minNode = child;
+                    bestValue = uctValue;
+                }
+            }
+            return minNode.State.LastMove;
         }
     }
 }

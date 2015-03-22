@@ -28,21 +28,17 @@ namespace Ascendancy.User_Controls.Multiplayer
 
         private void PlayIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            ContentControlActionsWrapper.FadeOut();
+            ContentControlActions.FadeOut();
 
             // Set up game engine
-            // todo Add code for easy/hard AI
             HumanPlayer humanPlayerRed = new HumanPlayer(GameBoardUserControl.human_move_handler);
             HumanPlayer humanPlayerBlack = new HumanPlayer(GameBoardUserControl.human_move_handler);
-
-            //HumanPlayer aiPlayer = new HumanPlayer(GameBoardUserControl.human_move_handler);
-            //AIPlayer aiPlayer = new AIPlayer();
 
             Board board = BoardSetup.board_team5;
 
             GameEngine engine = new GameEngine(board, humanPlayerRed, humanPlayerBlack, PieceType.Red);
 
-            ContentControlActionsWrapper.setUpControl(new GameBoardUserControl(engine));
+            ContentControlActions.setUpControl(new GameBoardUserControl(engine));
         }
 
         private void CancelIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -50,8 +46,7 @@ namespace Ascendancy.User_Controls.Multiplayer
             //animate the cancel button from the ExitControl, then kill anim object
             UserControlAnimation.FadeInUserControlButton(CancelHover, false);
 
-            //ContentControlActionsWrapper.FadeOut();
-            ContentControlActionsWrapper.setUpControl(new MultiplayerStarterUserControl());
+            ContentControlActions.FadeOut();
         }
 
         private void UserControlButton_MouseDown(object sender, MouseButtonEventArgs e)

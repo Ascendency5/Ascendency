@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Ascendancy.Networking;
 
 namespace Ascendancy.User_Controls.Multiplayer
 {
@@ -23,14 +25,41 @@ namespace Ascendancy.User_Controls.Multiplayer
         public OnlineLobbyUserControl()
         {
             InitializeComponent();
+            Networkmanager.OnDiscovery += on_peer_discovery;
+            Networkmanager.OnDisconnect += on_peer_disconnect;
+            
+            List<ListBoxItem> items = new List<ListBoxItem>();
+            foreach (KulamiPeer peer in PeerHolder.Peers)
+            {
+                if(peer.Name != null)
+                    items.Add(new ListBoxItem() {Content = peer.Name});
+            }
+
+            OnlinePlayersListBox.ItemsSource = items;
         }
+
+        private void on_peer_disconnect(object sender, EventArgs e)
+        {
+
+        }
+
+        private void on_peer_discovery(object sender, EventArgs e)
+        {
+            List<ListBoxItem> items = (List<ListBoxItem>) OnlinePlayersListBox.ItemsSource;
+            string name = ((KulamiPeer) sender).Name;
+            items.Add(new ListBoxItem() {Content = name});
+            OnlinePlayersListBox.ItemsSource = items;
+        }
+
         private void CancelIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            Networkmanager.OnDiscovery -= on_peer_discovery;
+            Networkmanager.OnDisconnect -= on_peer_disconnect;
+
             //animate the cancel button from the ExitControl, then kill anim object
             UserControlAnimation.FadeInUserControlButton(CancelHover, false);
 
-            //ContentControlActionsWrapper.FadeOut();
-            ContentControlActionsWrapper.setUpControl(new MultiplayerStarterUserControl());
+            ContentControlActions.FadeOut();
         }
 
         private void UserControlButton_MouseDown(object sender, MouseButtonEventArgs e)
