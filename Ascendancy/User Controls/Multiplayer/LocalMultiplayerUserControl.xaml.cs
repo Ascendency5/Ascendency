@@ -31,6 +31,7 @@ namespace Ascendancy.User_Controls.Multiplayer
             ContentControlActions.FadeOut();
 
             // Set up game engine
+            // todo Add code for easy/hard AI
             HumanPlayer humanPlayerRed = new HumanPlayer(GameBoardUserControl.human_move_handler);
             HumanPlayer humanPlayerBlack = new HumanPlayer(GameBoardUserControl.human_move_handler);
 
@@ -46,7 +47,8 @@ namespace Ascendancy.User_Controls.Multiplayer
             //animate the cancel button from the ExitControl, then kill anim object
             UserControlAnimation.FadeInUserControlButton(CancelHover, false);
 
-            ContentControlActions.FadeOut();
+            //ContentControlActionsWrapper.FadeOut();
+            ContentControlActions.setUpControl(new MultiplayerStarterUserControl());
         }
 
         private void UserControlButton_MouseDown(object sender, MouseButtonEventArgs e)

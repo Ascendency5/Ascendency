@@ -24,17 +24,44 @@
         </Label>
         <Label x:Name="PlayersOnlineLabel" Content="Players Online" HorizontalAlignment="Left" Margin="288,216,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="58" Width="277" Foreground="White"/>
 
-        <Image x:Name="ChallengeClick" Height="75" Margin="285,553,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/OnlineLobby/ChallengeClick.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Image x:Name="ChallengeHover" Height="75" Margin="285,553,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/OnlineLobby/ChallengeHover.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Image x:Name="ChallengeIdle" Height="75" Margin="285,553,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/OnlineLobby/ChallengeIdle.png" VerticalAlignment="Top" HorizontalAlignment="Left" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave" MouseLeftButtonDown="UserControlButton_MouseDown"/>
-        <Image x:Name="ConnectClick" Height="75" Margin="929,616,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/OnlineLobby/ConnectClick.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Image x:Name="ConnectHover" Height="75" Margin="929,616,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/OnlineLobby/ConnectHover.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Image x:Name="ConnectIdle" Height="75" Margin="929,616,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/OnlineLobby/ConnectIdle.png" VerticalAlignment="Top" HorizontalAlignment="Left" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave" MouseLeftButtonDown="UserControlButton_MouseDown"/>
-        <Image x:Name="CancelClick" Height="75" Margin="285,657,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/CancelClick.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Image x:Name="CancelHover" Height="75" Margin="285,657,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/CancelHover.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Image x:Name="CancelIdle" Height="75" Margin="285,657,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/CancelIdle.png" VerticalAlignment="Top" HorizontalAlignment="Left" MouseDown="UserControlButton_MouseDown" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave" MouseLeftButtonUp="CancelIdle_MouseLeftButtonUp"/>
+        <Image x:Name="ChallengeClick" Style="{DynamicResource NetworkButtonStyle}" Margin="285,553,0,0"
+               Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/OnlineLobby/ChallengeClick.png" />
+        <Image x:Name="ChallengeHover" Style="{DynamicResource NetworkButtonStyle}" Margin="285,553,0,0"
+               Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/OnlineLobby/ChallengeHover.png" />
+        <Image x:Name="ChallengeIdle" Style="{DynamicResource NetworkButtonStyle}" Margin="285,553,0,0"
+               Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/OnlineLobby/ChallengeIdle.png"
+               MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave" MouseLeftButtonDown="UserControlButton_MouseDown"
+               MouseLeftButtonUp="ChallengeIdle_MouseLeftButtonUp"/>
+        
+        <Image x:Name="ConnectClick" Style="{DynamicResource NetworkButtonStyle}" Margin="929,616,0,0"
+               Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/OnlineLobby/ConnectClick.png" />
+        <Image x:Name="ConnectHover" Style="{DynamicResource NetworkButtonStyle}" Margin="929,616,0,0"
+               Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/OnlineLobby/ConnectHover.png" />
+        <Image x:Name="ConnectIdle" Style="{DynamicResource NetworkButtonStyle}" Margin="929,616,0,0"
+               Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/OnlineLobby/ConnectIdle.png"
+               MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave" MouseLeftButtonDown="UserControlButton_MouseDown"
+               MouseLeftButtonUp="ConnectIdle_MouseLeftButtonUp"/>
+        
+        <Image x:Name="CancelClick" Style="{DynamicResource NetworkButtonStyle}" Margin="285,657,0,0"
+               Source="/Ascendancy;component/Resources/Images/UserControlResources/CancelClick.png" />
+        <Image x:Name="CancelHover" Style="{DynamicResource NetworkButtonStyle}" Margin="285,657,0,0"
+               Source="/Ascendancy;component/Resources/Images/UserControlResources/CancelHover.png" />
+        <Image x:Name="CancelIdle" Style="{DynamicResource NetworkButtonStyle}" Margin="285,657,0,0"
+               Source="/Ascendancy;component/Resources/Images/UserControlResources/CancelIdle.png"
+               MouseDown="UserControlButton_MouseDown" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave"
+               MouseLeftButtonUp="CancelIdle_MouseLeftButtonUp"/>
+        
         <ListBox x:Name="OnlinePlayersListBox"  HorizontalAlignment="Left" Height="269" Margin="229,279,0,0" VerticalAlignment="Top" Width="433"/>
         <ListBox x:Name="OnlinePlayerChallengesListBox" HorizontalAlignment="Left" Height="266" Margin="884,345,0,0" VerticalAlignment="Top" Width="390"/>
 
     </Grid>
+    
+    <UserControl.Resources>
+        <Style x:Key="NetworkButtonStyle" TargetType="Image">
+            <Setter Property="Height" Value="75" />
+            <Setter Property="Width" Value="280" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+    </UserControl.Resources>
 </UserControl>

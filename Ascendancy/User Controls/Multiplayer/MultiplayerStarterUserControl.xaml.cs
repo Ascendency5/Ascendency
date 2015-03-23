@@ -35,12 +35,12 @@ namespace Ascendancy.User_Controls.Multiplayer
 
         private void OnlineIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            ContentControlActions.setPopup(new OnlineNamePromptUserControl());
+            ContentControlActions.setUpControl(new OnlineNamePromptUserControl());
         }
 
         private void LocalIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            ContentControlActions.setPopup(new LocalMultiplayerUserControl());
+            ContentControlActions.setUpControl(new LocalMultiplayerUserControl());
         }
 
         private void UserControlButton_MouseDown(object sender, MouseButtonEventArgs e)

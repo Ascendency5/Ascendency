@@ -41,8 +41,6 @@ namespace Ascendancy.Networking
             {
                 new Packet(Networkmanager.MessageType.GameRequest, boardNum, challengerGoesFirst)
             };
-            if(Connection == null)
-                Console.WriteLine("Our connection is null");
             Networkmanager.Send(Connection, builder);
         }
 
@@ -69,6 +67,11 @@ namespace Ascendancy.Networking
             };
 
             Networkmanager.Send(Connection, builder);
+        }
+
+        public override string ToString()
+        {
+            return Name ?? "null";
         }
     }
 }

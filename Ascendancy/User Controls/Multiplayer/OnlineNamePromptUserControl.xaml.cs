@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Ascendancy.Networking;
 
 namespace Ascendancy.User_Controls.Multiplayer
 {
@@ -27,7 +28,10 @@ namespace Ascendancy.User_Controls.Multiplayer
         
         private void EnterLobbyIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            ContentControlActions.setPopup(new OnlineLobbyUserControl());
+            // todo Have this reject it if it's not a valid name
+            Networkmanager.ClientName = NamePromptText.Text;
+
+            ContentControlActions.setUpControl(new OnlineLobbyUserControl());
         }
 
         private void CancelIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -35,7 +39,8 @@ namespace Ascendancy.User_Controls.Multiplayer
             //animate the cancel button from the ExitControl, then kill anim object
             UserControlAnimation.FadeInUserControlButton(CancelHover, false);
 
-            ContentControlActions.FadeOut();
+            //ContentControlActionsWrapper.FadeOut();
+            ContentControlActions.setUpControl(new MultiplayerStarterUserControl());
         }
 
         private void UserControlButton_MouseDown(object sender, MouseButtonEventArgs e)

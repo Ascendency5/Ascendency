@@ -77,12 +77,12 @@ namespace Ascendancy.Networking
                 //Broadcast sent to other computers listening on this same port.
                 //Other computers receive this message as of type DiscoveryRequest
                 Client.DiscoverLocalPeers(PORT);
-                // Sleep for 5 seconds
-                Thread.Sleep(5000);
+                // Sleep for 2 seconds
+                Thread.Sleep(2000);
 
                 // todo Add thread safe operation
-                List<KulamiPeer> disconnectedPeers = peers.Where(x => x.LastSeen < DateTime.Now.AddSeconds(-20))
-                    .ToList<KulamiPeer>();
+                List<KulamiPeer> disconnectedPeers = peers.Where(x => x.LastSeen < DateTime.Now.AddSeconds(-10))
+                    .ToList();
 
                 if (OnDisconnect != null)
                 {
@@ -94,7 +94,7 @@ namespace Ascendancy.Networking
 
                 peers.RemoveAll(x => disconnectedPeers.Contains(x));
 
-                List<KulamiPeer> connectedPeers = peers.Where(x => x.Connection != null).ToList<KulamiPeer>();
+                List<KulamiPeer> connectedPeers = peers.Where(x => x.Connection != null).ToList();
                 NetPacketBuilder builder = new NetPacketBuilder();
                 foreach (KulamiPeer peer in connectedPeers)
                 {
