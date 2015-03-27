@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -45,7 +46,7 @@ namespace Ascendancy.User_Controls
 
         private void HelpHover_MouseLeftButtonUp(object sender, RoutedEventArgs e)
         {
-            popup(new HelpPopUpUserControl());
+            ContentControlActions.setUpControl(new HelpPopUpUserControl());
         }
 
         private void OptionsHover_MouseLeftButtonUp(object sender, RoutedEventArgs e)
@@ -87,9 +88,7 @@ namespace Ascendancy.User_Controls
 
             logoStoryboard.Begin(this);
 
-            // todo figure out if we need to use soundplayer
-            System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"Resources/Audio/LogoHover.wav");
-            player.Play();
+            VolumeManager.play(@"Resources/Audio/LogoHover.wav");
         }
 
         private static void gradientKeyFrame(DoubleAnimationUsingKeyFrames epicAnimation, double gradientPosition, int milliseconds)
@@ -102,11 +101,8 @@ namespace Ascendancy.User_Controls
         {
             UserControlAnimation.FadeInUserControlButton(sender, true);
 
-            //todo: do all sound effects have to interrupt each other?
-
             //sound effect style 1
-            System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"Resources/Audio/HomeScreenButtonHover.wav");
-            player.Play();
+            VolumeManager.play(@"Resources/Audio/HomeScreenButtonHover.wav");
         }
 
         private void HomeScreen_MouseLeave(object sender, MouseEventArgs e)
@@ -118,10 +114,7 @@ namespace Ascendancy.User_Controls
         private void StartMusic()
         {
             //start up the looped media
-            Storyboard playThemeSong = FindResource("HomeScreenThemeSongStoryboard") as Storyboard;
-            HomeScreenThemeSong.BeginStoryboard(playThemeSong);
-            Storyboard playHomeScreenBackground = FindResource("HomeScreenBackgroundVideoStoryboard") as Storyboard;
-            HomeScreenVideo.BeginStoryboard(playHomeScreenBackground);
+            VolumeManager.play(@"Resources/Audio/ThemeSong.wav", SoundType.Music, SoundLoop.Loop);
         }
     }
 }

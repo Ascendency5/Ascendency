@@ -39,8 +39,7 @@ namespace Ascendancy.User_Controls
             UserControlAnimation.FadeInUserControlButton(OkayHover, false);
 
             //added sound effect for the button
-            System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"Resources/Audio/UserControlButtonHover.wav");
-            player.Play();
+            VolumeManager.play(@"Resources/Audio/UserControlButtonHover.wav");
         }
 
         private void UserControlButton_MouseEnter(object sender, MouseEventArgs e)

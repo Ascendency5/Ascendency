@@ -12,15 +12,6 @@ namespace Ascendancy
 {
     public static class UserControlAnimation
     {
-        /**
-        private Storyboard buttonStoryboard;
-        private Storyboard userControlStoryboard;
-        private MediaPlayer menuButtonSound;
-        private MediaPlayer themeSong;
-         */
-
-        //Context animation methods
-
         //all user control objects animate their buttons with this method
         public static void FadeInUserControlButton(object sender, bool fadeIn)
         {

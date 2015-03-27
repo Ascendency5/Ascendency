@@ -148,9 +148,8 @@ namespace Ascendancy
 
         private void UserControlButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            MediaPlayer player = new MediaPlayer();
-            player.Open(new Uri(@"/Resources/Audio/hover.wav", UriKind.Relative));
-            VolumeManager.play(player);
+            // todo This doesn't seem correct, check it later
+            VolumeManager.play(@"Resources/Audio/hover.wav");
         }
 
         private void UserControlButton_MouseEnter(object sender, MouseEventArgs e)
@@ -269,15 +268,18 @@ namespace Ascendancy
         {
             string podType;
             Storyboard dropPod;
+            string sound;
             if (playerMoved == PieceType.Red)
             {
                 podType = "dropPodHuman";
                 dropPod = FindResource("DropHumanPod") as Storyboard;
+                sound = "Resources/Audio/HumanPodDown.wav";
             }
             else
             {
                 podType = "dropPodRobot";
                 dropPod = FindResource("DropRobotPod") as Storyboard;
+                sound = "Resources/Audio/RobotPodDown.wav";
             }
 
             // Sprite resource name and width
@@ -303,16 +305,12 @@ namespace Ascendancy
             podImage.Margin = new Thickness(left, top, 0, 0);
             podImage.Visibility = Visibility.Hidden;
 
-            //bounceDisk.Children[2] = temp;
-
-            //Storyboard.SetTarget(dropPod.Children[0], img);  //visibility
-            //Storyboard.SetTarget(dropPod.Children[1], img);  //opacity
-            //Storyboard.SetTarget(dropPod.Children[2], img);  //bounciness
-
             PlayableGameBoardGridEventListener.Children.Add(podImage);
             Panel.SetZIndex(podImage, 3);
 
             podImage.BeginStoryboard(dropPod);
+            VolumeManager.play(sound);
+            
 
             MoveTo(podImage, offset.X, offset.Y);
 

@@ -14,9 +14,6 @@
 
         <MediaElement x:Name="HomeScreenButtonSoundEffect"/>
 
-        <MediaElement x:Name="HomeScreenThemeSong" Volume=".5"/>
-        <MediaElement x:Name="HomeScreenVideo" Panel.ZIndex="3" Stretch="Uniform" Width="1440" Height="900"/>
-
         <Image x:Name="HomeScreenUserControlCatcher" HorizontalAlignment="Left" Height="900" VerticalAlignment="Top" Width="1440" Opacity="0.01" Panel.ZIndex="3"
                Source="Resources/Images/UserControlResources/ExitConfirmation/QuitBackdrop.png" Stretch="Fill"/>
         
@@ -71,12 +68,6 @@
     <UserControl.Resources>
         <Storyboard x:Key="PlayHomeButtonSoundEffect">
             <MediaTimeline Source="Resources/Audio/HomeScreenButtonHover.wav" Storyboard.TargetName="HomeScreenButtonSoundEffect" BeginTime="0:0:0"/>
-        </Storyboard>
-        <Storyboard x:Key="HomeScreenThemeSongStoryboard">
-            <MediaTimeline Storyboard.TargetName="HomeScreenThemeSong" Source="Resources/Audio/ThemeSong.wav" RepeatBehavior="Forever"/>
-        </Storyboard>
-        <Storyboard x:Key="HomeScreenBackgroundVideoStoryboard">
-            <MediaTimeline Storyboard.TargetName="HomeScreenVideo" Source="Resources/Video/menu.avi" RepeatBehavior="Forever" />
         </Storyboard>
         
         <Style x:Key="ButtonNoHover" TargetType="Image">

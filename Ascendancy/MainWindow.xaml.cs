@@ -36,9 +36,10 @@ namespace Ascendancy
             VolumeManager.MusicVolume = .5;
             VolumeManager.SoundVolume = .5;
 
-            //HomeScreenIntroUserControl intro = new HomeScreenIntroUserControl();
-            //intro.OnComplete += on_intro_completed;
-            setBaseContent(new HomeScreenUserControl());
+            HomeScreenIntroUserControl intro = new HomeScreenIntroUserControl();
+            intro.OnComplete += on_intro_completed;
+            //setBaseContent(new HomeScreenUserControl());
+            setBaseContent(intro);
 
             Networkmanager.OnDiscovery += PeerHolder.on_peer_discovery;
             Networkmanager.OnDisconnect += PeerHolder.on_peer_disconnect;
@@ -72,9 +73,28 @@ namespace Ascendancy
             ContentControl baseControl = ContentControlActions.baseContentControl;
             if (baseControl.Content is HomeScreenIntroUserControl)
             {
-                if (e.Key == Key.Space)
+                if (e.Key == Key.Space || e.Key == Key.Escape)
                 {
                     ((HomeScreenIntroUserControl) baseControl.Content).stopIntro();
+                    return;
+                }
+            }
+
+            if (ContentControlActions.IsPopupVisible)
+            {
+                if (e.Key == Key.Escape)
+                {
+                    ContentControlActions.FadeOut();
+                    return;
+                }
+            }
+
+            if (baseControl.Content is HelpPopUpUserControl)
+            {
+                if (e.Key == Key.Escape)
+                {
+                    ContentControlActions.FadeOut();
+                    return;
                 }
             }
 

@@ -35,12 +35,12 @@ namespace Ascendancy.User_Controls.Multiplayer
 
         private void OnlineIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            ContentControlActions.setUpControl(new OnlineNamePromptUserControl());
+            ContentControlActions.setPopup(new OnlineNamePromptUserControl());
         }
 
         private void LocalIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            ContentControlActions.setUpControl(new LocalMultiplayerUserControl());
+            ContentControlActions.setPopup(new LocalMultiplayerUserControl());
         }
 
         private void UserControlButton_MouseDown(object sender, MouseButtonEventArgs e)
@@ -53,8 +53,7 @@ namespace Ascendancy.User_Controls.Multiplayer
                 UserControlAnimation.FadeInUserControlButton(CancelHover, false);
 
             //added sound effect for the button
-            System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"Resources/Audio/UserControlButtonHover.wav");
-            player.Play();
+            VolumeManager.play(@"Resources/Audio/UserControlButtonHover.wav");
         }
 
         private void UserControlButton_MouseEnter(object sender, MouseEventArgs e)

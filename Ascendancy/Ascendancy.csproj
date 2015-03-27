@@ -236,6 +236,9 @@
     <Content Include="Resources\Audio\RobotPodDown.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Audio\ThemeSong.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Audio\UserControlButtonHover.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -302,9 +305,6 @@
     <Resource Include="Resources\Images\UserControlResources\Options\OkayHover.png" />
     <Resource Include="Resources\Images\UserControlResources\Options\OkayIdle.png" />
     <Content Include="Resources\Audio\HumanPodDown.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Audio\ThemeSong.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Resources\Images\GameBoard\GameBoardBackground.jpg" />

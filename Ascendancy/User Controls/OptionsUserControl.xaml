@@ -30,8 +30,8 @@
         <Label x:Name="OptionsLabel" Content="Options" HorizontalAlignment="Left" Margin="661,261,0,0" VerticalAlignment="Top" FontSize="36" Background="#00000000" FontFamily="Ubuntu Mono" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
         <Label x:Name="MusicLabel" Content="Music" HorizontalAlignment="Left" Margin="361,417,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Ubuntu Mono" Height="83" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
-        <Slider x:Name="SoundSlider" HorizontalAlignment="Left" Margin="579,354,0,0" VerticalAlignment="Top" Foreground="White" Width="300" Height="24" Maximum="100" Minimum="0" Value="{Binding SoundVolume}" ValueChanged="SoundSlider_ValueChanged" IsSnapToTickEnabled="True" TickFrequency="5"/>
-        <Slider x:Name="MusicSlider" HorizontalAlignment="Left" Margin="579,450,0,0" VerticalAlignment="Top" Foreground="White" Width="300" Height="24" Maximum="100" Minimum="0" Value="{Binding MusicVolume}" ValueChanged="MusicSlider_ValueChanged" IsSnapToTickEnabled="True" TickFrequency="5"/>
+        <Slider x:Name="SoundSlider" HorizontalAlignment="Left" Margin="579,354,0,0" VerticalAlignment="Top" Foreground="White" Width="300" Height="24" Maximum="1" Minimum="0" ValueChanged="SoundSlider_ValueChanged" IsSnapToTickEnabled="True" TickFrequency=".05"/>
+        <Slider x:Name="MusicSlider" HorizontalAlignment="Left" Margin="579,450,0,0" VerticalAlignment="Top" Foreground="White" Width="300" Height="24" Maximum="1" Minimum="0" ValueChanged="MusicSlider_ValueChanged" IsSnapToTickEnabled="True" TickFrequency=".05"/>
 
         <Image x:Name="OkayClick" Height="75" Margin="779,532,0,0" VerticalAlignment="Top" Width="280" Source="/Resources/Images/UserControlResources/Options/OkayClick.png" Stretch="UniformToFill" HorizontalAlignment="Left"/>
         <Image x:Name="OkayHover" Height="75" Margin="779,532,0,0" VerticalAlignment="Top" Width="280" Source="/Resources/Images/UserControlResources/Options/OkayHover.png" Stretch="UniformToFill" HorizontalAlignment="Left"/>

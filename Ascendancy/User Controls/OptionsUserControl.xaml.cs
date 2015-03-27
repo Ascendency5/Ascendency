@@ -20,25 +20,31 @@ namespace Ascendancy.User_Controls
     /// </summary>
     public partial class OptionsUserControl : UserControl
     {
-        private int loadedCounterSoundSlider;
-        private int loadedCounterMusicSlider;
 
         public OptionsUserControl()
         {
             InitializeComponent();
 
-            loadedCounterSoundSlider = 0;
-            loadedCounterMusicSlider = 0;
-            SoundPercentageLabel.Content = VolumeManager.SoundVolume + "%";
-            MusicPercentageLabel.Content = VolumeManager.MusicVolume + "%";
-            SoundSlider.Value = VolumeManager.SoundVolume;
-            MusicSlider.Value = VolumeManager.MusicVolume;
+            updateMusicSlider(VolumeManager.MusicVolume);
+            updateSoundSlider(VolumeManager.SoundVolume);
         }
 
         private void OptionsUserControlView_Loaded(object sender, RoutedEventArgs e)
         {
-            //SoundSlider.Value = VolumeManager.SoundVolume;
-            //MusicSlider.Value = VolumeManager.MusicVolume;
+            //updateSoundSlider(VolumeManager.SoundVolume);
+            //updateMusicSlider(VolumeManager.MusicVolume);
+        }
+
+        private void updateSoundSlider(double volume)
+        {
+            SoundSlider.Value = volume;
+            SoundPercentageLabel.Content = volume*100 + "%";
+        }
+
+        private void updateMusicSlider(double volume)
+        {
+            MusicSlider.Value = volume;
+            MusicPercentageLabel.Content = volume*100 + "%";
         }
 
         private void OkayIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -51,33 +57,14 @@ namespace Ascendancy.User_Controls
 
         private void SoundSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (loadedCounterSoundSlider <= 1)
-            {
-                loadedCounterSoundSlider++;
-                SoundSlider.Value = 50;
-            }
-            else
-            {
-                VolumeManager.SoundVolume = SoundSlider.Value;
-                SoundPercentageLabel.Content = VolumeManager.SoundVolume + "%";
-                //MainWindow.ChangeMusicVolume();
-            }
-            
+            updateSoundSlider(SoundSlider.Value);
+            VolumeManager.SoundVolume = SoundSlider.Value;
         }
 
         private void MusicSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (loadedCounterMusicSlider <= 1)
-            {
-                loadedCounterMusicSlider++;
-                MusicSlider.Value = 50;
-            }
-            else
-            {
-                VolumeManager.MusicVolume = MusicSlider.Value;
-                MusicPercentageLabel.Content = VolumeManager.MusicVolume + "%";
-                
-            }
+            updateMusicSlider(MusicSlider.Value);
+            VolumeManager.MusicVolume = MusicSlider.Value;
         }
 
 
@@ -86,8 +73,7 @@ namespace Ascendancy.User_Controls
             UserControlAnimation.FadeInUserControlButton(OkayHover, false);
 
             //added sound effect for the button
-            System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"Resources/Audio/UserControlButtonHover.wav");
-            player.Play();
+            VolumeManager.play(@"Resources/Audio/UserControlButtonHover.wav");
         }
 
         private void UserControlButton_MouseEnter(object sender, MouseEventArgs e)

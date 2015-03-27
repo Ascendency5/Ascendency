@@ -6,7 +6,10 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using Ascendancy.User_Controls;
+using Panel = System.Windows.Controls.Panel;
+using UserControl = System.Windows.Controls.UserControl;
 
 namespace Ascendancy
 {
@@ -15,8 +18,13 @@ namespace Ascendancy
         public static ContentControl baseContentControl { get; set; }
         public static ContentControl popupContentControl { get; set; }
 
+        public static bool IsPopupVisible
+        {
+            get { return popupControls.Count != 0; }
+        }
+
         private static readonly Stack<UserControl> popupControls = new Stack<UserControl>();
-        private static HomeScreenUserControl menuUserControl = null;
+        private static HomeScreenUserControl menuUserControl;
 
         public static void setPopup(UserControl control)
         {
