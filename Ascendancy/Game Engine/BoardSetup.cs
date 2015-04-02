@@ -14,21 +14,32 @@ namespace Ascendancy.Game_Engine
 
         private static Random rnd = new Random();
 
-        public static Board random()
+        public static Board Random()
         {
-            switch (rnd.Next(1, 7))
-            {
-                case 1: return board_team1;
-                case 2: return board_team2;
-                case 3: return board_team3;
-                case 4: return board_team4;
-                case 5: return board_team5;
-                case 6: return board_team6;
-                case 7: return board_team7;
-            }
+            return GetBoard(rnd.Next(1, 7));
+        }
 
-            // This shouldn't ever be possible
-            return board_team1;
+        public static Board GetBoard(int boardNum)
+        {
+            switch (boardNum)
+            {
+                case 1:
+                    return board_team1;
+                case 2:
+                    return board_team2;
+                case 3:
+                    return board_team3;
+                case 4:
+                    return board_team4;
+                case 5:
+                    return board_team5;
+                case 6:
+                    return board_team6;
+                case 7:
+                    return board_team7;
+                default:
+                    return null;
+            }
         }
 
         private static Board setupBoard1()

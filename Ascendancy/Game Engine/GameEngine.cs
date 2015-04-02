@@ -128,7 +128,7 @@ namespace Ascendancy.Game_Engine
 
         private void HandleStart()
         {
-// Fire start event
+            // Fire start event
             if (OnGameStart != null)
             {
                 GameBoardEventArgs gameBoardEventArgs = new GameBoardEventArgs(board, boardState);
