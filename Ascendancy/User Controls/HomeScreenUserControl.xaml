@@ -16,7 +16,8 @@
 
         <Image x:Name="HomeScreenUserControlCatcher" HorizontalAlignment="Left" Height="900" VerticalAlignment="Top" Width="1440" Opacity="0.01" Panel.ZIndex="3"
                Source="Resources/Images/UserControlResources/ExitConfirmation/QuitBackdrop.png" Stretch="Fill"/>
-        
+        <ContentControl x:Name="HomeScreenContentControl" Content="ContentControl" HorizontalAlignment="Left" VerticalAlignment="Top" Width="1440" Height="900" Panel.ZIndex="2"/>
+
         <Label x:Name="MenuLogoGlow" Style="{DynamicResource AscendancyLogoStyle}">
             <Label.Effect>
                 <BlurEffect KernelType="Box"/>

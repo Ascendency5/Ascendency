@@ -29,6 +29,8 @@ namespace Ascendancy.User_Controls
             InitializeComponent();
 
             StartMusic();
+
+            Load3DModel();
         }
 
         #region mouse callbacks
@@ -115,6 +117,11 @@ namespace Ascendancy.User_Controls
         {
             //start up the looped media
             VolumeManager.play(@"Resources/Audio/ThemeSong.wav", SoundType.Music, SoundLoop.Loop);
+        }
+
+        private void Load3DModel()
+        {
+            HomeScreenContentControl.Content = new Earth3DModelUserControl();
         }
     }
 }
