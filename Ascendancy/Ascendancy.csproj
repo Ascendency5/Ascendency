@@ -285,6 +285,13 @@
     <Resource Include="Resources\Images\Sprites\possibleMoveY.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\Buttons\SinglePlayer\Buttons_Cancel.png" />
+    <Resource Include="Resources\Images\Buttons\SinglePlayer\Buttons_Easy.png" />
+    <Resource Include="Resources\Images\Buttons\SinglePlayer\Buttons_GoFirst.png" />
+    <Resource Include="Resources\Images\Buttons\SinglePlayer\Buttons_GoSecond.png" />
+    <Resource Include="Resources\Images\Buttons\SinglePlayer\Buttons_Hard.png" />
+    <Resource Include="Resources\Images\Buttons\SinglePlayer\Buttons_Play.png" />
+    <Resource Include="Resources\Images\MenuBackdrop-01.png" />
     <Content Include="Resources\Video\Intro.avi">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

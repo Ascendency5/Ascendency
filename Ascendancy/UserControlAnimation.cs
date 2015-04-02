@@ -7,11 +7,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Shapes;
 
 namespace Ascendancy
 {
     public static class UserControlAnimation
     {
+        //todo delete the old FadeIUserControlButton method after all other buttons have been replaced
         //all user control objects animate their buttons with this method
         public static void FadeInUserControlButton(object sender, bool fadeIn)
         {
@@ -21,9 +23,9 @@ namespace Ascendancy
             if (currentButton == null) return;
 
             if (fadeIn)
-                changeButtonOpacity = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(150)));
+                changeButtonOpacity = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(130)));
             else
-                changeButtonOpacity = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromMilliseconds(170)));
+                changeButtonOpacity = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromMilliseconds(130)));
 
             //add to the storyboard
             buttonStoryboard.Children.Add(changeButtonOpacity);
@@ -63,6 +65,31 @@ namespace Ascendancy
         public static void FadeOutContentControl(ContentControl currentContentControl)
         {
             FadeContentControl(currentContentControl, false);
+        }
+
+        //Context animation methods
+
+        //todo check code robustness with Justin
+
+        public static void StartButtonGradientSpin(Grid sender)
+        {
+            foreach (Canvas childCanvas in sender.Children)
+            {
+                foreach (FrameworkElement element in childCanvas.Children)
+                {
+                    //if it is a path type element
+                    if (element is Path)
+                    {
+                        //make a storyboard to animate it
+                        Storyboard localStoryboard = new Storyboard();
+                        localStoryboard = App.Current.FindResource("ButtonHoverStoryboard") as Storyboard;
+
+                        //target e, then animate e
+                        Storyboard.SetTarget(localStoryboard, element);
+                        localStoryboard.Begin();
+                    }
+                }
+            }
         }
     }
 }
