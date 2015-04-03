@@ -5,10 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Width="1440" Height="900" Loaded="OptionsUserControlView_Loaded">
-    <UserControl.Background>
-        <ImageBrush ImageSource="/Ascendancy;component/Resources/Images/UserControlResources/ExitConfirmation/QuitBackdrop.png" Stretch="None"/>
-    </UserControl.Background>
+
     <Grid x:Name="OptionsGrid" Width="1440" Height="900">
+        <Rectangle x:Name="TransparencyEffect" Fill="Black" HorizontalAlignment="Left" Height="900" Stroke="Black" VerticalAlignment="Top" Width="1440" Opacity="0.745"/>
+
+        <Image x:Name="Background" HorizontalAlignment="Center" Height="535" VerticalAlignment="Center" Width="875" Source="/Ascendancy;component/Resources/Images/MenuBackdrop-01.png" Margin="257,175,308,190"/>
         <Label x:Name="MusicLabel_Copy" Content="Music" HorizontalAlignment="Left" Margin="361,417,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Ubuntu Mono" Height="83" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
             <Label.Effect>
                 <BlurEffect Radius="10"/>
@@ -29,15 +30,19 @@
         <Label x:Name="SoundsLabel" Content="Sounds" HorizontalAlignment="Left" Margin="361,321,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Ubuntu Mono" Height="83" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <Label x:Name="OptionsLabel" Content="Options" HorizontalAlignment="Left" Margin="661,261,0,0" VerticalAlignment="Top" FontSize="36" Background="#00000000" FontFamily="Ubuntu Mono" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
         <Label x:Name="MusicLabel" Content="Music" HorizontalAlignment="Left" Margin="361,417,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Ubuntu Mono" Height="83" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-
-        <Slider x:Name="SoundSlider" HorizontalAlignment="Left" Margin="579,354,0,0" VerticalAlignment="Top" Foreground="White" Width="300" Height="24" Maximum="1" Minimum="0" ValueChanged="SoundSlider_ValueChanged" IsSnapToTickEnabled="True" TickFrequency=".05"/>
         <Slider x:Name="MusicSlider" HorizontalAlignment="Left" Margin="579,450,0,0" VerticalAlignment="Top" Foreground="White" Width="300" Height="24" Maximum="1" Minimum="0" ValueChanged="MusicSlider_ValueChanged" IsSnapToTickEnabled="True" TickFrequency=".05"/>
+        <Slider x:Name="SoundSlider" HorizontalAlignment="Left" Margin="579,354,0,0" VerticalAlignment="Top" Foreground="White" Width="300" Height="24" Maximum="1" Minimum="0" ValueChanged="SoundSlider_ValueChanged" IsSnapToTickEnabled="True" TickFrequency=".05"/>
 
-        <Image x:Name="OkayClick" Height="75" Margin="779,532,0,0" VerticalAlignment="Top" Width="280" Source="/Resources/Images/UserControlResources/Options/OkayClick.png" Stretch="UniformToFill" HorizontalAlignment="Left"/>
-        <Image x:Name="OkayHover" Height="75" Margin="779,532,0,0" VerticalAlignment="Top" Width="280" Source="/Resources/Images/UserControlResources/Options/OkayHover.png" Stretch="UniformToFill" HorizontalAlignment="Left"/>
-        <Image x:Name="OkayIdle" Height="75" Margin="779,532,0,0" VerticalAlignment="Top" Width="280" Source="/Resources/Images/UserControlResources/Options/OkayIdle.png" Stretch="UniformToFill" HorizontalAlignment="Left" MouseLeftButtonUp="OkayIdle_MouseLeftButtonUp" MouseLeftButtonDown="UserControlButton_MouseDown" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave"/>
         <Label x:Name="SoundPercentageLabel" Content="50%" HorizontalAlignment="Left" Margin="698,374,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="65" Height="30" FontSize="24" FontFamily="Ubuntu Mono" Foreground="White"/>
         <Label x:Name="MusicPercentageLabel" Content="50%" HorizontalAlignment="Left" Margin="698,465,0,0" VerticalAlignment="Top" FontSize="24" FontFamily="Ubuntu Mono" Width="65" Height="36" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="White"/>
+        <Grid x:Name="Buttons" Margin="744,528,394,310">
+            <Canvas x:Name="OkayButton" MouseEnter="OkayButton_MouseEnter" MouseLeave="OkayButton_MouseLeave" MouseLeftButtonDown="OkayButton_MouseLeftButtonDown" MouseLeftButtonUp="OkayButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
+                <Path x:Name="OkayGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
+                <Image x:Name="OkayImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/Options/Okay.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
+
+            </Canvas>
+
+        </Grid>
 
     </Grid>
 </UserControl>

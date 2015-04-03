@@ -5,21 +5,28 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Width="1440" Height="900">
-    <UserControl.Background>
-        <ImageBrush ImageSource="/Resources/Images/UserControlResources/ExitConfirmation/QuitBackdrop.png" Stretch="None"/>
-    </UserControl.Background>
+
     <Grid x:Name="ExitConfirmationGrid" Width="1440" Height="900">
-        <Image x:Name="QuitClick" Height="75" Margin="368,539,0,0" Width="280" Source="/Resources/Images/UserControlResources/ExitConfirmation/QuitClick.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Image x:Name="QuitHover" Height="75" Margin="368,539,0,0" Width="280" Source="/Resources/Images/UserControlResources/ExitConfirmation/QuitHover.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Image x:Name="QuitIdle" Height="75" Margin="368,539,0,0" Width="280" Source="/Resources/Images/UserControlResources/ExitConfirmation/QuitIdle.png" VerticalAlignment="Top" HorizontalAlignment="Left" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave" MouseLeftButtonUp="QuitIdle_MouseLeftButtonUp" MouseLeftButtonDown="UserControlButton_MouseDown"/>
-        <Image x:Name="CancelClick" Height="75" Margin="786,539,0,0" Width="280" Source="/Resources/Images/UserControlResources/CancelClick.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Image x:Name="CancelHover" Height="75" Margin="786,539,0,0" Width="280" Source="/Resources/Images/UserControlResources/CancelHover.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Image x:Name="CancelIdle" Height="75" Margin="786,539,0,0" Width="280" Source="/Resources/Images/UserControlResources/CancelIdle.png" VerticalAlignment="Top" HorizontalAlignment="Left" MouseDown="UserControlButton_MouseDown" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave" MouseLeftButtonUp="CancelIdle_MouseLeftButtonUp"/>
-        <Label Content="Are you sure you want to &#xA;quit this awesome game?&#xA;" HorizontalAlignment="Left" Margin="484,323,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="167" Width="478" Foreground="White">
+        <Rectangle x:Name="TransparencyEffect" Fill="Black" HorizontalAlignment="Left" Height="900" Stroke="Black" VerticalAlignment="Top" Width="1440" Opacity="0.745"/>
+        <Image x:Name="Background" HorizontalAlignment="Center" Height="524" VerticalAlignment="Center" Width="822" Source="/Ascendancy;component/Resources/Images/MenuBackdrop-01.png" Margin="310,186,308,190"/>
+
+        <Label Content="Are you sure you want to &#xA;quit this awesome game?&#xA;" HorizontalAlignment="Left" Margin="484,323,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="167" Width="478" Foreground="White" Background="{x:Null}">
             <Label.Effect>
                 <BlurEffect Radius="10"/>
             </Label.Effect>
         </Label>
-        <Label Content="Are you sure you want to &#xD;&#xA;quit this awesome game?&#xD;&#xA;" HorizontalAlignment="Left" Margin="484,323,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="167" Width="478" Foreground="White"/>
+        <Label Content="Are you sure you want to &#xA;quit this awesome game?&#xA;" HorizontalAlignment="Left" Margin="484,323,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="167" Width="478" Foreground="White" Background="{x:Null}"/>
+        <Grid x:Name="Buttons" Margin="396,495,385,343">
+            <Canvas x:Name="CancelButton" Margin="357,0,0,0" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave" MouseLeftButtonDown="UserControlButton_MouseLeftButtonDown" MouseLeftButtonUp="UserControlButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
+                <Path x:Name="CancelGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
+                <Image x:Name="CancelImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Resources/Images/Buttons/Cancel.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
+
+            </Canvas>
+            <Canvas x:Name="QuitButton" Margin="0,0,357,0" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave" MouseLeftButtonDown="UserControlButton_MouseLeftButtonDown" MouseLeftButtonUp="UserControlButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
+                <Path x:Name="QuitGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
+                <Image x:Name="QuitImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/ExitConfirmation/Quit.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
+
+            </Canvas>
+        </Grid>
     </Grid>
 </UserControl>

@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -24,56 +25,66 @@ namespace Ascendancy.User_Controls.Multiplayer
         public LocalMultiplayerUserControl()
         {
             InitializeComponent();
+            UserControlAnimation.StartButtonGradientSpin(Buttons);
         }
 
-        private void PlayIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        public void EventFilter(object sender)
         {
-            ContentControlActions.FadeOut();
+            if (sender == Cancel)
+            {
+                ContentControlActions.FadeOut();
+            }
+            else if (sender == Play)
+            {
+                // Set up game engine
+                HumanPlayer humanPlayerRed = new HumanPlayer(GameBoardUserControl.human_move_handler);
+                HumanPlayer humanPlayerBlack = new HumanPlayer(GameBoardUserControl.human_move_handler);
 
-            // Set up game engine
-            // todo Add code for easy/hard AI
-            HumanPlayer humanPlayerRed = new HumanPlayer(GameBoardUserControl.human_move_handler);
-            HumanPlayer humanPlayerBlack = new HumanPlayer(GameBoardUserControl.human_move_handler);
+                Board board = BoardSetup.board_team5;
 
-            Board board = BoardSetup.board_team5;
+                GameEngine engine = new GameEngine(board, humanPlayerRed, humanPlayerBlack, PieceType.Red);
 
-            GameEngine engine = new GameEngine(board, humanPlayerRed, humanPlayerBlack, PieceType.Red);
-
-            ContentControlActions.setUpControl(new GameBoardUserControl(engine));
+                // todo Make this transition better
+                ContentControlActions.setUpControl(new GameBoardUserControl(engine));
+            }
         }
 
-        private void CancelIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        
+        private void LocalMultiplayerButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            //animate the cancel button from the ExitControl, then kill anim object
-            UserControlAnimation.FadeInUserControlButton(CancelHover, false);
+            Canvas sss = (Canvas)sender;
+            Storyboard localStoryboard = App.Current.FindResource("ButtonUpStoryboard") as Storyboard;
+            Storyboard.SetTarget(localStoryboard, sss.Children[1]);
+            localStoryboard.Begin();
 
-            ContentControlActions.FadeOut();
+            EventFilter(sender);
         }
 
-        private void UserControlButton_MouseDown(object sender, MouseButtonEventArgs e)
+        private void LocalMultiplayerButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (sender == PlayIdle)
-                UserControlAnimation.FadeInUserControlButton(PlayHover, false);
-            else if (sender == CancelIdle)
-                UserControlAnimation.FadeInUserControlButton(CancelHover, false);
+            Canvas sss = (Canvas)sender;
+            Storyboard localStoryboard = App.Current.FindResource("ButtonDownStoryboard") as Storyboard;
+            Storyboard.SetTarget(localStoryboard, sss.Children[1]);
+            localStoryboard.Begin();
 
+        }
+
+        private void LocalMultiplayerButton_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Canvas animateThisCanvas = (Canvas)sender;
+            UserControlAnimation.FadeInUserControlButton(animateThisCanvas.Children[0], true);
+            
             //added sound effect for the button
             VolumeManager.play(@"Resources/Audio/UserControlButtonHover.wav");
         }
 
-        private void UserControlButton_MouseEnter(object sender, MouseEventArgs e)
+        private void LocalMultiplayerButton_MouseLeave(object sender, MouseEventArgs e)
         {
-            UserControlAnimation.FadeInUserControlButton(sender, false);
+            //todo get mouse down working with this
+            Canvas animateThisCanvas = (Canvas)sender;
+            UserControlAnimation.FadeInUserControlButton(animateThisCanvas.Children[0], false);
         }
 
-        private void UserControlButton_MouseLeave(object sender, MouseEventArgs e)
-        {
-            if (PlayHover.Opacity < 1)
-                UserControlAnimation.FadeInUserControlButton(PlayHover, true);
-            if (CancelHover.Opacity < 1)
-                UserControlAnimation.FadeInUserControlButton(CancelHover, true);
 
-            UserControlAnimation.FadeInUserControlButton(sender, true);
-        }
     }
 }

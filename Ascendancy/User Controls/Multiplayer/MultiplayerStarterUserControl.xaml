@@ -5,19 +5,32 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Width="1440" Height="900">
-    <UserControl.Background>
-        <ImageBrush ImageSource="/Ascendancy;component/Resources/Images/UserControlResources/ExitConfirmation/QuitBackdrop.png" Stretch="Uniform"/>
-    </UserControl.Background>
+
     <Grid x:Name="MultiplayerStarterGrid" Width="1440" Height="900">
-        <Image x:Name="LocalClick" Height="75" Margin="786,383,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/MultiplayerStarter/LocalClick.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Image x:Name="LocalHover" Height="75" Margin="786,383,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/MultiplayerStarter/LocalHover.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Image x:Name="LocalIdle" Height="75" Margin="786,383,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/MultiplayerStarter/LocalIdle.png" VerticalAlignment="Top" HorizontalAlignment="Left" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave" MouseLeftButtonDown="UserControlButton_MouseDown" MouseLeftButtonUp="LocalIdle_MouseLeftButtonUp"/>
-        <Image x:Name="OnlineClick" Height="75" Margin="368,383,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/MultiplayerStarter/OnlineClick.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Image x:Name="OnlineHover" Height="75" Margin="368,383,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/MultiplayerStarter/OnlineHover.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Image x:Name="OnlineIdle" Height="75" Margin="368,383,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/MultiplayerStarter/OnlineIdle.png" VerticalAlignment="Top" HorizontalAlignment="Left" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave" MouseLeftButtonDown="UserControlButton_MouseDown" MouseLeftButtonUp="OnlineIdle_MouseLeftButtonUp"/>
-        <Image x:Name="CancelClick" Height="75" Margin="569,577,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/CancelClick.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Image x:Name="CancelHover" Height="75" Margin="569,577,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/CancelHover.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Image x:Name="CancelIdle" Height="75" Margin="569,577,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/CancelIdle.png" VerticalAlignment="Top" HorizontalAlignment="Left" MouseDown="UserControlButton_MouseDown" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave" MouseLeftButtonUp="CancelIdle_MouseLeftButtonUp"/>
+        <Rectangle x:Name="TransparencyEffect" Fill="Black" HorizontalAlignment="Left" Height="900" Stroke="Black" VerticalAlignment="Top" Width="1440" Opacity="0.745"/>
+        <Image x:Name="Background" HorizontalAlignment="Center" Height="746" VerticalAlignment="Center" Width="1097" Source="/Ascendancy;component/Resources/Images/MenuBackdrop-01.png" Margin="160,98,183,56"/>
+        <Grid x:Name="Buttons" Margin="359,550,307,189">
+            <Canvas x:Name="Cancel" Margin="472,99,0,0" MouseEnter="MultiplayerStarterButton_MouseEnter" MouseLeave="MultiplayerStarterButton_MouseLeave" MouseLeftButtonDown="MultiplayerStarterButton_MouseLeftButtonDown" MouseLeftButtonUp="MultiplayerStarterButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
+                <Path x:Name="CancelGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
+                <Image x:Name="CancelImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/SinglePlayer/Buttons_Cancel.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
+
+            </Canvas>
+            <Canvas x:Name="Online" Margin="0,0,472,99" MouseEnter="MultiplayerStarterButton_MouseEnter" MouseLeave="MultiplayerStarterButton_MouseLeave" MouseLeftButtonDown="MultiplayerStarterButton_MouseLeftButtonDown" MouseLeftButtonUp="MultiplayerStarterButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
+                <Path x:Name="OnlineGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
+                <Image x:Name="OnlineImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/MultiplayerStarter/Online.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
+
+            </Canvas>
+            <Canvas x:Name="Local" Margin="421,0,51,99" MouseEnter="MultiplayerStarterButton_MouseEnter" MouseLeave="MultiplayerStarterButton_MouseLeave" MouseLeftButtonDown="MultiplayerStarterButton_MouseLeftButtonDown" MouseLeftButtonUp="MultiplayerStarterButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
+                <Path x:Name="LocalGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
+                <Image x:Name="LocalImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/MultiplayerStarter/Local.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
+
+            </Canvas>
+
+
+
+        </Grid>
+
+
 
     </Grid>
 </UserControl>

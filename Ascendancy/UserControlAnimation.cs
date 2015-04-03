@@ -82,7 +82,7 @@ namespace Ascendancy
                     {
                         //make a storyboard to animate it
                         Storyboard localStoryboard = new Storyboard();
-                        localStoryboard = App.Current.FindResource("ButtonHoverStoryboard") as Storyboard;
+                        localStoryboard = Application.Current.FindResource("ButtonHoverStoryboard") as Storyboard;
 
                         //target e, then animate e
                         Storyboard.SetTarget(localStoryboard, element);

@@ -30,7 +30,7 @@ namespace Ascendancy.User_Controls
 
             StartMusic();
 
-            Load3DModel();
+            //Load3DModel();
         }
 
         #region mouse callbacks

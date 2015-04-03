@@ -314,6 +314,13 @@
     <Resource Include="Resources\Models\PixelFix.png" />
     <Resource Include="Resources\Models\PixelFix2.png" />
     <Resource Include="Resources\Models\deep-blue-space1.png" />
+    <Resource Include="Resources\Images\Buttons\ExitConfirmation\Quit.png" />
+    <Resource Include="Resources\Images\Buttons\Options\Okay.png" />
+    <Resource Include="Resources\Images\Buttons\MultiplayerStarter\Local.png" />
+    <Resource Include="Resources\Images\Buttons\MultiplayerStarter\Online.png" />
+    <Resource Include="Resources\Images\Buttons\Cancel.png" />
+    <Resource Include="Resources\Images\Buttons\LocalMultiplayer\Play.png" />
+    <Resource Include="Resources\Images\Buttons\OnlineNamePrompt\Enter_Lobby.png" />
     <Content Include="Resources\Video\Intro.avi">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

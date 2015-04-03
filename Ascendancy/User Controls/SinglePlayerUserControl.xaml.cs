@@ -43,7 +43,7 @@ namespace Ascendancy.User_Controls
         }
 
         //other functions
-        private void eventFilter(object sender)
+        private void EventFilter(object sender)
         {
             if (sender == Play)
             {
@@ -123,6 +123,8 @@ namespace Ascendancy.User_Controls
         {
             Canvas animateThisCanvas = (Canvas)sender;
             UserControlAnimation.FadeInUserControlButton(animateThisCanvas.Children[0], true);
+            //added sound effect for the button
+            VolumeManager.play(@"Resources/Audio/UserControlButtonHover.wav");
         }
 
         private void Cancel_MouseLeave(object sender, MouseEventArgs e)
@@ -148,7 +150,7 @@ namespace Ascendancy.User_Controls
             Storyboard.SetTarget(localStoryboard, sss.Children[1]);
             localStoryboard.Begin();
 
-            eventFilter(sender);
+            EventFilter(sender);
         }
 
         #endregion
@@ -226,8 +228,7 @@ namespace Ascendancy.User_Controls
                     System.Windows.Controls.Panel.SetZIndex(GoSecondClick, 2);
                 }
             }
-
-
+            
 
             if (sender == EasyIdle)
                 UserControlAnimation.FadeInUserControlButton(EasyHover, false);
@@ -243,8 +244,7 @@ namespace Ascendancy.User_Controls
             //    UserControlAnimation.FadeInUserControlButton(CancelHover, true);
 
             //added sound effect for the button
-            System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"Resources/Audio/UserControlButtonHover.wav");
-            player.Play();
+            VolumeManager.play(@"Resources/Audio/UserControlButtonHover.wav");
         }
 
         private void UserControlButton_MouseUp(object sender, MouseButtonEventArgs e)
@@ -275,6 +275,8 @@ namespace Ascendancy.User_Controls
         private void UserControlButton_MouseEnter(object sender, MouseEventArgs e)
         {
             UserControlAnimation.FadeInUserControlButton(sender, false);
+            //added sound effect for the button
+            VolumeManager.play(@"Resources/Audio/UserControlButtonHover.wav");
         }
 
         private void UserControlButton_MouseLeave(object sender, MouseEventArgs e)
