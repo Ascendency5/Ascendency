@@ -34,7 +34,7 @@ namespace Ascendancy.User_Controls.Multiplayer
             {
                 ContentControlActions.FadeOut();
             }
-            else if (sender == EnterLobby)
+            else if (sender == EnterLobby || sender == NamePromptText)
             {
 
                 // todo Have this reject it if it's not a valid name
@@ -77,6 +77,19 @@ namespace Ascendancy.User_Controls.Multiplayer
             //todo get mouse down working with this
             Canvas animateThisCanvas = (Canvas)sender;
             UserControlAnimation.FadeInUserControlButton(animateThisCanvas.Children[0], false);
+        }
+
+        private void NamePromptText_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                EventFilter(sender);
+            }
+        }
+
+        private void NamePromptText_GotFocus(object sender, RoutedEventArgs e)
+        {
+            NamePromptText.Text = "";
         }
 
     }
