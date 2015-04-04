@@ -63,6 +63,7 @@ namespace Ascendancy.User_Controls
         {
             updateSoundSlider(SoundSlider.Value);
             VolumeManager.SoundVolume = SoundSlider.Value;
+            
         }
 
         private void MusicSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
