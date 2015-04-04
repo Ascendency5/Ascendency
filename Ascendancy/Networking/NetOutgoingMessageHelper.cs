@@ -34,7 +34,7 @@ namespace Ascendancy.Networking
                 }
                 else if (data is Move)
                 {
-                    Console.WriteLine("Writing a move");
+                    TraceHelper.WriteLine("Writing a move");
                     Move move = (Move) data;
                     message.Write(move.Row);
                     message.Write(move.Col);

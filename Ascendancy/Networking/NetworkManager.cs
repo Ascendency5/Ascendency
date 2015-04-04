@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using Lidgren.Network;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Ascendancy.Game_Engine;
 
@@ -35,12 +36,8 @@ namespace Ascendancy.Networking
 
         private static Thread broadcastThread;
 
-        private static List<KulamiPeer> peers;
-
         public static void Start()
         {
-            peers = new List<KulamiPeer>();
-
             Identifier = Guid.NewGuid().ToString();
 
             NetPeerConfiguration netPeerConfiguration = new NetPeerConfiguration("HelloWorld Kulami")
@@ -80,24 +77,22 @@ namespace Ascendancy.Networking
                 // Sleep for 2 seconds
                 Thread.Sleep(2000);
 
-                // todo Add thread safe operation
-                List<KulamiPeer> disconnectedPeers = peers.Where(x => x.LastSeen < DateTime.Now.AddSeconds(-10))
-                    .ToList();
+                List<KulamiPeer> disconnectablePeers =
+                    PeerHolder.Peers.Where(x => x.LastSeen < DateTime.Now.AddSeconds(-10)).ToList();
 
                 if (OnDisconnect != null)
                 {
-                    foreach (KulamiPeer peer in disconnectedPeers)
+                    foreach (KulamiPeer peer in disconnectablePeers)
                     {
                         OnDisconnect(peer, new EventArgs());
                     }
                 }
 
-                peers.RemoveAll(x => disconnectedPeers.Contains(x));
-
-                List<KulamiPeer> connectedPeers = peers.Where(x => x.Connection != null).ToList();
+                List<KulamiPeer> connectedPeers = PeerHolder.Peers.Where(x => x.Connection != null).ToList();
                 NetPacketBuilder builder = new NetPacketBuilder();
                 foreach (KulamiPeer peer in connectedPeers)
                 {
+                    TraceHelper.WriteLine("Sending {0} packets to {1}", builder.Count, peer.Identifier);
                     Send(peer.Connection, builder);
                 }
             }
@@ -112,7 +107,7 @@ namespace Ascendancy.Networking
             switch (incomingMessage.MessageType)
             {
                 case NetIncomingMessageType.DiscoveryRequest:
-                    //Console.WriteLine("Request from {0}", incomingMessage.SenderEndPoint);
+                    //TraceHelper.WriteLine("Request from {0}", incomingMessage.SenderEndPoint);
                     builder = new NetPacketBuilder();
 
                     responseMessage = Client.CreateMessage();
@@ -125,7 +120,7 @@ namespace Ascendancy.Networking
                     break;
 
                 case NetIncomingMessageType.DiscoveryResponse:
-                    //Console.WriteLine("Response from {0}", incomingMessage.SenderEndPoint);
+                    //TraceHelper.WriteLine("Response from {0}", incomingMessage.SenderEndPoint);
                     KulamiPeer peer = handleData(incomingMessage);
 
                     builder = new NetPacketBuilder();
@@ -141,7 +136,7 @@ namespace Ascendancy.Networking
                     break;
 
                 case NetIncomingMessageType.ConnectionApproval: 
-                    //Console.WriteLine("Connection from {0}", incomingMessage.SenderEndPoint);
+                    TraceHelper.WriteLine("Connection from {0}", incomingMessage.SenderEndPoint);
                     //Establishes the connection between ourselves
                     //and the sender of the ConnectionApproval
                     //message
@@ -173,15 +168,15 @@ namespace Ascendancy.Networking
             if (identifier == Identifier)
                 return null;
 
-            /**
+            Trace.WriteLine("Receiving data");
             foreach (Packet packet in packets)
             {
-                Console.WriteLine(packet);
+                Trace.WriteLine(packet);
             }
-             */
 
-            KulamiPeer peer = peers.SingleOrDefault(x => x.Identifier == identifier);
+            KulamiPeer peer = PeerHolder.Peers.SingleOrDefault(x => x.Identifier == identifier);
             bool newPeer = false;
+            bool updatedPeer = false;
             if (peer == null)
             {
                 peer = new KulamiPeer {Identifier = identifier};
@@ -189,23 +184,50 @@ namespace Ascendancy.Networking
             }
 
             Packet namePacket = packets.Type(MessageType.Name);
+            string name;
             if (namePacket != null)
+                name = (string) namePacket.Data[0];
+            else
+                name = null;
+
+            if (peer.Name != name)
             {
-                peer.Name = (string)namePacket.Data[0];
+                updatedPeer = true;
+                peer.Name = name;
             }
 
             if (peer.Connection == null && message.SenderConnection != null)
+            {
                 peer.Connection = message.SenderConnection;
+                updatedPeer = true;
+            }
 
+            // The timstamp doesn't mean that the peer has updated information
             peer.UpdateTimestamp();
+
+            if (updatedPeer)
+            {
+                Trace.WriteLine("updated peer is true");
+            }
 
             if (newPeer)
             {
-                peers.Add(peer);
                 if (OnDiscovery != null)
                 {
                     // On Discovery handler
                     OnDiscovery(peer, new EventArgs());
+                }
+            }
+            else if (updatedPeer)
+            {
+                Trace.WriteLine("Calling update function...");
+                if (peer.OnUpdate != null)
+                {
+                    peer.OnUpdate(peer, new EventArgs());
+                }
+                else
+                {
+                    Trace.WriteLine("Update function is null");
                 }
             }
 

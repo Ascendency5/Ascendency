@@ -31,8 +31,10 @@ namespace Ascendancy.User_Controls.Multiplayer
             
             List<ListBoxItem> items = new List<ListBoxItem>();
 
+            TraceHelper.WriteLine(PeerHolder.Peers.Count);
             foreach (KulamiPeer peer in PeerHolder.Peers)
             {
+                subscribe(peer);
                 if(peer.Name != null)
                     items.Add(new ListBoxItem() {Content = peer});
             }
@@ -41,19 +43,83 @@ namespace Ascendancy.User_Controls.Multiplayer
             OnlinePlayerChallengesListBox.ItemsSource = new List<ListBoxItem>();
         }
 
+        private void subscribe(KulamiPeer peer)
+        {
+            TraceHelper.WriteLine("Subscribing {0}", peer.Identifier);
+            peer.OnGameRequest += on_game_request;
+            peer.OnUpdate += on_peer_update;
+        }
+
+        private void unsubscribe(KulamiPeer peer)
+        {
+            TraceHelper.WriteLine("Unsubscribing {0}", peer.Identifier);
+            peer.OnGameRequest -= on_game_request;
+            peer.OnUpdate -= on_peer_update;
+        }
+
+        private void on_peer_discovery(object sender, EventArgs e)
+        {
+            KulamiPeer peer = sender as KulamiPeer;
+            if (peer == null) return;
+
+            subscribe(peer);
+
+            if (string.IsNullOrEmpty(peer.Name)) return;
+            Dispatcher.Invoke(() =>
+            {
+                AddPeer(OnlinePlayersListBox, peer);
+            });
+        }
+
+        private void on_peer_update(object sender, EventArgs e)
+        {
+            KulamiPeer peer = sender as KulamiPeer;
+            if (peer == null) return;
+            TraceHelper.WriteLine("on peer update {0}", peer.Identifier);
+
+            Dispatcher.Invoke(() =>
+            {
+                if (string.IsNullOrEmpty(peer.Name))
+                {
+                    RemovePeer(OnlinePlayersListBox, peer);
+                    RemovePeer(OnlinePlayerChallengesListBox, peer);
+                    return;
+                }
+
+                // Add the peer if we don't have it, or just update
+                if (OnlinePlayersListBox.Contains(peer))
+                {
+                    UpdatePeer(OnlinePlayersListBox, peer);
+                }
+                else
+                {
+                    AddPeer(OnlinePlayersListBox, peer);
+                }
+
+                UpdatePeer(OnlinePlayerChallengesListBox, peer);
+            });
+        }
+
         private void on_peer_disconnect(object sender, EventArgs e)
         {
             KulamiPeer peer = sender as KulamiPeer;
             if (peer == null) return;
 
-            // todo OnGameResponse
-            peer.OnGameRequest -= on_game_request;
+            unsubscribe(peer);
 
             Dispatcher.Invoke(() =>
             {
                 RemovePeer(OnlinePlayersListBox, peer);
                 RemovePeer(OnlinePlayerChallengesListBox, peer);
             });
+        }
+
+        private void AddPeer(ListBox listBox, KulamiPeer peer)
+        {
+            List<ListBoxItem> items = (List<ListBoxItem>)listBox.ItemsSource;
+            items.Add(new ListBoxItem { Content = peer });
+            listBox.ItemsSource = items;
+            listBox.Items.Refresh();
         }
 
         private void RemovePeer(ListBox listBox, KulamiPeer peer)
@@ -65,12 +131,14 @@ namespace Ascendancy.User_Controls.Multiplayer
             listBox.Items.Refresh();
         }
 
-        private void AddPeer(ListBox listBox, KulamiPeer peer)
+        private void UpdatePeer(ListBox listBox, KulamiPeer peer)
         {
-            List<ListBoxItem> items = (List<ListBoxItem>) listBox.ItemsSource;
-            items.Add(new ListBoxItem() { Content = peer });
-            listBox.ItemsSource = items;
-            listBox.Items.Refresh();
+            TraceHelper.WriteLine("Updating peer {0}", peer.Identifier);
+
+            if (!listBox.Contains(peer)) return;
+
+            RemovePeer(listBox, peer);
+            AddPeer(listBox, peer);
         }
 
         private void on_game_request(object sender, NetGameRequestEventArgs e)
@@ -80,28 +148,21 @@ namespace Ascendancy.User_Controls.Multiplayer
 
             Dispatcher.Invoke(() =>
             {
-                AddPeer(OnlinePlayerChallengesListBox, peer);
-            });
-        }
-
-        private void on_peer_discovery(object sender, EventArgs e)
-        {
-            KulamiPeer peer = sender as KulamiPeer;
-            if (peer == null) return;
-            if (string.IsNullOrEmpty(peer.Name)) return;
-
-            peer.OnGameRequest += on_game_request;
-
-            Dispatcher.Invoke(() =>
-            {
-                AddPeer(OnlinePlayersListBox, peer);
+                // Don't add them if they've already challenged us
+                if(!OnlinePlayerChallengesListBox.Contains(peer))
+                    AddPeer(OnlinePlayerChallengesListBox, peer);
             });
         }
 
         private void CancelIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            // Set the client name to null, as we've exited the lobby
+            Networkmanager.ClientName = null;
+
             Networkmanager.OnDiscovery -= on_peer_discovery;
             Networkmanager.OnDisconnect -= on_peer_disconnect;
+
+            PeerHolder.Peers.ToList().ForEach(unsubscribe);
 
             //animate the cancel button from the ExitControl, then kill anim object
             UserControlAnimation.FadeInUserControlButton(CancelHover, false);
@@ -166,6 +227,17 @@ namespace Ascendancy.User_Controls.Multiplayer
             KulamiPeer peer = boxItem.Content as KulamiPeer;
 
             return peer;
+        }
+    }
+
+    public static class ListBoxHelper
+    {
+        public static bool Contains(this ListBox listBox, KulamiPeer peer)
+        {
+            List<ListBoxItem> items = (List<ListBoxItem>) listBox.ItemsSource;
+            return items
+                .Select(x => (KulamiPeer) x.Content)
+                .Any(x => x.Identifier == peer.Identifier);
         }
     }
 }

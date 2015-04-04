@@ -18,6 +18,7 @@ namespace Ascendancy.Networking
         public EventHandler<NetGameRequestEventArgs> OnGameRequest;
         public EventHandler<NetGameResponseEventArgs> OnGameResponse;
         public EventHandler<NetPlayerMoveEventArgs> OnPlayerMove;
+        public EventHandler OnUpdate;
 
         public NetGameRequestEventArgs Request { get; set; }
 
