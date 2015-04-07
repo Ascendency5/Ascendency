@@ -130,9 +130,12 @@ namespace Ascendancy.Networking
 
                     //Sends a ConnectionApproval message to the sender
                     //of the DiscoveryResponse message.
-                    NetConnection connection = Client.Connect(incomingMessage.SenderEndPoint.Address.ToString(), incomingMessage.SenderEndPoint.Port, responseMessage);
-                    if (peer != null)
+                    if (peer != null && peer.Connection == null)
+                    {
+                        NetConnection connection = Client.Connect(incomingMessage.SenderEndPoint.Address.ToString(),
+                            incomingMessage.SenderEndPoint.Port, responseMessage);
                         peer.Connection = connection;
+                    }
                     break;
 
                 case NetIncomingMessageType.ConnectionApproval: 
@@ -238,7 +241,7 @@ namespace Ascendancy.Networking
             }
 
             Packet gameRequestPacket = packets.Type(MessageType.GameRequest);
-            if (gameRequestPacket != null && peer.OnGameRequest != null)
+            if (gameRequestPacket != null)
             {
                  // Data[0] is board #
                  // Data[1] is if the challenger goes first
@@ -246,7 +249,13 @@ namespace Ascendancy.Networking
                     (int) gameRequestPacket.Data[0],
                     (bool) gameRequestPacket.Data[1]
                     );
-                peer.OnGameRequest(peer, eventArgs);
+
+                peer.Request = eventArgs;
+
+                if (peer.OnGameRequest != null)
+                {
+                    peer.OnGameRequest(peer, eventArgs);
+                }
             }
 
             Packet gameResponsePacket = packets.Type(MessageType.GameResponse);

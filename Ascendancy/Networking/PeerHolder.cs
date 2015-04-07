@@ -14,6 +14,10 @@ namespace Ascendancy.Networking
 
         public static void on_peer_discovery(object sender, EventArgs e)
         {
+            KulamiPeer peer = sender as KulamiPeer;
+            if (peer == null) return;
+            if (Peers.Contains(peer)) return;
+
             Peers.Add((KulamiPeer) sender);
         }
 

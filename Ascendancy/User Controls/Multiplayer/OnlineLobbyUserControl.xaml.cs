@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -26,6 +27,7 @@ namespace Ascendancy.User_Controls.Multiplayer
         public OnlineLobbyUserControl()
         {
             InitializeComponent();
+            UserControlAnimation.StartButtonGradientSpin(Buttons);
             Networkmanager.OnDiscovery += on_peer_discovery;
             Networkmanager.OnDisconnect += on_peer_disconnect;
             
@@ -47,6 +49,7 @@ namespace Ascendancy.User_Controls.Multiplayer
         {
             TraceHelper.WriteLine("Subscribing {0}", peer.Identifier);
             peer.OnGameRequest += on_game_request;
+            peer.OnGameResponse += on_game_response;
             peer.OnUpdate += on_peer_update;
         }
 
@@ -54,6 +57,7 @@ namespace Ascendancy.User_Controls.Multiplayer
         {
             TraceHelper.WriteLine("Unsubscribing {0}", peer.Identifier);
             peer.OnGameRequest -= on_game_request;
+            peer.OnGameResponse -= on_game_response;
             peer.OnUpdate -= on_peer_update;
         }
 
@@ -154,67 +158,17 @@ namespace Ascendancy.User_Controls.Multiplayer
             });
         }
 
-        private void CancelIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void on_game_response(object sender, NetGameResponseEventArgs e)
         {
-            // Set the client name to null, as we've exited the lobby
-            Networkmanager.ClientName = null;
-
-            Networkmanager.OnDiscovery -= on_peer_discovery;
-            Networkmanager.OnDisconnect -= on_peer_disconnect;
-
-            PeerHolder.Peers.ToList().ForEach(unsubscribe);
-
-            //animate the cancel button from the ExitControl, then kill anim object
-            UserControlAnimation.FadeInUserControlButton(CancelHover, false);
-
-            ContentControlActions.FadeOut();
-        }
-
-        private void UserControlButton_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            UserControlAnimation.FadeInUserControlButton(sender, false);
-
-            //added sound effect for the button
-            VolumeManager.play(@"Resources/Audio/UserControlButtonHover.wav");
-        }
-
-        private void UserControlButton_MouseEnter(object sender, MouseEventArgs e)
-        {
-            UserControlAnimation.FadeInUserControlButton(sender, false);
-        }
-
-        private void UserControlButton_MouseLeave(object sender, MouseEventArgs e)
-        {
-            UserControlAnimation.FadeInUserControlButton(sender, true);
-        }
-
-        private void ChallengeIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            KulamiPeer peer = getSelectedPeer(OnlinePlayersListBox);
+            KulamiPeer peer = sender as KulamiPeer;
             if (peer == null) return;
 
-            // todo make this random number
-            peer.SendRequest(5, true);
-        }
-
-        private void ConnectIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            KulamiPeer peer = getSelectedPeer(OnlinePlayerChallengesListBox);
-            if (peer == null) return;
-
-            peer.SendResponse(true);
-            // Set up game engine
-            HumanPlayer humanPlayer = new HumanPlayer(GameBoardUserControl.human_move_handler);
-            NetworkPlayer networkPlayer = new NetworkPlayer(peer);
-
-            Board board = BoardSetup.board_team5;
-
-            GameEngine engine = new GameEngine(board, humanPlayer, networkPlayer,
-                true ? PieceType.Red : PieceType.Black
-                );
-            engine.OnPlayerMove += networkPlayer.on_player_move;
-
-            ContentControlActions.setUpControl(new GameBoardUserControl(engine));
+            if(e.ChallengeAccpeted)
+                StartGame(peer, BoardSetup.GetBoard(e.BoardNum), e.ChallengerGoesFirst);
+            else
+            {
+                // todo They rejected our challenge, we should remove them from 'challenged'
+            }
         }
 
         private KulamiPeer getSelectedPeer(ListBox listBox)
@@ -228,6 +182,89 @@ namespace Ascendancy.User_Controls.Multiplayer
 
             return peer;
         }
+
+        private static void StartGame(KulamiPeer peer, Board board, bool goFirst)
+        {
+            // Set up game engine
+            HumanPlayer humanPlayer = new HumanPlayer(GameBoardUserControl.human_move_handler);
+            NetworkPlayer networkPlayer = new NetworkPlayer(peer);
+
+            GameEngine engine = new GameEngine(board, humanPlayer, networkPlayer,
+                goFirst ? PieceType.Red : PieceType.Black
+                );
+            engine.OnPlayerMove += networkPlayer.on_player_move;
+
+            ContentControlActions.setUpControl(new GameBoardUserControl(engine));
+        }
+
+
+        private void EventFilter(object sender)
+        {
+            if (sender == Cancel)
+            {
+                // Set the client name to null, as we've exited the lobby
+                Networkmanager.ClientName = null;
+
+                Networkmanager.OnDiscovery -= on_peer_discovery;
+                Networkmanager.OnDisconnect -= on_peer_disconnect;
+
+                PeerHolder.Peers.ToList().ForEach(unsubscribe);
+                
+                ContentControlActions.FadeOut();
+            }
+            else if (sender == Challenge)
+            {
+                KulamiPeer peer = getSelectedPeer(OnlinePlayersListBox);
+                if (peer == null) return;
+
+                // todo make this random number
+                peer.SendRequest(5, true);
+            }
+            else if (sender == Connect)
+            {
+                KulamiPeer peer = getSelectedPeer(OnlinePlayerChallengesListBox);
+                if (peer == null) return;
+
+                peer.SendResponse(true);
+                StartGame(peer,
+                    BoardSetup.GetBoard(peer.Request.BoardNum),
+                    !peer.Request.ChallengerGoesFirst);
+            }
+        }
+
+        private void MultiplayerLobbyButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Canvas sss = (Canvas)sender;
+            Storyboard localStoryboard = App.Current.FindResource("ButtonUpStoryboard") as Storyboard;
+            Storyboard.SetTarget(localStoryboard, sss.Children[1]);
+            localStoryboard.Begin();
+
+            EventFilter(sender);
+        }
+
+        private void MultiplayerLobbyButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Canvas sss = (Canvas)sender;
+            Storyboard localStoryboard = App.Current.FindResource("ButtonDownStoryboard") as Storyboard;
+            Storyboard.SetTarget(localStoryboard, sss.Children[1]);
+            localStoryboard.Begin();
+
+        }
+
+        private void MultiplayerLobbyButton_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Canvas animateThisCanvas = (Canvas)sender;
+            UserControlAnimation.FadeInUserControlButton(animateThisCanvas.Children[0], true);
+            //added sound effect for the button
+            VolumeManager.play(@"Resources/Audio/UserControlButtonHover.wav");
+        }
+
+        private void MultiplayerLobbyButton_MouseLeave(object sender, MouseEventArgs e)
+        {
+            //todo get mouse down working with this
+            Canvas animateThisCanvas = (Canvas)sender;
+            UserControlAnimation.FadeInUserControlButton(animateThisCanvas.Children[0], false);
+        }
     }
 
     public static class ListBoxHelper
@@ -240,4 +277,11 @@ namespace Ascendancy.User_Controls.Multiplayer
                 .Any(x => x.Identifier == peer.Identifier);
         }
     }
+
+
+
+
+
+
+
 }

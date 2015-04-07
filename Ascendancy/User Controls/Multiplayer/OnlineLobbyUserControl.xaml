@@ -7,55 +7,49 @@
              d:DesignHeight="300" d:DesignWidth="300" Width="1440" Height="900">
     <Grid x:Name="OnlineLobbyGrid" Width="1440" Height="900">
 
-        <Image x:Name="ChallengedByBackdrop" HorizontalAlignment="Left" Height="657" VerticalAlignment="Top" Width="855" Source="/Ascendancy;component/Resources/Images/UserControlResources/ExitConfirmation/QuitBackdrop.png" Stretch="Fill" Margin="585,166,0,0"/>
+        <Rectangle x:Name="TransparencyEffect" Fill="Black" HorizontalAlignment="Left" Height="900" Stroke="Black" VerticalAlignment="Top" Width="1440" Opacity="0.745"/>
+        <Image x:Name="Background" HorizontalAlignment="Center" Height="900" VerticalAlignment="Center" Width="1440" Source="/Ascendancy;component/Resources/Images/MultiplayerMenuBackdrop.png" Margin="0"/>
 
-        <Image x:Name="PlayersOnlineBackdrop" HorizontalAlignment="Left" Height="820" VerticalAlignment="Top" Width="855" Source="/Ascendancy;component/Resources/Images/UserControlResources/ExitConfirmation/QuitBackdrop.png" Stretch="Fill" Margin="9,70,0,0"/>
 
-        <Label x:Name="CurrentChallengerGlow" Content="You Have Been Challenged By:" HorizontalAlignment="Left" Margin="884,299,0,0" VerticalAlignment="Top" FontSize="24" FontFamily="Verdana" Height="41" Width="403" Foreground="White">
+        <Label x:Name="CurrentChallengerGlow" Content="You Have Been Challenged By:" HorizontalAlignment="Left" Margin="922,100,0,0" VerticalAlignment="Top" FontSize="24" FontFamily="Verdana" Height="41" Width="404" Foreground="White">
             <Label.Effect>
                 <BlurEffect Radius="10"/>
             </Label.Effect>
         </Label>
-        <Label x:Name="CurrentChallengerTextBox1" Content="You Have Been Challenged By:" HorizontalAlignment="Left" Margin="884,299,0,0" VerticalAlignment="Top" FontSize="24" FontFamily="Verdana" Height="41" Width="403" Foreground="White"/>
-        <Label x:Name="PlayersOnlineGlow" Content="Players Online" HorizontalAlignment="Left" Margin="288,216,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="58" Width="277" Foreground="White">
+        <Label x:Name="CurrentChallengerTextBox1" Content="You Have Been Challenged By:" HorizontalAlignment="Left" Margin="922,100,0,0" VerticalAlignment="Top" FontSize="24" FontFamily="Verdana" Height="41" Width="404" Foreground="White"/>
+        <Label x:Name="PlayersOnlineGlow" Content="Players Online" HorizontalAlignment="Left" Margin="295,168,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="58" Width="277" Foreground="White">
             <Label.Effect>
                 <BlurEffect Radius="10"/>
             </Label.Effect>
         </Label>
-        <Label x:Name="PlayersOnlineLabel" Content="Players Online" HorizontalAlignment="Left" Margin="288,216,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="58" Width="277" Foreground="White"/>
+        <Label x:Name="PlayersOnlineLabel" Content="Players Online" HorizontalAlignment="Left" Margin="295,168,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="58" Width="277" Foreground="White"/>
 
-        <Image x:Name="ChallengeClick" Style="{DynamicResource NetworkButtonStyle}" Margin="285,553,0,0"
-               Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/OnlineLobby/ChallengeClick.png" />
-        <Image x:Name="ChallengeHover" Style="{DynamicResource NetworkButtonStyle}" Margin="285,553,0,0"
-               Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/OnlineLobby/ChallengeHover.png" />
-        <Image x:Name="ChallengeIdle" Style="{DynamicResource NetworkButtonStyle}" Margin="285,553,0,0"
-               Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/OnlineLobby/ChallengeIdle.png"
-               MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave" MouseLeftButtonDown="UserControlButton_MouseDown"
-               MouseLeftButtonUp="ChallengeIdle_MouseLeftButtonUp"/>
-        
-        <Image x:Name="ConnectClick" Style="{DynamicResource NetworkButtonStyle}" Margin="929,616,0,0"
-               Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/OnlineLobby/ConnectClick.png" />
-        <Image x:Name="ConnectHover" Style="{DynamicResource NetworkButtonStyle}" Margin="929,616,0,0"
-               Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/OnlineLobby/ConnectHover.png" />
-        <Image x:Name="ConnectIdle" Style="{DynamicResource NetworkButtonStyle}" Margin="929,616,0,0"
-               Source="/Ascendancy;component/Resources/Images/UserControlResources/Multiplayer/OnlineLobby/ConnectIdle.png"
-               MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave" MouseLeftButtonDown="UserControlButton_MouseDown"
-               MouseLeftButtonUp="ConnectIdle_MouseLeftButtonUp"/>
-        
-        <Image x:Name="CancelClick" Style="{DynamicResource NetworkButtonStyle}" Margin="285,657,0,0"
-               Source="/Ascendancy;component/Resources/Images/UserControlResources/CancelClick.png" />
-        <Image x:Name="CancelHover" Style="{DynamicResource NetworkButtonStyle}" Margin="285,657,0,0"
-               Source="/Ascendancy;component/Resources/Images/UserControlResources/CancelHover.png" />
-        <Image x:Name="CancelIdle" Style="{DynamicResource NetworkButtonStyle}" Margin="285,657,0,0"
-               Source="/Ascendancy;component/Resources/Images/UserControlResources/CancelIdle.png"
-               MouseDown="UserControlButton_MouseDown" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave"
-               MouseLeftButtonUp="CancelIdle_MouseLeftButtonUp"/>
-        
-        <ListBox x:Name="OnlinePlayersListBox"  HorizontalAlignment="Left" Height="269" Margin="229,279,0,0" VerticalAlignment="Top" Width="433"/>
-        <ListBox x:Name="OnlinePlayerChallengesListBox" HorizontalAlignment="Left" Height="266" Margin="884,345,0,0" VerticalAlignment="Top" Width="390"/>
+
+
+        <ListBox x:Name="OnlinePlayersListBox"  HorizontalAlignment="Left" Height="269" Margin="222,251,0,0" VerticalAlignment="Top" Width="432">
+        </ListBox>
+        <ListBox x:Name="OnlinePlayerChallengesListBox" HorizontalAlignment="Left" Height="219" Margin="922,146,0,0" VerticalAlignment="Top" Width="390"/>
+        <Grid x:Name="Buttons" Margin="286,600,213,102">
+            <Canvas x:Name="Cancel" Margin="0,50,639,86" MouseEnter="MultiplayerLobbyButton_MouseEnter" MouseLeave="MultiplayerLobbyButton_MouseLeave" MouseLeftButtonDown="MultiplayerLobbyButton_MouseLeftButtonDown" MouseLeftButtonUp="MultiplayerLobbyButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
+                <Path x:Name="CancelGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
+                <Image x:Name="CancelImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/Cancel.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
+
+            </Canvas>
+            <Canvas x:Name="Challenge" Margin="0,-40,639,176" MouseEnter="MultiplayerLobbyButton_MouseEnter" MouseLeave="MultiplayerLobbyButton_MouseLeave" MouseLeftButtonDown="MultiplayerLobbyButton_MouseLeftButtonDown" MouseLeftButtonUp="MultiplayerLobbyButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
+                <Path x:Name="ChallengeGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
+                <Image x:Name="ChallengeImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/MultiplayerLobby/Challenge.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
+
+            </Canvas>
+            <Canvas x:Name="Connect" Margin="674,-205,-35,341" MouseEnter="MultiplayerLobbyButton_MouseEnter" MouseLeave="MultiplayerLobbyButton_MouseLeave" MouseLeftButtonDown="MultiplayerLobbyButton_MouseLeftButtonDown" MouseLeftButtonUp="MultiplayerLobbyButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
+                <Path x:Name="ConnectGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
+                <Image x:Name="ConnectImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/MultiplayerLobby/Connect.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
+
+            </Canvas>
+
+        </Grid>
 
     </Grid>
-    
+
     <UserControl.Resources>
         <Style x:Key="NetworkButtonStyle" TargetType="Image">
             <Setter Property="Height" Value="75" />
