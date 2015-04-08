@@ -1,0 +1,35 @@
+﻿<UserControl x:Name="NetworkGameDisconnectUserControl1" x:Class="Ascendancy.User_Controls.NetworkGameDisconnectUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Width="1440" Height="893">
+
+
+    <Grid x:Name="NetworkGameDisconnectGrid" Width="1440" Height="900">
+        <Rectangle x:Name="TransparencyEffect" Fill="Black" HorizontalAlignment="Left" Height="900" Stroke="Black" VerticalAlignment="Top" Width="1440" Opacity="0.745"/>
+        <Image x:Name="Background" HorizontalAlignment="Center" Height="710" VerticalAlignment="Center" Width="1122" Source="/Ascendancy;component/Resources/Images/MenuBackdrop-01.png" Margin="135,79,183,111"/>
+        <Grid x:Name="Buttons" Margin="372,526,378,312">
+            <Canvas x:Name="MainMenu" Margin="388,0,0,0" MouseEnter="NetworkGameDisconnectButton_MouseEnter" MouseLeave="NetworkGameDisconnectButton_MouseLeave" MouseLeftButtonDown="NetworkGameDisconnectButton_MouseLeftButtonDown" MouseLeftButtonUp="NetworkGameDisconnectButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
+                <Path x:Name="MainMenuGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
+                <Image x:Name="MainMenuImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/GameComplete/Main_Menu.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
+
+            </Canvas>
+            <Canvas x:Name="BackToLobby" Margin="0,0,388,0" MouseEnter="NetworkGameDisconnectButton_MouseEnter" MouseLeave="NetworkGameDisconnectButton_MouseLeave" MouseLeftButtonDown="NetworkGameDisconnectButton_MouseLeftButtonDown" MouseLeftButtonUp="NetworkGameDisconnectButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
+                <Path x:Name="BackToLobbyGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
+                <Image x:Name="BackToLobbyImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/NetworkGame/Back_To_Lobby.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
+
+            </Canvas>
+
+        </Grid>
+        <Label x:Name="LeftGameNotificationLabelGlow" Content="[Name] has left the game." HorizontalAlignment="Left" Margin="470,275,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="167" Width="478" Foreground="White" Background="{x:Null}">
+            <Label.Effect>
+                <BlurEffect Radius="10"/>
+            </Label.Effect>
+        </Label>
+        <Label x:Name="LeftGameNotificationLabel" Content="[Name] has left the game." HorizontalAlignment="Left" Margin="470,275,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="167" Width="478" Foreground="White" Background="{x:Null}"/>
+
+    </Grid>
+</UserControl>
+

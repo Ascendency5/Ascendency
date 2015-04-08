@@ -230,6 +230,14 @@ namespace Ascendancy.User_Controls.Multiplayer
                     BoardSetup.GetBoard(peer.Request.BoardNum),
                     !peer.Request.ChallengerGoesFirst);
             }
+            else if (sender == ChallengeCancel)
+            {
+                //todo: rescind challenge request
+            }
+            else if (sender == Ignore)
+            {
+                //todo: reject incoming challenge
+            }
         }
 
         private void MultiplayerLobbyButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
