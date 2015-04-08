@@ -5,14 +5,46 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Width="1440" Height="900">
-    <UserControl.Background>
-        <ImageBrush ImageSource="/Ascendancy;component/Resources/Images/UserControlResources/ExitConfirmation/QuitBackdrop.png" Stretch="Uniform"/>
-    </UserControl.Background>
-    <Grid x:Name="GameCompleteGrid" Width="1440" Height="900">
-        <Label x:Name="CompletionLabel" Content="You won!&#xD;&#xA;You lost!&#xD;&#xA;Who knows!&#xD;&#xA;Idk bro!" Margin="503,294,522,376" Height="230" Width="415" FontSize="36" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Image x:Name="OkayClick" Height="75" Margin="572,583,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/Options/OkayClick.png" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Image x:Name="OkayHover" Height="75" Margin="572,583,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/Options/OkayHover.png" VerticalAlignment="Top" HorizontalAlignment="Left" />
-        <Image x:Name="OkayIdle" Height="75" Margin="572,583,0,0" Width="280" Source="/Ascendancy;component/Resources/Images/UserControlResources/Options/OkayIdle.png" VerticalAlignment="Top" HorizontalAlignment="Left"  MouseLeftButtonUp="OkayIdle_MouseLeftButtonUp" MouseDown="UserControlButton_MouseDown" MouseEnter="UserControlButton_MouseEnter" MouseLeave="UserControlButton_MouseLeave"/>
 
+    <Grid x:Name="GameCompleteGrid" Width="1440" Height="900">
+        <Rectangle x:Name="TransparencyEffect" Fill="Black" HorizontalAlignment="Left" Height="900" Stroke="Black" VerticalAlignment="Top" Width="1440" Opacity="0.745"/>
+        <Image x:Name="Background" HorizontalAlignment="Center" Height="890" VerticalAlignment="Center" Width="1430" Source="/Ascendancy;component/Resources/Images/MenuBackdrop-01.png" Margin="0,0,10,10"/>
+        <Label x:Name="CompletionLabel" Margin="488,174,537,567" Height="159" Width="415" FontSize="36" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid x:Name="Buttons" Margin="398,589,378,161">
+            <Canvas x:Name="MainMenu" Margin="179,88,183,0" MouseEnter="GameCompleteMenuButton_MouseEnter" MouseLeave="GameCompleteMenuButton_MouseLeave" MouseLeftButtonDown="GameCompleteMenuButton_MouseLeftButtonDown" MouseLeftButtonUp="GameCompleteMenuButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
+                <Path x:Name="MainMenuGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
+                <Image x:Name="MainMenuImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/GameComplete/Main_Menu.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
+            </Canvas>
+
+            <Canvas x:Name="Restart" Margin="362,0,0,88" MouseEnter="GameCompleteMenuButton_MouseEnter" MouseLeave="GameCompleteMenuButton_MouseLeave" MouseLeftButtonDown="GameCompleteMenuButton_MouseLeftButtonDown" MouseLeftButtonUp="GameCompleteMenuButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
+                <Path x:Name="RestartGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
+                <Image x:Name="RestartImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/InGameMenu/Restart.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
+            </Canvas>
+
+            <Canvas x:Name="NewGame" Margin="0,0,362,88" MouseEnter="GameCompleteMenuButton_MouseEnter" MouseLeave="GameCompleteMenuButton_MouseLeave" MouseLeftButtonDown="GameCompleteMenuButton_MouseLeftButtonDown" MouseLeftButtonUp="GameCompleteMenuButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
+                <Path x:Name="NewGameGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
+                <Image x:Name="NewGameImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/GameComplete/New_Game.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
+            </Canvas>
+
+        </Grid>
+        <Canvas x:Name="WinCanvas" HorizontalAlignment="Left" Height="442" VerticalAlignment="Top" Width="1075" Margin="192,98,0,0" Opacity="0" Panel.ZIndex="2">
+            <Image x:Name="WinTopImage" HorizontalAlignment="Left" Height="146" VerticalAlignment="Top" Width="520" Source="/Ascendancy;component/Resources/Images/UserControlResources/SinglePlayer/PlayClick.png" Canvas.Left="275" Canvas.Top="29"/>
+            <Image x:Name="WinBottomImage" HorizontalAlignment="Left" Height="162" VerticalAlignment="Top" Width="667" Canvas.Left="195" Canvas.Top="280" Source="/Ascendancy;component/Resources/Images/Buttons/SinglePlayer/Buttons_Play.png"/>
+        </Canvas>
+        <Canvas x:Name="LossCanvas" HorizontalAlignment="Left" Height="442" VerticalAlignment="Top" Width="1075" Margin="192,98,0,0" Opacity="0" Panel.ZIndex="2">
+            <Image x:Name="LossTopImage" HorizontalAlignment="Left" Height="165" VerticalAlignment="Top" Width="169" Canvas.Left="465" Canvas.Top="32" Source="/Ascendancy;component/Resources/Images/UserControlResources/GameBoard/CloseHelpClick.png"/>
+            <Image x:Name="LossBottomImage" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="363" Canvas.Left="364" Canvas.Top="310" Source="/Ascendancy;component/Resources/Images/UserControlResources/CancelClick.png"/>
+        </Canvas>
+        <Canvas x:Name="TieCanvas" HorizontalAlignment="Left" Height="442" VerticalAlignment="Top" Width="1075" Margin="192,98,0,0" Opacity="0" Panel.ZIndex="2">
+            <Image x:Name="TieTopImage" HorizontalAlignment="Left" Height="145" VerticalAlignment="Top" Width="472" Canvas.Left="289" Canvas.Top="29" Source="/Ascendancy;component/Resources/Images/HomeScreenButtons/MultiplayerIdle.png"/>
+            <Image x:Name="TieBottomImage" HorizontalAlignment="Left" Height="140" VerticalAlignment="Top" Width="447" Canvas.Left="314" Canvas.Top="277" Source="/Ascendancy;component/Resources/Images/Buttons/MultiplayerStarter/Local.png"/>
+        </Canvas>
     </Grid>
+
+    <UserControl.Resources>
+        <Storyboard x:Key="CompletionLogoStoryboard">
+            <DoubleAnimation From="0" To="1" Storyboard.TargetProperty="Opacity"/>
+        </Storyboard>
+    </UserControl.Resources>
+
 </UserControl>

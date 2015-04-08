@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -20,39 +21,122 @@ namespace Ascendancy.User_Controls
     /// </summary>
     public partial class GameCompleteUserControl : UserControl
     {
-        public GameCompleteUserControl()
+        private GameCompleteMenuButtonHandler callback;
+
+        public delegate void GameCompleteMenuButtonHandler(object sender, GameCompleteMenuOptionEventArgs eventArgs);
+
+        public GameCompleteUserControl(GameResult gameResult, GameCompleteMenuButtonHandler callback)
         {
+            this.callback = callback;
             InitializeComponent();
+            UserControlAnimation.StartButtonGradientSpin(Buttons);
+            showWinner(gameResult);
+
         }
 
-        private void OkayIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void showWinner(GameResult gameResult)
         {
-            //animate the cancel button from the ExitControl, then kill anim object
-            UserControlAnimation.FadeInUserControlButton(OkayHover, true);
-
-            ContentControlActions.FadeOut();
+            Storyboard gameComplete = FindResource("CompletionLogoStoryboard") as Storyboard;
+            switch (gameResult)
+            {
+                case GameResult.Win:
+                    Storyboard.SetTarget(gameComplete, WinCanvas);
+                    //Storyboard.SetTargetProperty(WinCanvas, new PropertyPath("Opacity"));
+                    VolumeManager.play(@"Resources/Audio/FanfareHuman.wav");
+                    break;
+                case GameResult.Loss:
+                    Storyboard.SetTarget(gameComplete, LossCanvas);
+                    //Storyboard.SetTargetProperty(LossCanvas, new PropertyPath("Opacity"));
+                    VolumeManager.play(@"Resources/Audio/FanfareRobot.wav");
+                    break;
+                case GameResult.Tie:
+                    Storyboard.SetTarget(gameComplete, TieCanvas);
+                    //Storyboard.SetTargetProperty(TieCanvas, new PropertyPath("Opacity"));
+                    VolumeManager.play(@"Resources/Audio/FanfareHuman.wav");
+                    break;
+            }
+            gameComplete.Begin();
         }
 
-
-        private void UserControlButton_MouseDown(object sender, MouseButtonEventArgs e)
+        private void EventFilter(object sender)
         {
-            UserControlAnimation.FadeInUserControlButton(OkayHover, false);
+            if (sender == NewGame)
+            {
+                callback(this, new GameCompleteMenuOptionEventArgs(GameCompleteMenuOption.NewGame));
+            }
+            else if (sender == Restart)
+            {
+                callback(this, new GameCompleteMenuOptionEventArgs(GameCompleteMenuOption.Restart));
+            }
+            else if (sender == MainMenu)
+            {
+                callback(this, new GameCompleteMenuOptionEventArgs(GameCompleteMenuOption.MainMenu));
+            }
+        }
 
+        private void GameCompleteMenuButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Canvas sss = (Canvas)sender;
+            Storyboard localStoryboard = App.Current.FindResource("ButtonUpStoryboard") as Storyboard;
+            Storyboard.SetTarget(localStoryboard, sss.Children[1]);
+            localStoryboard.Begin();
+
+            EventFilter(sender);
+        }
+
+        private void GameCompleteMenuButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Canvas sss = (Canvas)sender;
+            Storyboard localStoryboard = App.Current.FindResource("ButtonDownStoryboard") as Storyboard;
+            Storyboard.SetTarget(localStoryboard, sss.Children[1]);
+            localStoryboard.Begin();
+        }
+
+        private void GameCompleteMenuButton_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Canvas animateThisCanvas = (Canvas)sender;
+            UserControlAnimation.FadeInUserControlButton(animateThisCanvas.Children[0], true);
             //added sound effect for the button
             VolumeManager.play(@"Resources/Audio/UserControlButtonHover.wav");
         }
 
-        private void UserControlButton_MouseEnter(object sender, MouseEventArgs e)
+        private void GameCompleteMenuButton_MouseLeave(object sender, MouseEventArgs e)
         {
-            UserControlAnimation.FadeInUserControlButton(sender, false);
-        }
-
-        private void UserControlButton_MouseLeave(object sender, MouseEventArgs e)
-        {
-            if (OkayHover.Opacity < 1)
-                UserControlAnimation.FadeInUserControlButton(OkayHover, true);
-
-            UserControlAnimation.FadeInUserControlButton(sender, true);
+            //todo get mouse down working with this
+            Canvas animateThisCanvas = (Canvas)sender;
+            UserControlAnimation.FadeInUserControlButton(animateThisCanvas.Children[0], false);
         }
     }
+
+    public class GameCompleteMenuOptionEventArgs : EventArgs
+    {
+        public readonly GameCompleteMenuOption Option;
+
+        public GameCompleteMenuOptionEventArgs(GameCompleteMenuOption option)
+        {
+            this.Option = option;
+        }
+    }
+
+    public enum GameCompleteMenuOption
+    {
+        NewGame,
+        Restart,
+        MainMenu
+    }
+
+    public enum GameResult
+    {
+        Win,
+        Loss,
+        Tie
+    }
 }
+
+
+/*
+ 
+ * node1 = 
+ * 
+ 
+ */

@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="Ascendancy.User_Controls.InGameMenuUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Width="1440" Height="900">
+    <Grid x:Name="InGameMenuGrid" Margin="0" Width="1440" Height="900">
+        <Rectangle x:Name="TransparencyEffect" Fill="Black" HorizontalAlignment="Left" Height="900" Stroke="Black" VerticalAlignment="Top" Width="1440" Opacity="0.745" Margin="0"/>
+
+        <Image x:Name="Background" HorizontalAlignment="Center" Height="609" VerticalAlignment="Center" Width="895" Source="/Ascendancy;component/Resources/Images/MenuBackdrop-01.png" Margin="0"/>
+        <Grid x:Name="Buttons" Margin="10,-10,-10,10">
+            <Canvas x:Name="Resume" MouseEnter="InGameMenuButton_MouseEnter" MouseLeave="InGameMenuButton_MouseLeave" MouseLeftButtonDown="InGameMenuButton_MouseLeftButtonDown" MouseLeftButtonUp="InGameMenuButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2" Margin="0,0,0,318">
+                <Path x:Name="ResumeGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
+                <Image x:Name="ResumeImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/InGameMenu/Resume.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
+
+            </Canvas>
+            <Canvas x:Name="Options" MouseEnter="InGameMenuButton_MouseEnter" MouseLeave="InGameMenuButton_MouseLeave" MouseLeftButtonDown="InGameMenuButton_MouseLeftButtonDown" MouseLeftButtonUp="InGameMenuButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2" Margin="0,0,0,158">
+                <Path x:Name="OptionsGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
+                <Image x:Name="OptoinsImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/InGameMenu/Options.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
+
+            </Canvas>
+            <Canvas x:Name="Help" MouseEnter="InGameMenuButton_MouseEnter" MouseLeave="InGameMenuButton_MouseLeave" MouseLeftButtonDown="InGameMenuButton_MouseLeftButtonDown" MouseLeftButtonUp="InGameMenuButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2" Margin="0,2,0,0">
+                <Path x:Name="HelpGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
+                <Image x:Name="HelpImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/InGameMenu/Help.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
+
+            </Canvas>
+            <Canvas x:Name="Restart" MouseEnter="InGameMenuButton_MouseEnter" MouseLeave="InGameMenuButton_MouseLeave" MouseLeftButtonDown="InGameMenuButton_MouseLeftButtonDown" MouseLeftButtonUp="InGameMenuButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2" Margin="0,162,0,0">
+                <Path x:Name="RestartGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
+                <Image x:Name="RestartImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/InGameMenu/Restart.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
+
+            </Canvas>
+            <Canvas x:Name="LeaveGame" MouseEnter="InGameMenuButton_MouseEnter" MouseLeave="InGameMenuButton_MouseLeave" MouseLeftButtonDown="InGameMenuButton_MouseLeftButtonDown" MouseLeftButtonUp="InGameMenuButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2" Margin="0,322,0,0">
+                <Path x:Name="LeaveGameGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
+                <Image x:Name="LeaveGameImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/InGameMenu/Leave_Game.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2" Margin="0"/>
+
+            </Canvas>
+
+        </Grid>
+
+    </Grid>
+</UserControl>
