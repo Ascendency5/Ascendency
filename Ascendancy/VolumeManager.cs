@@ -59,6 +59,7 @@ namespace Ascendancy
 
             switch (type)
             {
+                //todo make music transition flow correctly
                 case SoundType.Music:
                     player.Volume = MusicVolume;
                     break;
