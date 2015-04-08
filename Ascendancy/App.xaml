@@ -3,6 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+
+        <Style x:Key="SliderStyle" TargetType="{x:Type Slider}">
+            <!--<Setter Property="Template" Value="{StaticResource SliderTemplate}" />-->
+            <Setter Property="IsSelectionRangeEnabled" Value="True" />
+            <Setter Property="SelectionStart" Value="0" />
+            <Setter Property="SelectionEnd" Value="{Binding Value, RelativeSource={RelativeSource Self}}" />
+        </Style>
+
         <BitmapImage x:Key="inactivePosition" UriSource="resources/images/dot.png"/>
         <MediaElement x:Key="UserControlButtonHover"/>
         <MediaElement x:Key="HomeScreenButtonHover"/>
