@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Ascendancy
 {
-    public class ConcurrentSet<T> : IEnumerable<T>, ISet<T>, ICollection<T>
+    public class ConcurrentSet<T> : ICollection<T>
     {
         private readonly ConcurrentDictionary<T, byte> _dictionary = new ConcurrentDictionary<T, byte>();
 
@@ -118,15 +118,6 @@ namespace Ascendancy
         {
             foreach (var item in other)
                 TryRemove(item);
-        }
-
-        /// <summary>
-        /// Modifies the current set so that it contains only elements that are present either in the current set or in the specified collection, but not both. 
-        /// </summary>
-        /// <param name="other">The collection to compare to the current set.</param><exception cref="T:System.ArgumentNullException"><paramref name="other"/> is null.</exception>
-        public void SymmetricExceptWith(IEnumerable<T> other)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>
