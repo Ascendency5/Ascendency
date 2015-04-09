@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
+             xmlns:my="clr-namespace:Ascendancy"
              d:DesignHeight="300" d:DesignWidth="300" Width="1440" Height="900" Loaded="OptionsUserControlView_Loaded">
 
     <Grid x:Name="OptionsGrid" Width="1440" Height="900">
@@ -38,12 +39,9 @@
         <Label x:Name="SoundPercentageLabel" Content="50%" HorizontalAlignment="Left" Margin="698,374,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="65" Height="30" FontSize="24" FontFamily="Ubuntu Mono" Foreground="White"/>
         <Label x:Name="MusicPercentageLabel" Content="50%" HorizontalAlignment="Left" Margin="698,465,0,0" VerticalAlignment="Top" FontSize="24" FontFamily="Ubuntu Mono" Width="65" Height="36" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="White"/>
         <Grid x:Name="Buttons" Margin="744,528,394,310">
-            <Canvas x:Name="OkayButton" MouseEnter="OkayButton_MouseEnter" MouseLeave="OkayButton_MouseLeave" MouseLeftButtonDown="OkayButton_MouseLeftButtonDown" MouseLeftButtonUp="OkayButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
-                <Path x:Name="OkayGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
-                <Image x:Name="OkayImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/Options/Okay.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
-
-            </Canvas>
-
+            <my:ImageButton x:Name="Okay" Source="/Ascendancy;component/Resources/Images/Buttons/Options/Okay.png"
+                            Height="60" Width="300"
+                            MouseLeftButtonUp="Okay_OnMouseLeftButtonUp"/>
         </Grid>
 
     </Grid>
