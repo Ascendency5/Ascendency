@@ -1,0 +1,105 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Ascendancy">
+
+
+    <Style TargetType="{x:Type local:ImageButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ImageButton}">
+                    <Canvas VerticalAlignment="Top" HorizontalAlignment="Left"
+                            Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                        <Path x:Name="GlowPath" Style="{DynamicResource ButtonGlowStyle}"
+                              Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top"
+                              Canvas.Top="1" Opacity="0"
+                              Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"/>
+                        <Path x:Name="SelectedPath" Style="{DynamicResource ButtonSelectedStyle}"
+                              Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top"
+                              Canvas.Top="1" Opacity="0"
+                              Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"/>
+                        <Image x:Name="Image" Source="{TemplateBinding Source}"
+                               Style="{DynamicResource UserControlButtonStyle}" RenderTransformOrigin="0.5,0.5"
+                               Stretch="Fill"  VerticalAlignment="Top" HorizontalAlignment="Left"
+                               Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"/>
+                    </Canvas>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Selected" Value="True">
+                            <Setter TargetName="GlowPath" Property="Opacity" Value="0"/>
+                            <Setter TargetName="SelectedPath" Property="Opacity" Value="1"/>
+                        </Trigger>
+                        <Trigger Property="Selected" Value="False">
+                            <Setter TargetName="GlowPath" Property="Opacity" Value="0"/>
+                            <Setter TargetName="SelectedPath" Property="Opacity" Value="0"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="UserControlButtonStyle" TargetType="Image">
+        <Setter Property="RenderTransform" >
+            <Setter.Value>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ButtonGlowStyle" TargetType="Path">
+        <Setter Property="Data" Value="M721.83333,546.54167 C721.83333,546.54167 715.58365,545.37469 711.25031,547.54135 706.91698,549.70802 699.3753,553.49729 699.3753,553.49729 699.3753,553.49729 696.45864,554.83018 696.45864,559.07871 696.45864,563.32723 696.50062,561.30752 696.50062,561.30752 L696.87561,599.39054 C696.87561,599.39054 696.81311,603.29594 701.98493,603.23346 707.15674,603.17098 702.68804,603.23346 702.68804,603.23346 L976.716,603.63932 C976.716,603.63932 979.24697,603.82704 981.34069,602.29623 983.43442,600.76542 981.62169,601.98408 981.62169,601.98408 L994.5282,595.0173 C994.5282,595.0173 996.17914,594.12095 996.08571,591.29595 995.99227,588.47095 996.02301,590.86606 996.02301,590.86606 L996.28256,550.71214 C996.28256,550.71214 996.15762,546.39276 990.26082,546.35182 984.36402,546.31087 989.86631,546.37229 989.86631,546.37229 z" />
+        <Setter Property="Fill">
+            <Setter.Value>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <LinearGradientBrush.RelativeTransform>
+                        <TransformGroup>
+                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                            <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                            <RotateTransform CenterY="0.5" CenterX="0.5"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </LinearGradientBrush.RelativeTransform>
+                    <GradientStop Color="#FF3AB2BD" Offset="0.242"/>
+                    <GradientStop Color="White" Offset="0.349"/>
+                    <GradientStop Color="#FF3AB2BD" Offset="0.774"/>
+                    <GradientStop Color="#FFF2F9FA" Offset="0.647"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <BlurEffect Radius="13"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ButtonSelectedStyle" TargetType="Path">
+        <Setter Property="Data" Value="M721.83333,546.54167 C721.83333,546.54167 715.58365,545.37469 711.25031,547.54135 706.91698,549.70802 699.3753,553.49729 699.3753,553.49729 699.3753,553.49729 696.45864,554.83018 696.45864,559.07871 696.45864,563.32723 696.50062,561.30752 696.50062,561.30752 L696.87561,599.39054 C696.87561,599.39054 696.81311,603.29594 701.98493,603.23346 707.15674,603.17098 702.68804,603.23346 702.68804,603.23346 L976.716,603.63932 C976.716,603.63932 979.24697,603.82704 981.34069,602.29623 983.43442,600.76542 981.62169,601.98408 981.62169,601.98408 L994.5282,595.0173 C994.5282,595.0173 996.17914,594.12095 996.08571,591.29595 995.99227,588.47095 996.02301,590.86606 996.02301,590.86606 L996.28256,550.71214 C996.28256,550.71214 996.15762,546.39276 990.26082,546.35182 984.36402,546.31087 989.86631,546.37229 989.86631,546.37229 z" />
+        <Setter Property="Fill">
+            <Setter.Value>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <LinearGradientBrush.RelativeTransform>
+                        <TransformGroup>
+                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                            <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                            <RotateTransform CenterY="0.5" CenterX="0.5"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </LinearGradientBrush.RelativeTransform>
+                    <GradientStop Color="OrangeRed" Offset="0.242"/>
+                    <GradientStop Color="White" Offset="0.349"/>
+                    <GradientStop Color="OrangeRed" Offset="0.774"/>
+                    <GradientStop Color="#FFF2F9FA" Offset="0.647"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <BlurEffect Radius="13"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

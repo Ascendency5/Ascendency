@@ -1,6 +1,7 @@
 ﻿<Application x:Class="Ascendancy.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:my="clr-namespace:Ascendancy"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
 
@@ -112,7 +113,5 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
-
     </Application.Resources>
 </Application>
