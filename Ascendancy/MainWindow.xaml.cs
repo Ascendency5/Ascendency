@@ -33,9 +33,6 @@ namespace Ascendancy
             ContentControlActions.baseContentControl = HomeScreenContentControl;
             ContentControlActions.popupContentControl = PopupContentControl;
 
-            VolumeManager.MusicVolume = .5;
-            VolumeManager.SoundVolume = .5;
-
             HomeScreenIntroUserControl intro = new HomeScreenIntroUserControl();
             intro.OnComplete += on_intro_completed;
             //setBaseContent(new HomeScreenUserControl());
