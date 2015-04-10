@@ -29,7 +29,7 @@ namespace Ascendancy.User_Controls.Multiplayer
 
         private void EventFilter(object sender)
         {
-            if (sender == Cancel)
+            if (sender == Back)
             {
                 ContentControlActions.FadeOut();
             }

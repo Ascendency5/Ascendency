@@ -10,7 +10,7 @@
     <Grid x:Name="OptionsGrid" Width="1440" Height="900">
         <Rectangle x:Name="TransparencyEffect" Fill="Black" HorizontalAlignment="Left" Height="900" Stroke="Black" VerticalAlignment="Top" Width="1440" Opacity="0.745"/>
 
-        <Image x:Name="Background" HorizontalAlignment="Center" Height="535" VerticalAlignment="Center" Width="875" Source="/Ascendancy;component/Resources/Images/MenuBackdrop-01.png" Margin="257,175,308,190"/>
+        <Image x:Name="Background" HorizontalAlignment="Center" Height="535" VerticalAlignment="Center" Width="875" Source="/Ascendancy;component/Resources/Images/MenuBackdrop.png" Margin="257,175,308,190"/>
         <Label x:Name="MusicLabel_Copy" Content="Music" HorizontalAlignment="Left" Margin="361,417,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Ubuntu Mono" Height="83" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
             <Label.Effect>
                 <BlurEffect Radius="10"/>

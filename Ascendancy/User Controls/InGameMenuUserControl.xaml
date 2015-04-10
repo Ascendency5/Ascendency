@@ -8,7 +8,7 @@
     <Grid x:Name="InGameMenuGrid" Margin="0" Width="1440" Height="900">
         <Rectangle x:Name="TransparencyEffect" Fill="Black" HorizontalAlignment="Left" Height="900" Stroke="Black" VerticalAlignment="Top" Width="1440" Opacity="0.745" Margin="0"/>
 
-        <Image x:Name="Background" HorizontalAlignment="Center" Height="609" VerticalAlignment="Center" Width="895" Source="/Ascendancy;component/Resources/Images/MenuBackdrop-01.png" Margin="0"/>
+        <Image x:Name="Background" HorizontalAlignment="Center" Height="609" VerticalAlignment="Center" Width="895" Source="/Ascendancy;component/Resources/Images/MenuBackdrop.png" Margin="0"/>
         <Grid x:Name="Buttons" Margin="10,-10,-10,10">
             <Canvas x:Name="Resume" MouseEnter="InGameMenuButton_MouseEnter" MouseLeave="InGameMenuButton_MouseLeave" MouseLeftButtonDown="InGameMenuButton_MouseLeftButtonDown" MouseLeftButtonUp="InGameMenuButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2" Margin="0,0,0,318">
                 <Path x:Name="ResumeGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>

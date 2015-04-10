@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,17 +31,18 @@ namespace Ascendancy.User_Controls.Multiplayer
 
         private void EventFilter(object sender)
         {
-            if (sender == Cancel)
+            if (sender == Back)
             {
                 ContentControlActions.FadeOut();
             }
             else if (sender == EnterLobby || sender == NamePromptText)
             {
+                if (NamePromptText.Text != "")
+                {
+                    Networkmanager.ClientName = NamePromptText.Text;
 
-                // todo Have this reject it if it's not a valid name
-                Networkmanager.ClientName = NamePromptText.Text;
-
-                ContentControlActions.setPopup(new OnlineLobbyUserControl());
+                    ContentControlActions.setPopup(new OnlineLobbyUserControl());
+                }
             }
         }
         
@@ -87,10 +89,18 @@ namespace Ascendancy.User_Controls.Multiplayer
             }
         }
 
-        private void NamePromptText_GotFocus(object sender, RoutedEventArgs e)
+        private void NamePromptText_Loaded(object sender, RoutedEventArgs e)
         {
-            NamePromptText.Text = "";
+            NamePromptText.Focus();
+            NamePromptText.SelectAll();
         }
 
+        private void NamePromptText_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (NamePromptText.Text == "Enter your name here")
+            {
+                NamePromptText.Text = "";
+            }
+        }
     }
 }

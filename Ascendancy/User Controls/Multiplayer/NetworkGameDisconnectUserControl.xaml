@@ -9,7 +9,7 @@
 
     <Grid x:Name="NetworkGameDisconnectGrid" Width="1440" Height="900">
         <Rectangle x:Name="TransparencyEffect" Fill="Black" HorizontalAlignment="Left" Height="900" Stroke="Black" VerticalAlignment="Top" Width="1440" Opacity="0.745"/>
-        <Image x:Name="Background" HorizontalAlignment="Center" Height="710" VerticalAlignment="Center" Width="1122" Source="/Ascendancy;component/Resources/Images/MenuBackdrop-01.png" Margin="135,79,183,111"/>
+        <Image x:Name="Background" HorizontalAlignment="Center" Height="710" VerticalAlignment="Center" Width="1122" Source="/Ascendancy;component/Resources/Images/MenuBackdrop.png" Margin="135,79,183,111"/>
         <Grid x:Name="Buttons" Margin="372,526,378,312">
             <Canvas x:Name="MainMenu" Margin="388,0,0,0" MouseEnter="NetworkGameDisconnectButton_MouseEnter" MouseLeave="NetworkGameDisconnectButton_MouseLeave" MouseLeftButtonDown="NetworkGameDisconnectButton_MouseLeftButtonDown" MouseLeftButtonUp="NetworkGameDisconnectButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
                 <Path x:Name="MainMenuGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
