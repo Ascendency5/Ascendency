@@ -10,68 +10,65 @@
         <Rectangle x:Name="TransparencyEffect" Fill="Black" HorizontalAlignment="Left" Height="900" Stroke="Black" VerticalAlignment="Top" Width="1440" Opacity="0.745"/>
         <Image x:Name="Background" HorizontalAlignment="Center" Height="900" VerticalAlignment="Center" Width="1440" Source="/Ascendancy;component/Resources/Images/MultiplayerMenuBackdrop.png" Margin="0"/>
 
+        <Canvas x:Name="PlayersOnlineCanvas" Margin="0,0,640,0" Width="840">
+            <Label x:Name="PlayersOnlineGlow" Content="Players Online" HorizontalAlignment="Left" Margin="295,168,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="58" Width="277" Foreground="White">
+                <Label.Effect>
+                    <BlurEffect Radius="10"/>
+                </Label.Effect>
+            </Label>
+            <Label x:Name="PlayersOnlineLabel" Content="Players Online" HorizontalAlignment="Left" Margin="295,168,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="58" Width="277" Foreground="White"/>
+            <ListBox x:Name="OnlinePlayersListBox"  HorizontalAlignment="Left" Height="269" Margin="222,251,0,0" VerticalAlignment="Top" Width="432">
+            </ListBox>
+            <Grid x:Name="PlayersOnlineButtons" Height="152" Canvas.Left="295" Canvas.Top="571" Width="302">
 
-        <Label x:Name="CurrentChallengerGlow" Content="You Have Been Challenged By:" HorizontalAlignment="Left" Margin="922,100,0,0" VerticalAlignment="Top" FontSize="24" FontFamily="Verdana" Height="41" Width="404" Foreground="White">
-            <Label.Effect>
-                <BlurEffect Radius="10"/>
-            </Label.Effect>
-        </Label>
-        <Label x:Name="CurrentChallengerTextBox1" Content="You Have Been Challenged By:" HorizontalAlignment="Left" Margin="922,100,0,0" VerticalAlignment="Top" FontSize="24" FontFamily="Verdana" Height="41" Width="404" Foreground="White"/>
-        <Label x:Name="PlayersOnlineGlow" Content="Players Online" HorizontalAlignment="Left" Margin="295,168,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="58" Width="277" Foreground="White">
-            <Label.Effect>
-                <BlurEffect Radius="10"/>
-            </Label.Effect>
-        </Label>
-        <Label x:Name="PlayersOnlineLabel" Content="Players Online" HorizontalAlignment="Left" Margin="295,168,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="58" Width="277" Foreground="White"/>
+                <Canvas x:Name="Back" Margin="0,90,0,0" MouseEnter="MultiplayerLobbyButton_MouseEnter" MouseLeave="MultiplayerLobbyButton_MouseLeave" MouseLeftButtonDown="MultiplayerLobbyButton_MouseLeftButtonDown" MouseLeftButtonUp="MultiplayerLobbyButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
+                    <Path x:Name="BackGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
+                    <Image x:Name="BackImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Resources/Images/Buttons/Back.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
+
+                </Canvas>
+                <Canvas x:Name="Challenge" Margin="0,0,0,90" MouseEnter="MultiplayerLobbyButton_MouseEnter" MouseLeave="MultiplayerLobbyButton_MouseLeave" MouseLeftButtonDown="MultiplayerLobbyButton_MouseLeftButtonDown" MouseLeftButtonUp="MultiplayerLobbyButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
+                    <Path x:Name="ChallengeGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
+                    <Image x:Name="ChallengeImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/MultiplayerLobby/Challenge.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
+
+                </Canvas>
+            </Grid>
+        </Canvas>
+
+        <Canvas x:Name="IncomingChallengesCanvas" Width="560" Margin="840,60,40,440" Height="470" Visibility="Hidden">
+            <Label x:Name="CurrentChallengerGlow" Content="You Have Been Challenged By:" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24" FontFamily="Verdana" Height="41" Width="404" Foreground="White" Canvas.Left="74" Canvas.Top="52">
+                <Label.Effect>
+                    <BlurEffect Radius="10"/>
+                </Label.Effect>
+            </Label>
+            <Label x:Name="CurrentChallengerLabel" Content="You Have Been Challenged By:" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24" FontFamily="Verdana" Height="41" Width="404" Foreground="White" Canvas.Left="74" Canvas.Top="52"/>
+            <ListBox x:Name="OnlinePlayerChallengesListBox" HorizontalAlignment="Left" Height="219" VerticalAlignment="Top" Width="390" Canvas.Left="74" Canvas.Top="98"/>
+            <Grid x:Name="IncomingChallengesButton" Height="62" Canvas.Left="118" Canvas.Top="354" Width="302">
+                <Canvas x:Name="Connect" MouseEnter="MultiplayerLobbyButton_MouseEnter" MouseLeave="MultiplayerLobbyButton_MouseLeave" MouseLeftButtonDown="MultiplayerLobbyButton_MouseLeftButtonDown" MouseLeftButtonUp="MultiplayerLobbyButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
+                    <Path x:Name="ConnectGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
+                    <Image x:Name="ConnectImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/MultiplayerLobby/Connect.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
+
+                </Canvas>
+            </Grid>
+        </Canvas>
+
+        <Canvas x:Name="PlayersChallengedCanvas" Width="560" Height="330" Margin="840,530,40,50" Visibility="Hidden">
+            <Label x:Name="CurrentChallengeGlow" Content="You Have Challenged:" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24" FontFamily="Verdana" Height="41" Width="404" Foreground="White" Canvas.Left="64" Canvas.Top="27">
+                <Label.Effect>
+                    <BlurEffect Radius="10"/>
+                </Label.Effect>
+            </Label>
+            <Label x:Name="CurrentChallengeLabel" Content="You Have Challenged:" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24" FontFamily="Verdana" Height="41" Width="404" Foreground="White" Canvas.Left="64" Canvas.Top="27"/>
+            <ListBox x:Name="PlayersChallengedListBox" HorizontalAlignment="Left" Height="136" VerticalAlignment="Top" Width="390" Canvas.Left="64" Canvas.Top="73"/>
+            <Grid x:Name="PlayersChallengedButtons" Height="62" Canvas.Left="130" Canvas.Top="231" Width="302">
+                <Canvas x:Name="ChallengeCancel" MouseEnter="MultiplayerLobbyButton_MouseEnter" MouseLeave="MultiplayerLobbyButton_MouseLeave" MouseLeftButtonDown="MultiplayerLobbyButton_MouseLeftButtonDown" MouseLeftButtonUp="MultiplayerLobbyButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
+                    <Path x:Name="ChallengeCancelGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
+                    <Image x:Name="ChallengeCancelImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/Cancel.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
+
+                </Canvas>
+            </Grid>
+        </Canvas>
 
 
-
-        <ListBox x:Name="OnlinePlayersListBox"  HorizontalAlignment="Left" Height="269" Margin="222,251,0,0" VerticalAlignment="Top" Width="432">
-        </ListBox>
-        <ListBox x:Name="OnlinePlayerChallengesListBox" HorizontalAlignment="Left" Height="219" Margin="922,146,0,0" VerticalAlignment="Top" Width="390"/>
-        <Grid x:Name="Buttons" Margin="286,600,213,102">
-            <Canvas x:Name="Cancel" Margin="0,50,639,86" MouseEnter="MultiplayerLobbyButton_MouseEnter" MouseLeave="MultiplayerLobbyButton_MouseLeave" MouseLeftButtonDown="MultiplayerLobbyButton_MouseLeftButtonDown" MouseLeftButtonUp="MultiplayerLobbyButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
-                <Path x:Name="CancelGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
-                <Image x:Name="CancelImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/Cancel.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
-
-            </Canvas>
-            <Canvas x:Name="Challenge" Margin="0,-40,639,176" MouseEnter="MultiplayerLobbyButton_MouseEnter" MouseLeave="MultiplayerLobbyButton_MouseLeave" MouseLeftButtonDown="MultiplayerLobbyButton_MouseLeftButtonDown" MouseLeftButtonUp="MultiplayerLobbyButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
-                <Canvas.Effect>
-                    <BlurEffect Radius="15"/>
-                </Canvas.Effect>
-                <Path x:Name="ChallengeGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
-                <Image x:Name="ChallengeImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/MultiplayerLobby/Challenge.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
-
-            </Canvas>
-            <Canvas x:Name="Connect" Margin="674,-155,-35,291" MouseEnter="MultiplayerLobbyButton_MouseEnter" MouseLeave="MultiplayerLobbyButton_MouseLeave" MouseLeftButtonDown="MultiplayerLobbyButton_MouseLeftButtonDown" MouseLeftButtonUp="MultiplayerLobbyButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
-                <Path x:Name="ConnectGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
-                <Image x:Name="ConnectImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/MultiplayerLobby/Connect.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
-
-            </Canvas>
-            <Canvas x:Name="ChallengeCancel" Margin="674,162,-35,-26" MouseEnter="MultiplayerLobbyButton_MouseEnter" MouseLeave="MultiplayerLobbyButton_MouseLeave" MouseLeftButtonDown="MultiplayerLobbyButton_MouseLeftButtonDown" MouseLeftButtonUp="MultiplayerLobbyButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
-                <Path x:Name="ChallengeCancelGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
-                <Image x:Name="ChallengeCancelImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/Cancel.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
-
-            </Canvas>
-            <Canvas x:Name="Ignore" Margin="674,-222,-35,358" MouseEnter="MultiplayerLobbyButton_MouseEnter" MouseLeave="MultiplayerLobbyButton_MouseLeave" MouseLeftButtonDown="MultiplayerLobbyButton_MouseLeftButtonDown" MouseLeftButtonUp="MultiplayerLobbyButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
-                <Path x:Name="IgnoreGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
-                <Image x:Name="IgnoreImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/MultiplayerLobby/Ignore.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
-
-            </Canvas>
-
-        </Grid>
-        <Label x:Name="CurrentChallengeGlow" Content="You Have Challenged:" HorizontalAlignment="Left" Margin="908,600,0,0" VerticalAlignment="Top" FontSize="24" FontFamily="Verdana" Height="41" Width="404" Foreground="White">
-            <Label.Effect>
-                <BlurEffect Radius="10"/>
-            </Label.Effect>
-        </Label>
-        <Label x:Name="CurrentChallengeLabel" Content="You Have Challenged:" HorizontalAlignment="Left" Margin="908,600,0,0" VerticalAlignment="Top" FontSize="24" FontFamily="Verdana" Height="41" Width="404" Foreground="White"/>
-        <Label x:Name="CurrentChallengeNameGlow" Content="[Name]" HorizontalAlignment="Left" Margin="922,672,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="58" Width="404" Foreground="White">
-            <Label.Effect>
-                <BlurEffect Radius="10"/>
-            </Label.Effect>
-        </Label>
-        <Label x:Name="CurrentChallengeNameLabel" Content="[Name]" HorizontalAlignment="Left" Margin="922,672,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="58" Width="404" Foreground="White"/>
 
     </Grid>
 

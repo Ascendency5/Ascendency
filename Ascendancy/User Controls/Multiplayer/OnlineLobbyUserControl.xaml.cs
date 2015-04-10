@@ -27,7 +27,9 @@ namespace Ascendancy.User_Controls.Multiplayer
         public OnlineLobbyUserControl()
         {
             InitializeComponent();
-            UserControlAnimation.StartButtonGradientSpin(Buttons);
+            UserControlAnimation.StartButtonGradientSpin(IncomingChallengesButton);
+            UserControlAnimation.StartButtonGradientSpin(PlayersOnlineButtons);
+            UserControlAnimation.StartButtonGradientSpin(PlayersChallengedButtons);
             Networkmanager.OnDiscovery += on_peer_discovery;
             Networkmanager.OnDisconnect += on_peer_disconnect;
             
@@ -43,6 +45,7 @@ namespace Ascendancy.User_Controls.Multiplayer
 
             OnlinePlayersListBox.ItemsSource = items;
             OnlinePlayerChallengesListBox.ItemsSource = new List<ListBoxItem>();
+            PlayersChallengedListBox.ItemsSource = new List<ListBoxItem>();
         }
 
         private void subscribe(KulamiPeer peer)
@@ -152,6 +155,11 @@ namespace Ascendancy.User_Controls.Multiplayer
 
             Dispatcher.Invoke(() =>
             {
+                //todo: make this into an animation instead
+                if (IncomingChallengesCanvas.Visibility == Visibility.Hidden)
+                {
+                    IncomingChallengesCanvas.Visibility = Visibility.Visible;
+                }
                 // Don't add them if they've already challenged us
                 if(!OnlinePlayerChallengesListBox.Contains(peer))
                     AddPeer(OnlinePlayerChallengesListBox, peer);
@@ -167,7 +175,17 @@ namespace Ascendancy.User_Controls.Multiplayer
                 StartGame(peer, BoardSetup.GetBoard(e.BoardNum), e.ChallengerGoesFirst);
             else
             {
-                // todo They rejected our challenge, we should remove them from 'challenged'
+                Dispatcher.Invoke(() =>
+                {
+                    RemovePeer(OnlinePlayerChallengesListBox, peer);
+
+                    //todo: make this into an animation instead
+                    if (!OnlinePlayerChallengesListBox.HasItems)
+                    {
+                        IncomingChallengesCanvas.Visibility = Visibility.Hidden;
+                    }
+
+                });
             }
         }
 
@@ -200,7 +218,7 @@ namespace Ascendancy.User_Controls.Multiplayer
 
         private void EventFilter(object sender)
         {
-            if (sender == Cancel)
+            if (sender == Back)
             {
                 // Set the client name to null, as we've exited the lobby
                 Networkmanager.ClientName = null;
@@ -217,6 +235,21 @@ namespace Ascendancy.User_Controls.Multiplayer
                 KulamiPeer peer = getSelectedPeer(OnlinePlayersListBox);
                 if (peer == null) return;
 
+                //todo: make this an animation instead
+                if (PlayersChallengedCanvas.Visibility == Visibility.Hidden)
+                {
+                    PlayersChallengedCanvas.Visibility = Visibility.Visible;
+                }
+
+                if (PlayersChallengedListBox.Contains(peer))
+                {
+                    UpdatePeer(PlayersChallengedListBox, peer);
+                }
+                else
+                {
+                    AddPeer(PlayersChallengedListBox, peer);
+                }
+
                 // todo make this random number
                 peer.SendRequest(5, true);
             }
@@ -232,11 +265,19 @@ namespace Ascendancy.User_Controls.Multiplayer
             }
             else if (sender == ChallengeCancel)
             {
-                //todo: rescind challenge request
-            }
-            else if (sender == Ignore)
-            {
-                //todo: reject incoming challenge
+                KulamiPeer peer = getSelectedPeer(PlayersChallengedListBox);
+                if (peer == null) return;
+
+                //todo: rescind challenge request for selected peer
+                peer.SendResponse(false);
+
+                RemovePeer(PlayersChallengedListBox, peer);
+
+                //todo: make this an animation instead
+                if (!PlayersChallengedListBox.HasItems)
+                {
+                    PlayersChallengedCanvas.Visibility = Visibility.Hidden;
+                }
             }
         }
 
@@ -285,11 +326,4 @@ namespace Ascendancy.User_Controls.Multiplayer
                 .Any(x => x.Identifier == peer.Identifier);
         }
     }
-
-
-
-
-
-
-
 }
