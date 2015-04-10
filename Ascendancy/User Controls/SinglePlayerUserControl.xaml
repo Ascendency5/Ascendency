@@ -9,14 +9,8 @@
 
     <Grid x:Name="SinglePlayerGrid" Width="1440" Height="900">
         <MediaElement x:Name="myMediaElement" Margin="19,22,1411,868" Width="10" Height="10" Stretch="Fill"/>
-
-        <Grid x:Name="HoverEmulator" Margin="0" Width="1100" Height="688" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Opacity="0">
-            <Grid.Background>
-                <ImageBrush ImageSource="/Ascendancy;component/Resources/Images/MenuBackdrop-01.png"/>
-            </Grid.Background>
-        </Grid>
         <Rectangle x:Name="TransparencyEffect" Fill="Black" HorizontalAlignment="Left" Height="900" Stroke="Black" VerticalAlignment="Top" Width="1440" Opacity="0.745"/>
-        <Image x:Name="Background" HorizontalAlignment="Center" Height="880" VerticalAlignment="Center" Width="1383" Source="/Ascendancy;component/Resources/Images/MenuBackdrop-01.png" Panel.ZIndex="1" Margin="19,10,39,10"/>
+        <Image x:Name="Background" HorizontalAlignment="Center" Height="880" VerticalAlignment="Center" Width="1383" Source="/Ascendancy;component/Resources/Images/MenuBackdrop.png" Panel.ZIndex="1" Margin="19,10,39,10"/>
         <Grid x:Name="Buttons" Panel.ZIndex="2" VerticalAlignment="Center" HorizontalAlignment="Center" Height="900" Width="1440">
             <my:ImageButton x:Name="Play" Source="/Ascendancy;component/Resources/Images/Buttons/SinglePlayer/Buttons_Play.png"
                             Margin="0,446,382,-44" Height="60" Width="300"
@@ -42,7 +36,18 @@
                             Margin="463,314,-81,88" Height="60" Width="300"
                             MouseLeftButtonUp="GoSecond_OnMouseLeftButtonUp"/>
         </Grid>
-        <Image HorizontalAlignment="Left" Height="300" Margin="212,138,0,0" VerticalAlignment="Top" Width="528" Source="/Ascendancy;component/Resources/Images/robotIdle.png" Panel.ZIndex="2"/>
+        <Canvas x:Name="EasyRobotCanvas" HorizontalAlignment="Left" Height="310" Margin="290,117,0,0" VerticalAlignment="Top" Width="310" Panel.ZIndex="3"/>
+        <Canvas x:Name="HardRobotCanvas" HorizontalAlignment="Left" Height="310" Margin="290,117,0,0" VerticalAlignment="Top" Width="310" Panel.ZIndex="3" Opacity="0"/>
+        <Canvas x:Name="GoFirstCanvas" HorizontalAlignment="Left" Height="310" Margin="834,117,0,0" VerticalAlignment="Top" Width="310" Panel.ZIndex="3"/>
+        <Canvas x:Name="GoSecondCanvas" HorizontalAlignment="Left" Height="310" Margin="834,117,0,0" VerticalAlignment="Top" Width="310" Panel.ZIndex="3" Opacity="0"/>
 
     </Grid>
+    <UserControl.Resources>
+        <Storyboard x:Key="FadeOutSpriteStoryboard">
+            <DoubleAnimation From="1" To="0" Storyboard.TargetProperty="Opacity" Duration="0:0:.2"/>
+        </Storyboard>
+        <Storyboard x:Key="FadeInSpriteStoryboard">
+            <DoubleAnimation From="0" To="1" Storyboard.TargetProperty="Opacity" Duration="0:0:.5"/>
+        </Storyboard>
+    </UserControl.Resources>
 </UserControl>

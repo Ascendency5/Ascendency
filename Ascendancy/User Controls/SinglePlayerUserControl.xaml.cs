@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Ascendancy.Game_Engine;
-using Panel = System.Windows.Forms.Panel;
+using Panel = System.Windows.Controls.Panel;
 
 namespace Ascendancy.User_Controls
 {
@@ -26,6 +26,8 @@ namespace Ascendancy.User_Controls
     {
         private bool gameModeIsEasy;
         private bool playerGoesFirst;
+        private Storyboard fadeInSprite;
+        private Storyboard fadeOutSprite;
 
         public SinglePlayerUserControl()
         {
@@ -34,6 +36,9 @@ namespace Ascendancy.User_Controls
             //set the default difficulty and playerGoesFirst/second state
             gameModeIsEasy = true;
             playerGoesFirst = true;
+            InsertSprites();
+            fadeOutSprite = FindResource("FadeOutSpriteStoryboard") as Storyboard;
+            fadeInSprite = FindResource("FadeInSpriteStoryboard") as Storyboard;
         }
 
         private void startGame()
@@ -64,8 +69,14 @@ namespace Ascendancy.User_Controls
             ContentControlActions.FadeOut();
         }
 
+        //todo Nik added a few lines for the storyboards
+
         private void Easy_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            if (!gameModeIsEasy)
+            {
+                transition(EasyRobotCanvas, HardRobotCanvas);
+            }
             gameModeIsEasy = true;
             Easy.Selected = true;
             Hard.Selected = false;
@@ -73,6 +84,10 @@ namespace Ascendancy.User_Controls
 
         private void Hard_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            if (gameModeIsEasy)
+            {
+                transition(HardRobotCanvas, EasyRobotCanvas);
+            }
             gameModeIsEasy = false;
             Easy.Selected = false;
             Hard.Selected = true;
@@ -80,6 +95,10 @@ namespace Ascendancy.User_Controls
 
         private void GoFirst_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            if (!playerGoesFirst)
+            {
+                transition(GoFirstCanvas, GoSecondCanvas);
+            }
             playerGoesFirst = true;
             GoFirst.Selected = true;
             GoSecond.Selected = false;
@@ -87,9 +106,104 @@ namespace Ascendancy.User_Controls
 
         private void GoSecond_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            if (playerGoesFirst)
+            {
+                transition(GoSecondCanvas, GoFirstCanvas);
+            }
             playerGoesFirst = false;
             GoFirst.Selected = false;
             GoSecond.Selected = true;
         }
+
+        private void transition(Canvas fadeInCanvas, Canvas fadeOutCanvas)
+        {
+            Storyboard.SetTarget(fadeInSprite, fadeInCanvas);
+            Storyboard.SetTarget(fadeOutSprite, fadeOutCanvas);
+            fadeOutSprite.Begin();
+            fadeInSprite.Begin();
+        }
+
+        #region Local Sprites
+
+        private void InsertSprites()
+        {
+            string easyRobotFile;
+            string hardRobotFile;
+            string goFirstFile;
+            string goSecondFile;
+            string sound;
+
+            easyRobotFile = "EasyRobotIdle";
+            hardRobotFile = "HardRobotIdle";
+            sound = "Resources/Audio/RobotPodDown.wav";
+
+            goFirstFile = "GoFirstSprite";
+            goSecondFile = "GoSecondSprite";
+
+            // Sprite resource name and width
+            Sprite easyRobotSprite = new Sprite(easyRobotFile, 311, AnimationType.AnimateForever)
+            {
+                Width = 310,
+                Height = 310,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                Stretch = Stretch.Fill,
+                Name = easyRobotFile
+            };
+            // Sprite resource name and width
+            Sprite hardRobotSprite = new Sprite(hardRobotFile, 311, AnimationType.AnimateForever)
+            {
+                Width = 310,
+                Height = 310,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                Stretch = Stretch.Fill,
+                Name = hardRobotFile
+            };
+            // Sprite resource name and width
+            Sprite goFirstSprite = new Sprite(goFirstFile, 311, AnimationType.AnimateForever)
+            {
+                Width = 310,
+                Height = 310,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                Stretch = Stretch.Fill,
+                Name = goFirstFile
+            };
+            // Sprite resource name and width
+            Sprite goSecondSprite = new Sprite(goSecondFile, 311, AnimationType.AnimateForever)
+            {
+                Width = 310,
+                Height = 310,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                Stretch = Stretch.Fill,
+                Name = goSecondFile
+            };
+
+            //Easy or Hard AI
+            easyRobotSprite.Margin = new Thickness(0, 0, 0, 0);
+            hardRobotSprite.Margin = new Thickness(0, 0, 0, 0);
+
+            EasyRobotCanvas.Children.Add(easyRobotSprite);
+            HardRobotCanvas.Children.Add(hardRobotSprite);
+
+            //Going First or Second 
+            goFirstSprite.Margin = new Thickness(0, 0, 0, 0);
+            goSecondSprite.Margin = new Thickness(0, 0, 0, 0);
+
+            GoFirstCanvas.Children.Add(goFirstSprite);
+            GoSecondCanvas.Children.Add(goSecondSprite);
+
+
+            Panel.SetZIndex(easyRobotSprite, 3);
+            Panel.SetZIndex(hardRobotSprite, 3);
+
+            Panel.SetZIndex(goFirstSprite, 3);
+            Panel.SetZIndex(goFirstSprite, 3);
+
+            VolumeManager.play(sound);
+        }
+        #endregion
     }
 }
