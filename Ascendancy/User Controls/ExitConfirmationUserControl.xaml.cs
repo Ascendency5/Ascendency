@@ -26,57 +26,16 @@ namespace Ascendancy.User_Controls
         public ExitConfirmationUserControl()
         {
             InitializeComponent();
-            UserControlAnimation.StartButtonGradientSpin(Buttons);
         }
 
-        #region Button Animations
-        private void UserControlButton_MouseEnter(object sender, MouseEventArgs e)
+        private void Cancel_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            Canvas animateThisCanvas = (Canvas)sender;
-            UserControlAnimation.FadeInUserControlButton(animateThisCanvas.Children[0], true);
-            //added sound effect for the button
-            VolumeManager.play(@"Resources/Audio/UserControlButtonHover.wav");
+            ContentControlActions.FadeOut();
         }
 
-        private void UserControlButton_MouseLeave(object sender, MouseEventArgs e)
+        private void Quit_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            //todo get mouse down working with this
-            Canvas animateThisCanvas = (Canvas)sender;
-            UserControlAnimation.FadeInUserControlButton(animateThisCanvas.Children[0], false);
-
+            Application.Current.Shutdown();
         }
-
-        private void UserControlButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            Canvas sss = (Canvas)sender;
-            Storyboard localStoryboard = App.Current.FindResource("ButtonDownStoryboard") as Storyboard;
-            Storyboard.SetTarget(localStoryboard, sss.Children[1]);
-            localStoryboard.Begin();
-            
-        }
-
-        private void UserControlButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            Canvas sss = (Canvas)sender;
-            Storyboard localStoryboard = App.Current.FindResource("ButtonUpStoryboard") as Storyboard;
-            Storyboard.SetTarget(localStoryboard, sss.Children[1]);
-            localStoryboard.Begin();
-
-            EventFilter(sender);
-        }
-
-        private void EventFilter(object sender)
-        {
-            if (sender == CancelButton)
-            {
-                ContentControlActions.FadeOut();
-            }
-            else if (sender == QuitButton)
-            {
-                Application.Current.Shutdown();
-            }
-        }
-
-        #endregion
     }
 }
