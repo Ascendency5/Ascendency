@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              xmlns:my="clr-namespace:Ascendancy"
-             d:DesignHeight="300" d:DesignWidth="300" Width="1440" Height="900" Loaded="OptionsUserControlView_Loaded">
+             d:DesignHeight="300" d:DesignWidth="300" Width="1440" Height="900">
 
     <Grid x:Name="OptionsGrid" Width="1440" Height="900">
         <Rectangle x:Name="TransparencyEffect" Fill="Black" HorizontalAlignment="Left" Height="900" Stroke="Black" VerticalAlignment="Top" Width="1440" Opacity="0.745"/>

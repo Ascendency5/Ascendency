@@ -30,12 +30,6 @@ namespace Ascendancy.User_Controls
             updateSoundSlider(VolumeManager.SoundVolume);
         }
 
-        private void OptionsUserControlView_Loaded(object sender, RoutedEventArgs e)
-        {
-            //updateSoundSlider(VolumeManager.SoundVolume);
-            //updateMusicSlider(VolumeManager.MusicVolume);
-        }
-
         private void updateSoundSlider(double volume)
         {
             SoundSlider.Value = volume;
