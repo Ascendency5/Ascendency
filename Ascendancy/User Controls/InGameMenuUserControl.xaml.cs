@@ -14,6 +14,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Ascendancy.User_Control;
 using Ascendancy.User_Controls.Multiplayer;
 
 namespace Ascendancy.User_Controls
@@ -29,59 +30,35 @@ namespace Ascendancy.User_Controls
 
         public InGameMenuUserControl(InGameMenuButtonHandler callback)
         {
-            this.callback = callback;
-
             InitializeComponent();
-            UserControlAnimation.StartButtonGradientSpin(Buttons);
+            this.callback = callback;
         }
 
-        private void EventFilter(object sender)
+        private void Resume_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (sender == LeaveGame)
-            {
-                callback(this, new MenuOptionEventArgs(MenuOption.Exit));
-            }
-            else if (sender == Resume)
-            {
-                callback(this, new MenuOptionEventArgs(MenuOption.Resume));
-            }
-            else if (sender == Restart)
-            {
-                callback(this, new MenuOptionEventArgs(MenuOption.Restart));
-            }
+            callback(this, new MenuOptionEventArgs(MenuOption.Resume));
         }
 
-        private void InGameMenuButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void Options_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            Canvas sss = (Canvas)sender;
-            Storyboard localStoryboard = App.Current.FindResource("ButtonUpStoryboard") as Storyboard;
-            Storyboard.SetTarget(localStoryboard, sss.Children[1]);
-            localStoryboard.Begin();
-
-            EventFilter(sender);
+            ContentControlActions.setPopup(new OptionsUserControl());
         }
 
-        private void InGameMenuButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Help_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            Canvas sss = (Canvas)sender;
-            Storyboard localStoryboard = App.Current.FindResource("ButtonDownStoryboard") as Storyboard;
-            Storyboard.SetTarget(localStoryboard, sss.Children[1]);
-            localStoryboard.Begin();
+            // todo This is a control, but controls don't actually work.
+            // ContentControlActions.setUpControl(new HelpPopUpUserControl());
+            throw new NotImplementedException();
         }
 
-        private void InGameMenuButton_MouseEnter(object sender, MouseEventArgs e)
+        private void Restart_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            Canvas animateThisCanvas = (Canvas)sender;
-            UserControlAnimation.FadeInUserControlButton(animateThisCanvas.Children[0], true);
-            //added sound effect for the button
-            VolumeManager.play(@"Resources/Audio/UserControlButtonHover.wav");
+            callback(this, new MenuOptionEventArgs(MenuOption.Restart));
         }
 
-        private void InGameMenuButton_MouseLeave(object sender, MouseEventArgs e)
+        private void LeaveGame_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            //todo get mouse down working with this
-            Canvas animateThisCanvas = (Canvas)sender;
-            UserControlAnimation.FadeInUserControlButton(animateThisCanvas.Children[0], false);
+            callback(this, new MenuOptionEventArgs(MenuOption.Exit));
         }
     }
 
