@@ -25,66 +25,25 @@ namespace Ascendancy.User_Controls.Multiplayer
         public LocalMultiplayerUserControl()
         {
             InitializeComponent();
-            UserControlAnimation.StartButtonGradientSpin(Buttons);
         }
 
-        public void EventFilter(object sender)
+        private void Back_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (sender == Back)
-            {
-                ContentControlActions.FadeOut();
-            }
-            else if (sender == Play)
-            {
-                // Set up game engine
-                HumanPlayer humanPlayerRed = new HumanPlayer(GameBoardUserControl.human_move_handler);
-                HumanPlayer humanPlayerBlack = new HumanPlayer(GameBoardUserControl.human_move_handler);
-
-                Board board = BoardSetup.board_team5;
-
-                GameEngine engine = new GameEngine(board, humanPlayerRed, humanPlayerBlack, PieceType.Red);
-
-                // todo Make this transition better
-                ContentControlActions.setUpControl(new GameBoardUserControl(engine));
-            }
+            ContentControlActions.FadeOut();
         }
 
-        
-        private void LocalMultiplayerButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void Play_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            Canvas sss = (Canvas)sender;
-            Storyboard localStoryboard = App.Current.FindResource("ButtonUpStoryboard") as Storyboard;
-            Storyboard.SetTarget(localStoryboard, sss.Children[1]);
-            localStoryboard.Begin();
+            // Set up game engine
+            HumanPlayer humanPlayerRed = new HumanPlayer(GameBoardUserControl.human_move_handler);
+            HumanPlayer humanPlayerBlack = new HumanPlayer(GameBoardUserControl.human_move_handler);
 
-            EventFilter(sender);
+            Board board = BoardSetup.board_team5;
+
+            GameEngine engine = new GameEngine(board, humanPlayerRed, humanPlayerBlack, PieceType.Red);
+
+            // todo Make this transition better
+            ContentControlActions.setUpControl(new GameBoardUserControl(engine));
         }
-
-        private void LocalMultiplayerButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            Canvas sss = (Canvas)sender;
-            Storyboard localStoryboard = App.Current.FindResource("ButtonDownStoryboard") as Storyboard;
-            Storyboard.SetTarget(localStoryboard, sss.Children[1]);
-            localStoryboard.Begin();
-
-        }
-
-        private void LocalMultiplayerButton_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Canvas animateThisCanvas = (Canvas)sender;
-            UserControlAnimation.FadeInUserControlButton(animateThisCanvas.Children[0], true);
-            
-            //added sound effect for the button
-            VolumeManager.play(@"Resources/Audio/UserControlButtonHover.wav");
-        }
-
-        private void LocalMultiplayerButton_MouseLeave(object sender, MouseEventArgs e)
-        {
-            //todo get mouse down working with this
-            Canvas animateThisCanvas = (Canvas)sender;
-            UserControlAnimation.FadeInUserControlButton(animateThisCanvas.Children[0], false);
-        }
-
-
     }
 }
