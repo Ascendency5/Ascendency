@@ -40,16 +40,15 @@ namespace Ascendancy
         private static bool humanTurn;
         private static Move humanMove;
         private readonly List<Move> playedMoves;
-        private bool gamePaused;
 
-        readonly Sprite originalPossibleMoveSprite = new Sprite("possibleMoveY", 311, AnimationType.AnimateForever)
+        readonly Sprite originalPossibleMoveSprite = new Sprite("PossibleMoveSprite", 311, AnimationType.AnimateForever)
         {
             Width = 68,
             Height = 68,
             HorizontalAlignment = HorizontalAlignment.Left,
             VerticalAlignment = VerticalAlignment.Top,
             Stretch = Stretch.Fill,
-            Name = "possibleMove"
+            Name = "PossibleMoveSprite"
         };
 
         public GameBoardUserControl(GameEngine engine)
@@ -82,6 +81,7 @@ namespace Ascendancy
 
             engine.start();
             this.engine = engine;
+
             StartMusic();
         }
 
@@ -151,19 +151,6 @@ namespace Ascendancy
             });
         }
 
-        private void CancelIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            // animate the cancel button from the ExitControl, then kill anim object
-            //UserControlAnimation.FadeInUserControlButton(CloseHover, false);
-
-            //ContentControlActions.FadeOut();
-
-            engine.kill();
-
-
-            ContentControlActions.setPopup(new GameCompleteUserControl(GameResult.Loss, on_game_complete_callback));
-        }
-
         #region New Functions
 
         private void PodPositionListener_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -181,7 +168,7 @@ namespace Ascendancy
         private void animateScoreBar(FrameworkElement barType, int score)
         {
             //scale the scorebar
-            score = score * 10 + 30;
+            score = score * 7 + 30;
 
             Storyboard animateBar = new Storyboard();
             DoubleAnimationUsingKeyFrames changeWidth = new DoubleAnimationUsingKeyFrames();
@@ -197,33 +184,6 @@ namespace Ascendancy
 
         #endregion
 
-        private void UserControlButton_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            // todo This doesn't seem correct, check it later
-            VolumeManager.play(@"Resources/Audio/hover.wav");
-        }
-
-        private void UserControlButton_MouseEnter(object sender, MouseEventArgs e)
-        {
-            UserControlAnimation.FadeInUserControlButton(sender, true);
-        }
-
-        private void UserControlButton_MouseLeave(object sender, MouseEventArgs e)
-        {
-            UserControlAnimation.FadeInUserControlButton(sender, false);
-        }
-
-        private void PlayableGameBoardGridEventListener_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (!humanTurn) return;
-
-            Move move = findMoveFromPosition(e.GetPosition(GameBoardGrid));
-            if (validMove(move))
-            {
-                humanMove = move;
-            }
-        }
-
         private void updateValidMoves(PlayerEventArgs e)
         {
             Board board = e.Board;
@@ -235,7 +195,7 @@ namespace Ascendancy
             {
                 PlayableGameBoardGridEventListener.Children.Remove(activeImages[move.Row, move.Col]);
 
-                inactiveImages[move.Row, move.Col].Opacity = 1;
+                inactiveImages[move.Row, move.Col].Opacity = .2;
                 activeImages[move.Row, move.Col] = null;
             }
 
@@ -263,14 +223,6 @@ namespace Ascendancy
         private bool validMove(Move move)
         {
             return validMoves.Any(validMove => validMove == move);
-        }
-
-        private void PlayableGameBoardGridEventListener_MouseEnter(object sender, MouseEventArgs e)
-        {
-        }
-
-        private void PlayableGameBoardGridEventListener_MouseLeave(object sender, MouseEventArgs e)
-        {
         }
 
         //finalize this event listener format
@@ -318,7 +270,7 @@ namespace Ascendancy
             trans.BeginAnimation(TranslateTransform.XProperty, anim1);
             trans.BeginAnimation(TranslateTransform.YProperty, anim2);
 
-            //add in a little recoil
+            // todo add in a little recoil
 
         }
 
@@ -363,7 +315,7 @@ namespace Ascendancy
             }
             else
             {
-                podType = "robotTest1";
+                podType = "HardRobotGameboardSprite";
                 dropPod = FindResource("DropRobotPod") as Storyboard;
                 sound = "Resources/Audio/RobotPodDown.wav";
             }
@@ -382,10 +334,8 @@ namespace Ascendancy
             //attempt to resolve the location of the piece
             Vector offset = VisualTreeHelper.GetOffset(flyToImage);
 
-            const double sizeIsOffBecauseThePiecesWereDesignedHastily = 40;
-
-            double left = offset.X + 15 - sizeIsOffBecauseThePiecesWereDesignedHastily;          //getPegLeft(row, col) - 6 + (col - row);
-            double top = offset.Y - sizeIsOffBecauseThePiecesWereDesignedHastily;           //getPegTop(row, col) + 109 + (row + col);
+            double left = offset.X;     //getPegLeft(row, col) - 6 + (col - row);
+            double top = offset.Y-20;           //getPegTop(row, col) + 109 + (row + col);
 
             podImage.Margin = new Thickness(left, top, 0, 0);
             //podImage.Visibility = Visibility.Hidden;
@@ -405,25 +355,7 @@ namespace Ascendancy
         }
 
 
-
-        private void InGameMenuPopUpButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            Canvas sss = (Canvas)sender;
-            Storyboard localStoryboard = App.Current.FindResource("ButtonUpStoryboard") as Storyboard;
-            Storyboard.SetTarget(localStoryboard, sss.Children[1]);
-            localStoryboard.Begin();
-
-            gamePaused = true;
-            ContentControlActions.setPopup(new InGameMenuUserControl(on_menu_callback));
-        }
-
-        private void InGameMenuPopUpButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            Canvas sss = (Canvas)sender;
-            Storyboard localStoryboard = App.Current.FindResource("ButtonDownStoryboard") as Storyboard;
-            Storyboard.SetTarget(localStoryboard, sss.Children[1]);
-            localStoryboard.Begin();
-        }
+        #region InGameMenu
 
         private void on_menu_callback(object sender, MenuOptionEventArgs eventargs)
         {
@@ -431,9 +363,9 @@ namespace Ascendancy
             {
                 case MenuOption.Resume:
                     ContentControlActions.FadeOut();
-                    gamePaused = false;
                     break;
                 case MenuOption.Restart:
+                    ContentControlActions.setPopup(new ChatboxUserControl());
                     break;
                 case MenuOption.Exit:
                     // Fade out the popup
@@ -450,7 +382,6 @@ namespace Ascendancy
             {
                 case GameCompleteMenuOption.NewGame:
                     ContentControlActions.FadeOut();
-                    gamePaused = false;
                     //todo: figure out which type of game user was playing and start a new one
                     break;
                 case GameCompleteMenuOption.Restart:
@@ -484,7 +415,6 @@ namespace Ascendancy
                     ContentControlActions.FadeOut();
                     //fade out the user control
                     ContentControlActions.FadeOut();
-                    gamePaused = false;
 
                     //todo: there is probably a much better way to do this
                     ContentControlActions.setPopup(new MultiplayerStarterUserControl());
@@ -504,29 +434,11 @@ namespace Ascendancy
             }
         }
 
-        private void InGameMenuPopUpButton_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Canvas animateThisCanvas = (Canvas)sender;
-            UserControlAnimation.FadeInUserControlButton(animateThisCanvas.Children[0], true);
-            //added sound effect for the button
-            VolumeManager.play(@"Resources/Audio/UserControlButtonHover.wav");
-        }
+        #endregion
 
-        private void InGameMenuPopUpButton_MouseLeave(object sender, MouseEventArgs e)
+        private void Menu_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            //todo get mouse down working with this
-            Canvas animateThisCanvas = (Canvas)sender;
-            UserControlAnimation.FadeInUserControlButton(animateThisCanvas.Children[0], false);
-        }
-
-        private void HelpIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            //HomeScreenContentControl.Content = new User_Controls.HelpUserControl(this, HomeScreenContentControl);
-        }
-
-        private void SoundIdle_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-
+            ContentControlActions.setPopup(new InGameMenuUserControl(on_menu_callback));
         }
     }
 }
