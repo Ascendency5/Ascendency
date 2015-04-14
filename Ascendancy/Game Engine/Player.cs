@@ -9,6 +9,8 @@ namespace Ascendancy.Game_Engine
 {
     public interface Player
     {
-        Move getMove(Board board, BoardState state);
+        Move GetMove(Board board, BoardState state);
+        string GetName();
+        void Reset();
     }
 }

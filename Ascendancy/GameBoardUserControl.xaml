@@ -23,7 +23,7 @@
             </Rectangle.Fill>
         </Rectangle>
         <Image x:Name="GameBoardBackground" Width="1440" Height="900" Source="Resources/Images/GameBoard/Map1.png" Panel.ZIndex="2"/>
-        <Image x:Name="GameConfigMask" Width="1440" Height="900" Source="Resources/Images/GameBoard/Map1.png" Panel.ZIndex="2" Visibility="Hidden"/>
+        <Image x:Name="GameConfigMask" Width="1440" Height="900" Source="Resources/Images/GameBoard/Map1.png" Panel.ZIndex="2"/>
 
 
 

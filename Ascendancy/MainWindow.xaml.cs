@@ -42,11 +42,10 @@ namespace Ascendancy
             //setBaseContent(new HomeScreenUserControl());
             setBaseContent(intro);
 
-            //todo moving the network manager to the online lobby (makes no sense to have it here)
-            //Networkmanager.OnDiscovery += PeerHolder.on_peer_discovery;
-            //Networkmanager.OnDisconnect += PeerHolder.on_peer_disconnect;
+            Networkmanager.OnDiscovery += PeerHolder.on_peer_discovery;
+            Networkmanager.OnDisconnect += PeerHolder.on_peer_disconnect;
 
-            //Networkmanager.Start();
+            Networkmanager.Start();
         }
 
         private void on_intro_completed(object sender, EventArgs e)
@@ -112,8 +111,7 @@ namespace Ascendancy
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-            //todo moving the network manager to the online lobby (makes no sense to have it here)
-            //Networkmanager.Shutdown();
+            Networkmanager.Shutdown();
             Application.Current.Shutdown();
         }
     }

@@ -46,17 +46,19 @@ namespace Ascendancy.User_Controls
             ContentControlActions.FadeOut();
 
             // Set up game engine
-            // todo Add code for gameModeIsHard/hard AI
             HumanPlayer humanPlayer = new HumanPlayer(GameBoardUserControl.human_move_handler);
-            AIPlayer aiPlayer = new AIPlayer();
+            Player AiPlayer = gameModeIsHard ? (Player) new HardAiPlayer() : new EasyAiPlayer();
 
             Board board = BoardSetup.Random();
 
-            GameEngine engine = new GameEngine(board, humanPlayer, aiPlayer,
+            GameBoardUserControl control = new GameBoardUserControl(
+                board,
+                humanPlayer,
+                AiPlayer,
                 playerGoesFirst ? PieceType.Red : PieceType.Black
                 );
 
-            ContentControlActions.setBaseContentControl(new GameBoardUserControl(engine, gameModeIsHard));
+            ContentControlActions.setBaseContentControl(control);
         }
 
         private void Play_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)

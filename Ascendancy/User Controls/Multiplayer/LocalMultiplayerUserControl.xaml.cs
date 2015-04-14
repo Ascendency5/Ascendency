@@ -64,19 +64,21 @@ namespace Ascendancy.User_Controls.Multiplayer
         private void Play_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             // Set up game engine
-            HumanPlayer humanPlayerRed = new HumanPlayer(GameBoardUserControl.human_move_handler);
-            HumanPlayer humanPlayerBlack = new HumanPlayer(GameBoardUserControl.human_move_handler);
+            HumanPlayer humanPlayerRed = new HumanPlayer(PlayerOneNamePrompt.Text, GameBoardUserControl.human_move_handler);
+            HumanPlayer humanPlayerBlack = new HumanPlayer(PlayerTwoNamePrompt.Text, GameBoardUserControl.human_move_handler);
 
             Board board = BoardSetup.Random();
 
             GameEngine engine = new GameEngine(board, humanPlayerRed, humanPlayerBlack, PieceType.Red);
 
-            //grab the content from the user input for the player names
-            string playerOne = PlayerOneNamePrompt.Text;
-            string playerTwo = PlayerTwoNamePrompt.Text;
+            GameBoardUserControl control = new GameBoardUserControl(
+                board,
+                humanPlayerRed,
+                humanPlayerBlack,
+                PieceType.Red
+                );
 
-            // todo Make this transition better
-            ContentControlActions.setBaseContentControl(new GameBoardUserControl(engine, playerOne, playerTwo));
+            ContentControlActions.setBaseContentControl(control);
         }
 
         private void NamePromptText_Loaded(object sender, RoutedEventArgs e)

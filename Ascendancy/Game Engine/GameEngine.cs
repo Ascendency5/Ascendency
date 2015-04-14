@@ -1,4 +1,5 @@
-﻿using System.Threading;
+using System;
+using System.Threading;
 
 namespace Ascendancy.Game_Engine
 {
@@ -13,10 +14,10 @@ namespace Ascendancy.Game_Engine
 
         private Thread gameEngineThread;
 
-        public event GameEngineEvents.GameStateHandler OnGameStart;
-        public event GameEngineEvents.PlayerChangedHandler OnPlayerChanged;
-        public event GameEngineEvents.PlayerMovedHandler OnPlayerMove;
-        public event GameEngineEvents.GameStateHandler OnGameEnd;
+        public event EventHandler<GameBoardEventArgs> OnGameStart;
+        public event EventHandler<PlayerEventArgs> OnPlayerChanged;
+        public event EventHandler<PlayerMoveEventArgs> OnPlayerMove;
+        public event EventHandler<GameBoardEventArgs> OnGameEnd;
 
         public GameEngine(Board board, Player redPlayer, Player blackPlayer, PieceType first)
         {
@@ -49,7 +50,7 @@ namespace Ascendancy.Game_Engine
                 else if(gameState == GameState.RedToMove)
                 {
                     // Ask the player for a move
-                    Move move = redPlayer.getMove(board, boardState);
+                    Move move = redPlayer.GetMove(board, boardState);
                     boardState = boardState.PlayMove(move);
 
                     // Fire the event player moved
@@ -88,7 +89,7 @@ namespace Ascendancy.Game_Engine
                 else if (gameState == GameState.BlackToMove)
                 {
                     // Ask the player for a move
-                    Move move = blackPlayer.getMove(board, boardState);
+                    Move move = blackPlayer.GetMove(board, boardState);
                     boardState = boardState.PlayMove(move);
 
                     // Fire the event player moved

@@ -5,15 +5,26 @@ using System.ComponentModel.Design.Serialization;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Schema;
 
 namespace Ascendancy.Game_Engine
 {
-    class AIPlayer : Player
+    class HardAiPlayer : Player
     {
+        private string Name;
+        public HardAiPlayer() : this("Robots")
+        {
+        }
+
+        public HardAiPlayer(string name)
+        {
+            Name = name;
+        }
+
         private MCTSNode root;
-        public Move getMove(Board board, BoardState state)
+        public Move GetMove(Board board, BoardState state)
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
             if (root == null)
@@ -55,7 +66,21 @@ namespace Ascendancy.Game_Engine
             }
             */
 
+            // Make sure the AI takes at least 4.5 seconds to move
+            while(stopwatch.ElapsedMilliseconds < 4500)
+                Thread.Sleep(100);
+
             return root.bestMove();
+        }
+
+        public string GetName()
+        {
+            return Name;
+        }
+
+        public void Reset()
+        {
+            root = null;
         }
     }
 

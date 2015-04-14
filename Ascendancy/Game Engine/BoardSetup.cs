@@ -42,6 +42,25 @@ namespace Ascendancy.Game_Engine
             }
         }
 
+        public static int FromBoard(Board board)
+        {
+            if (board == board_team1)
+                return 1;
+            if (board == board_team2)
+                return 2;
+            if (board == board_team3)
+                return 3;
+            if (board == board_team4)
+                return 4;
+            if (board == board_team5)
+                return 5;
+            if (board == board_team6)
+                return 6;
+            if (board == board_team7)
+                return 7;
+            return 0;
+        }
+
         private static Board setupBoard1()
         {
             Panel[] panels =
@@ -65,7 +84,7 @@ namespace Ascendancy.Game_Engine
                 new Panel(5, 6, PanelType.ThreeByTwo)
             };
 
-            return new Board(panels,1);
+            return new Board(panels);
         }
 
         private static Board setupBoard2()
@@ -91,7 +110,7 @@ namespace Ascendancy.Game_Engine
                 new Panel(6, 5, PanelType.TwoByThree)
             };
 
-            return new Board(panels,2);
+            return new Board(panels);
         }
 
         private static Board setupBoard3()
@@ -117,7 +136,7 @@ namespace Ascendancy.Game_Engine
                 new Panel(7, 3, PanelType.OneByThree)
             };
 
-            return new Board(panels,3);
+            return new Board(panels);
         }
 
         private static Board setupBoard4()
@@ -143,7 +162,7 @@ namespace Ascendancy.Game_Engine
                 new Panel(6, 4, PanelType.TwoByThree)
             };
 
-            return new Board(panels,4);
+            return new Board(panels);
         }
 
         private static Board setupBoard5()
@@ -169,7 +188,7 @@ namespace Ascendancy.Game_Engine
                 new Panel(7, 3, PanelType.OneByThree)
             };
 
-            return new Board(panels,5);
+            return new Board(panels);
         }
 
         private static Board setupBoard6()
@@ -195,7 +214,7 @@ namespace Ascendancy.Game_Engine
                 new Panel(7, 5, PanelType.OneByThree)
             };
 
-            return new Board(panels,6);
+            return new Board(panels);
         }
 
         private static Board setupBoard7()
@@ -221,7 +240,7 @@ namespace Ascendancy.Game_Engine
                 new Panel(6, 6, PanelType.TwoByTwo)
             };
 
-            return new Board(panels,7);
+            return new Board(panels);
         }
     }
 }

@@ -16,14 +16,9 @@ namespace Ascendancy.User_Controls.Multiplayer
     {
         public OnlineLobbyUserControl()
         {
-            InitializeComponent();            
-            
-            //todo moved the network manager from the main window
-            Networkmanager.OnDiscovery += PeerHolder.on_peer_discovery;
-            Networkmanager.OnDisconnect += PeerHolder.on_peer_disconnect;
-            Networkmanager.Start();
+            InitializeComponent();
             Networkmanager.OnDiscovery += on_peer_discovery;
-            Networkmanager.OnDisconnect += on_peer_disconnect; 
+            Networkmanager.OnDisconnect += on_peer_disconnect;
             
             List<ListBoxItem> items = new List<ListBoxItem>();
 
@@ -48,7 +43,6 @@ namespace Ascendancy.User_Controls.Multiplayer
             peer.OnUpdate += on_peer_update;
         }
 
-        //todo why?
         private void unsubscribe(KulamiPeer peer)
         {
             TraceHelper.WriteLine("Unsubscribing {0}", peer.Identifier);
@@ -148,12 +142,14 @@ namespace Ascendancy.User_Controls.Multiplayer
             HumanPlayer humanPlayer = new HumanPlayer(GameBoardUserControl.human_move_handler);
             NetworkPlayer networkPlayer = new NetworkPlayer(peer);
 
-            GameEngine engine = new GameEngine(board, humanPlayer, networkPlayer,
+            GameBoardUserControl control = new GameBoardUserControl(
+                board,
+                humanPlayer,
+                networkPlayer,
                 goFirst ? PieceType.Red : PieceType.Black
                 );
-            engine.OnPlayerMove += networkPlayer.on_player_move;
 
-            ContentControlActions.setBaseContentControl(new GameBoardUserControl(engine));
+            ContentControlActions.setBaseContentControl(control);
         }
 
         private void Back_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -166,8 +162,7 @@ namespace Ascendancy.User_Controls.Multiplayer
 
             PeerHolder.Peers.ToList().ForEach(unsubscribe);
 
-            ContentControlActions.FadeOut(); 
-            Networkmanager.Shutdown();
+            ContentControlActions.FadeOut();
         }
 
         private void Challenge_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)

@@ -14,6 +14,7 @@ namespace Ascendancy.Networking
         private Move move;
         private Move lastMove;
         private readonly KulamiPeer peer;
+        private string Name;
 
         public NetworkPlayer(KulamiPeer peer)
         {
@@ -22,6 +23,7 @@ namespace Ascendancy.Networking
             lastMove = Move.None;
             peer.OnPlayerMove += on_move_received;
             peer.OnChatMessage += on_chat_received;
+            Name = peer.Name;
         }
 
         private void on_move_received(object sender, NetPlayerMoveEventArgs e)
@@ -38,7 +40,7 @@ namespace Ascendancy.Networking
             
         }
 
-        public Move getMove(Board board, BoardState state)
+        public Move GetMove(Board board, BoardState state)
         {
             while (move == Move.None)
                 Thread.Yield();
@@ -47,6 +49,16 @@ namespace Ascendancy.Networking
             move = Move.None;
 
             return returnMove;
+        }
+
+        public string GetName()
+        {
+            return Name;
+        }
+
+        public void Reset()
+        {
+            // todo Figure out how to reset the peer
         }
 
         public void on_player_move(object gameengine, PlayerMoveEventArgs eventargs)
