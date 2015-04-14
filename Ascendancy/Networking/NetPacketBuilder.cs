@@ -10,8 +10,8 @@ namespace Ascendancy.Networking
         public NetPacketBuilder()
         {
             packets = new List<Packet> {new Packet(Networkmanager.MessageType.Identifier, Networkmanager.Identifier)};
-            if(Networkmanager.ClientName != null)
-                packets.Add(new Packet(Networkmanager.MessageType.Name, Networkmanager.ClientName));
+            //if(Networkmanager.ClientName != null)
+            //    packets.Add(new Packet(Networkmanager.MessageType.Name, Networkmanager.ClientName));
         }
 
         public int Count { get { return packets.Count; } }

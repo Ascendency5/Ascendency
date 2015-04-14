@@ -10,7 +10,7 @@ namespace Ascendancy.Networking
     public class Packet
     {
         public Networkmanager.MessageType Type { get; private set; }
-        public string Token;
+        public string Token { get; private set; }
         public object[] Data { get; private set; }
 
         public Packet(Networkmanager.MessageType type, params object[] data) :
@@ -36,10 +36,13 @@ namespace Ascendancy.Networking
             for (int i = 0; i < packetCount; i++)
             {
                 Networkmanager.MessageType type = (Networkmanager.MessageType)message.ReadInt32();
-                string token = "";//message.ReadString();
+                string token = message.ReadString();
                 List<object> data = new List<object>();
                 switch (type)
                 {
+                    case Networkmanager.MessageType.Ack:
+                        data.Add(message.ReadString());
+                        break;
                     case Networkmanager.MessageType.Identifier:
                         data.Add(message.ReadString());
                         break;
@@ -70,10 +73,28 @@ namespace Ascendancy.Networking
 
         public override string ToString()
         {
-            string result = Type.ToString();
-            result += ": ";
+            return Data.Aggregate(Type + ": ", (current, dat) => current + (dat.ToString() + " "));
+        }
 
-            return Data.Aggregate(result, (current, dat) => current + (dat.ToString() + " "));
+        private bool Equals(Packet other)
+        {
+            return string.Equals(Token, other.Token) && Type == other.Type;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Packet) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((Token != null ? Token.GetHashCode() : 0)*397) ^ (int) Type;
+            }
         }
     }
 }

@@ -1,14 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
-using Lidgren.Network;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
+using System.Linq;
+using System.Threading;
 using Ascendancy.Game_Engine;
+using Lidgren.Network;
 
 namespace Ascendancy.Networking
 {
@@ -16,11 +12,10 @@ namespace Ascendancy.Networking
     {
         public static event EventHandler OnDiscovery;
         public static event EventHandler OnDisconnect;
-        private static bool isRunning;
 
         public enum MessageType
         {
-            EMPTY,
+            Ack,
             Chat,
             Name,
             Identifier,
@@ -29,18 +24,17 @@ namespace Ascendancy.Networking
             PlayerMove
         }
 
-        //todo could this conflict with someone else's game?
-        const int PORT = 47021;
+        public const int Port = 47021;
 
         public static string Identifier { get; private set; }
         private static NetPeer Client { get; set; }
         public static string ClientName { get; set; }
 
-        private static Thread broadcastThread;
+        private static CancellationTokenSource cancelSource;
+        private static BroadcastThread broadcastThread;
 
         public static void Start()
         {
-            isRunning = true;
             Identifier = Guid.NewGuid().ToString();
 
             NetPeerConfiguration netPeerConfiguration = new NetPeerConfiguration("HelloWorld Kulami")
@@ -48,7 +42,7 @@ namespace Ascendancy.Networking
                 AcceptIncomingConnections = true,
                 AutoFlushSendQueue = true,
                 ConnectionTimeout = 7,
-                Port = PORT
+                Port = Port
             };
 
             netPeerConfiguration.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
@@ -60,54 +54,18 @@ namespace Ascendancy.Networking
             Client.RegisterReceivedCallback(on_received_mesage);
             Client.Start();
 
-            broadcastThread = new Thread(repeat_broadcast) { IsBackground = true };
+            cancelSource = new CancellationTokenSource();
+            broadcastThread = new BroadcastThread(Client, cancelSource.Token);
             broadcastThread.Start();
         }
 
         public static void Shutdown()
         {
-            isRunning = false;
-            broadcastThread.Abort();
+            cancelSource.Cancel();
             Client.Shutdown("Goodbye everyone!");
         }
 
-        public static bool IsRunning()
-        {
-            return isRunning;
-        }
-
-        private static void repeat_broadcast()
-        {
-            while (true)
-            {
-                //Broadcast sent to other computers listening on this same port.
-                //Other computers receive this message as of type DiscoveryRequest
-                Client.DiscoverLocalPeers(PORT);
-
-                Thread.Sleep(100);
-
-                List<KulamiPeer> disconnectablePeers =
-                    PeerHolder.Peers.Where(x => x.LastSeen < DateTime.Now.AddSeconds(-2)).ToList();
-
-                if (OnDisconnect != null)
-                {
-                    foreach (KulamiPeer peer in disconnectablePeers)
-                    {
-                        OnDisconnect(peer, new EventArgs());
-                    }
-                }
-
-                List<KulamiPeer> connectedPeers = PeerHolder.Peers.Where(x => x.Connection != null).ToList();
-                NetPacketBuilder builder = new NetPacketBuilder();
-                foreach (KulamiPeer peer in connectedPeers)
-                {
-                    TraceHelper.WriteLine("Sending {0} packets to {1}", builder.Count, peer.Identifier);
-                    Send(peer.Connection, builder);
-                }
-            }
-        }
-
-        private static void on_received_mesage(object _peer)
+        private static void on_received_mesage(object sender)
         {
             NetIncomingMessage incomingMessage = Client.ReadMessage();
             NetOutgoingMessage responseMessage;
@@ -118,6 +76,7 @@ namespace Ascendancy.Networking
                 case NetIncomingMessageType.DiscoveryRequest:
                     //TraceHelper.WriteLine("Request from {0}", incomingMessage.SenderEndPoint);
                     builder = new NetPacketBuilder();
+                    builder.Add(new Packet(MessageType.Ack, "Request"));
 
                     responseMessage = Client.CreateMessage();
                     responseMessage.Write(builder);
@@ -130,9 +89,10 @@ namespace Ascendancy.Networking
 
                 case NetIncomingMessageType.DiscoveryResponse:
                     //TraceHelper.WriteLine("Response from {0}", incomingMessage.SenderEndPoint);
-                    KulamiPeer peer = handleData(incomingMessage);
+                    KulamiPeer peer = HandleData(incomingMessage);
 
                     builder = new NetPacketBuilder();
+                    builder.Add(new Packet(MessageType.Ack, "Response"));
 
                     responseMessage = Client.CreateMessage();
                     responseMessage.Write(builder);
@@ -148,37 +108,37 @@ namespace Ascendancy.Networking
                     break;
 
                 case NetIncomingMessageType.ConnectionApproval: 
-                    TraceHelper.WriteLine("Connection from {0}", incomingMessage.SenderEndPoint);
+                    //TraceHelper.WriteLine("Connection from {0}", incomingMessage.SenderEndPoint);
                     //Establishes the connection between ourselves
                     //and the sender of the ConnectionApproval
                     //message
                     incomingMessage.SenderConnection.Approve();
-                    handleData(incomingMessage);
+                    HandleData(incomingMessage);
 
                     break;
 
                 case NetIncomingMessageType.Data:
-                    handleData(incomingMessage);
+                    HandleData(incomingMessage);
                      
                     break;
             }
         }
 
-        private static KulamiPeer handleData(NetIncomingMessage message)
+        public static void Send(KulamiPeer peer, Packet packet)
         {
-            // todo: Keep up with packets:
-            // (DONE)1. Don't respond if there is no request
-            // (DONE)2. Remove the request when a response is received
-            // 3. Cancel existing requests if accepted
-            // 4. Deny all other challenges if request accepted
+            if(peer.Identifier != Identifier)
+                broadcastThread.AddPacket(peer, packet);
+        }
+
+        private static KulamiPeer HandleData(NetIncomingMessage message)
+        {
             Packet[] packets = Packet.Read(message);
 
-            Packet idPacket = packets.Type(MessageType.Identifier);
+            KulamiPeer peer;
 
-            string identifier = (string)idPacket.Data[0];
+            packets = broadcastThread.Filter(out peer, packets);
 
-            if (identifier == Identifier)
-                return null;
+            if (peer == null) return null;
 
             Trace.WriteLine("Receiving data");
             foreach (Packet packet in packets)
@@ -186,27 +146,21 @@ namespace Ascendancy.Networking
                 Trace.WriteLine(packet);
             }
 
-            KulamiPeer peer = PeerHolder.Peers.SingleOrDefault(x => x.Identifier == identifier);
-            bool newPeer = false;
-            bool updatedPeer = false;
-            if (peer == null)
+            KulamiPeer existingPeer = PeerHolder.Peers.SingleOrDefault(x => x.Identifier == peer.Identifier);
+            bool newPeer = true;
+            if (existingPeer != null)
             {
-                peer = new KulamiPeer {Identifier = identifier};
-                newPeer = true;
+                peer = existingPeer;
+                newPeer = false;
             }
 
-            Packet namePacket = packets.Type(MessageType.Name);
-            string name;
-            if (namePacket != null)
-                name = (string) namePacket.Data[0];
-            else
-                name = null;
+            string name = peer.Name;
+            NetPacketHandler.HandleName(peer, packets.Type(MessageType.Name));
 
-            if (peer.Name != name)
-            {
-                updatedPeer = true;
-                peer.Name = name;
-            }
+            var updatedPeer = peer.Name != name;
+
+            // The timstamp doesn't mean that the peer has updated information
+            peer.UpdateTimestamp();
 
             if (peer.Connection == null && message.SenderConnection != null)
             {
@@ -214,86 +168,37 @@ namespace Ascendancy.Networking
                 updatedPeer = true;
             }
 
-            // The timstamp doesn't mean that the peer has updated information
-            peer.UpdateTimestamp();
-
-            if (updatedPeer)
-            {
-                Trace.WriteLine("updated peer is true");
-            }
-
             if (newPeer)
             {
                 if (OnDiscovery != null)
                 {
-                    // On Discovery handler
                     OnDiscovery(peer, new EventArgs());
                 }
             }
             else if (updatedPeer)
             {
-                Trace.WriteLine("Calling update function...");
                 if (peer.OnUpdate != null)
                 {
                     peer.OnUpdate(peer, new EventArgs());
                 }
-                else
-                {
-                    Trace.WriteLine("Update function is null");
-                }
             }
 
-            Packet chatPacket = packets.Type(MessageType.Chat);
-            if (chatPacket != null && peer.OnChatMessage != null)
-            {
-                peer.OnChatMessage(peer, new NetChatEventArgs((string)chatPacket.Data[0]));
-            }
-
-            Packet gameRequestPacket = packets.Type(MessageType.GameRequest);
-            if (gameRequestPacket != null)
-            {
-                 // Data[0] is board #
-                 // Data[1] is if the challenger goes first
-                NetGameRequestEventArgs eventArgs = new NetGameRequestEventArgs(
-                    (int) gameRequestPacket.Data[0],
-                    (bool) gameRequestPacket.Data[1]
-                    );
-
-                peer.IncomingRequest = eventArgs;
-
-                if (peer.OnGameRequest != null)
-                {
-                    peer.OnGameRequest(peer, eventArgs);
-                }
-            }
-
-            Packet gameResponsePacket = packets.Type(MessageType.GameResponse);
-            if (gameResponsePacket != null && peer.OnGameResponse != null && peer.OutgoingRequest != null)
-            {
-                bool gameAccepted = (bool) gameResponsePacket.Data[0];
-                peer.OnGameResponse(peer, new NetGameResponseEventArgs(
-                    peer.OutgoingRequest.BoardNum,
-                    peer.OutgoingRequest.ChallengerGoesFirst,
-                    gameAccepted
-                    ));
-            }
-
-            Packet movePacket = packets.Type(MessageType.PlayerMove);
-            if (movePacket != null && peer.OnPlayerMove != null)
-            {
-                Move move = new Move((int)movePacket.Data[0], (int) movePacket.Data[1]);
-                peer.OnPlayerMove(peer, new NetPlayerMoveEventArgs(move));
-            }
+            NetPacketHandler.HandleChat(peer, packets.AllType(MessageType.Chat));
+            NetPacketHandler.HandleGameRequest(peer, packets.Type(MessageType.GameRequest));
+            NetPacketHandler.HandleGameResponse(peer, packets.Type(MessageType.GameResponse));
+            NetPacketHandler.HandleMove(peer, packets.Type(MessageType.PlayerMove));
 
             return peer;
         }
 
-        public static void Send(NetConnection connection, NetPacketBuilder builder)
+        public static void disconnect(List<KulamiPeer> peers)
         {
-            NetOutgoingMessage message = Client.CreateMessage();
-            message.Write(builder);
+            if (OnDisconnect == null) return;
 
-            connection.SendMessage(message, NetDeliveryMethod.ReliableOrdered, 0);
+            foreach (KulamiPeer peer in peers)
+            {
+                OnDisconnect(peer, new EventArgs());
+            }
         }
     }
 
@@ -302,6 +207,11 @@ namespace Ascendancy.Networking
         public static Packet Type(this Packet[] packets, Networkmanager.MessageType type)
         {
             return packets.SingleOrDefault(x => x.Type == type);
+        }
+
+        public static Packet[] AllType(this Packet[] packets, Networkmanager.MessageType type)
+        {
+            return packets.Where(x => x.Type == type).ToArray();
         }
     }
 }

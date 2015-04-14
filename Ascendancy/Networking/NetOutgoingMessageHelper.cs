@@ -18,6 +18,7 @@ namespace Ascendancy.Networking
         public static void Write(this NetOutgoingMessage message, Packet packet)
         {
             message.Write(packet.Type);
+            message.Write(packet.Token);
             foreach (var data in packet.Data)
             {
                 if (data is string)
@@ -34,7 +35,6 @@ namespace Ascendancy.Networking
                 }
                 else if (data is Move)
                 {
-                    TraceHelper.WriteLine("Writing a move");
                     Move move = (Move) data;
                     message.Write(move.Row);
                     message.Write(move.Col);

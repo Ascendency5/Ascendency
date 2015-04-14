@@ -26,12 +26,7 @@ namespace Ascendancy.Networking
 
         public void SendChat(string message)
         {
-            NetPacketBuilder builder = new NetPacketBuilder
-            {
-                new Packet(Networkmanager.MessageType.Chat, message)
-            };
-
-            Networkmanager.Send(Connection, builder);
+            Networkmanager.Send(this, new Packet(Networkmanager.MessageType.Chat, message));
         }
 
         public void SendRequest(int boardNum, bool challengerGoesFirst)
@@ -40,21 +35,12 @@ namespace Ascendancy.Networking
                        boardNum,
                        challengerGoesFirst
                        );
-            NetPacketBuilder builder = new NetPacketBuilder()
-            {
-                new Packet(Networkmanager.MessageType.GameRequest, boardNum, challengerGoesFirst)
-            };
-            Networkmanager.Send(Connection, builder);
+            Networkmanager.Send(this, new Packet(Networkmanager.MessageType.GameRequest, boardNum, challengerGoesFirst));
         }
 
         public void SendMove(Move move)
         {
-            NetPacketBuilder builder = new NetPacketBuilder()
-            {
-                new Packet(Networkmanager.MessageType.PlayerMove, move)
-            };
-
-            Networkmanager.Send(Connection, builder);
+            Networkmanager.Send(this, new Packet(Networkmanager.MessageType.PlayerMove, move));
         }
 
         public void UpdateTimestamp()
@@ -64,12 +50,7 @@ namespace Ascendancy.Networking
 
         public void SendResponse(bool challengeAccepted)
         {
-            NetPacketBuilder builder = new NetPacketBuilder()
-            {
-                new Packet(Networkmanager.MessageType.GameResponse, challengeAccepted)
-            };
-
-            Networkmanager.Send(Connection, builder);
+            Networkmanager.Send(this, new Packet(Networkmanager.MessageType.GameResponse, challengeAccepted));
         }
 
         public override string ToString()

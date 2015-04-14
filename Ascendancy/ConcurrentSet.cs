@@ -47,6 +47,11 @@ namespace Ascendancy
             return TryRemove(item);
         }
 
+        public bool RemoveAll(T[] items)
+        {
+            return items.Aggregate(true, (current, item) => current & Remove(item));
+        }
+
         /// <summary>
         /// Gets the number of elements in the set.
         /// </summary>
