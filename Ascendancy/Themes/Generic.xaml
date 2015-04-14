@@ -21,7 +21,11 @@
                         <Image x:Name="Image" Source="{TemplateBinding Source}"
                                Style="{DynamicResource UserControlButtonStyle}" RenderTransformOrigin="0.5,0.5"
                                Stretch="Fill"  VerticalAlignment="Top" HorizontalAlignment="Left"
-                               Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"/>
+                               Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                            <Image.Effect>
+                                <BlurEffect x:Name="BlurEffect" Radius="0"/>
+                            </Image.Effect>
+                        </Image>
                     </Canvas>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Selected" Value="True">
@@ -32,6 +36,15 @@
                             <Setter TargetName="GlowPath" Property="Opacity" Value="0"/>
                             <Setter TargetName="SelectedPath" Property="Opacity" Value="0"/>
                         </Trigger>
+                        <!--
+                        These don't work because visual studio thinks that BlurEffect doesn't exist
+                        <Trigger Property="Enabled" Value="True">
+                            <Setter TargetName="BlurEffect" Property="Radius" Value="0"/>
+                        </Trigger>
+                        <Trigger Property="Enabled" Value="False">
+                            <Setter TargetName="BlurEffect" Property="Radius" Value="10"/>
+                        </Trigger>
+                        -->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

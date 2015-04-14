@@ -37,8 +37,10 @@ namespace Ascendancy
             glowPath = (Path) GetTemplateChild("GlowPath");
             selectedPath = (Path) GetTemplateChild("SelectedPath");
 
-            applyAnimation(glowPath);
-            applyAnimation(selectedPath);
+            // todo Figure out what's wrong with uncommeting these lines
+            // Something about a 'read-only' state
+            //applyAnimation(glowPath);
+            //applyAnimation(selectedPath);
         }
 
         private void applyAnimation(Path path)
@@ -103,14 +105,14 @@ namespace Ascendancy
         {
             if (!Enabled) return;
 
-            UserControlAnimation.FadeInUserControlButton(glowPath, false);
+            UserControlAnimation.FadeInElement(glowPath, false);
         }
 
         private void on_mouse_enter(object sender, MouseEventArgs e)
         {
             if (!Enabled || Selected) return;
 
-            UserControlAnimation.FadeInUserControlButton(glowPath, true);
+            UserControlAnimation.FadeInElement(glowPath, true);
 
             //added sound effect for the button
             VolumeManager.play(@"Resources/Audio/UserControlButtonHover.wav");
