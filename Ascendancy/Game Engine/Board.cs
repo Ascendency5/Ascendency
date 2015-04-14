@@ -8,8 +8,9 @@ namespace Ascendancy.Game_Engine
     {
         private Hashtable panelsToPosition;
         private Hashtable positionsToPanel;
+        private int boardType;
 
-        public Board(Panel[] panels)
+        public Board(Panel[] panels, int boardType)
         {
             if (panels.Length != 17)
             {
@@ -22,6 +23,12 @@ namespace Ascendancy.Game_Engine
             {
                 AddPanel(panel);
             }
+            this.boardType = boardType;
+        }
+
+        public int GetBoardType()
+        {
+            return boardType;
         }
 
         private void AddPanel(Panel panel)

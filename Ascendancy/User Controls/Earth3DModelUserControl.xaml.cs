@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using System.Windows.Resources;
 using System.Windows.Shapes;
 
 namespace Ascendancy.User_Controls
@@ -25,9 +26,11 @@ namespace Ascendancy.User_Controls
             InitializeComponent();
         }
 
-        private void EarthClickEllipse_MouseDown(object sender, MouseButtonEventArgs e)
+        private void EarthViewport_MouseEnter(object sender, MouseEventArgs e)
         {
-            //Cursor = CursorType.SizeWE
+
+            StreamResourceInfo info = Application.GetResourceStream(new Uri(@"Resources/Images/EarthCursor.cur", UriKind.Relative));
+            Cursor = new Cursor(info.Stream);
         }
     }
 }

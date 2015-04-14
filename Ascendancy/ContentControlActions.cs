@@ -18,13 +18,14 @@ namespace Ascendancy
         public static ContentControl baseContentControl { get; set; }
         public static ContentControl popupContentControl { get; set; }
 
+
         public static bool IsPopupVisible
         {
             get { return popupControls.Count != 0; }
         }
 
         private static readonly Stack<UserControl> popupControls = new Stack<UserControl>();
-        private static HomeScreenUserControl menuUserControl;
+        private static HomeScreenUserControl currentHomeScreenUserControl;
 
         public static void setPopup(UserControl control)
         {
@@ -34,7 +35,7 @@ namespace Ascendancy
             FadeInControl(popupContentControl, 7);
         }
 
-        public static void setUpControl(UserControl control)
+        public static void setBaseContentControl(UserControl control)
         {
             // Kill the popups if any are in the way
             if (popupControls.Count != 0)
@@ -53,7 +54,16 @@ namespace Ascendancy
             HomeScreenUserControl homeScreen = baseContentControl.Content as HomeScreenUserControl;
             if (homeScreen != null)
             {
-                menuUserControl = homeScreen;
+                currentHomeScreenUserControl = homeScreen;
+            }
+
+            if (control is GameBoardUserControl)
+            {
+                VolumeManager.BattleThemeTransition = true;
+            }
+            else if(control is HomeScreenUserControl)
+            {
+                VolumeManager.BattleThemeTransition = false;
             }
 
             baseContentControl.Content = control;
@@ -74,15 +84,18 @@ namespace Ascendancy
              */
             if (popupControls.Count == 0)
             {
+                //todo does removing this line break other code?
                 // The current control is the base one
-                FadeOutControl(baseContentControl);
+                //FadeOutControl(baseContentControl);
 
                 // Do we need to set the menu back up?
-                if (menuUserControl == null) return;
+                if (currentHomeScreenUserControl == null) return;
 
-                baseContentControl.Content = menuUserControl;
+                baseContentControl.Content = currentHomeScreenUserControl;
                 FadeInControl(baseContentControl, 2);
-                menuUserControl = null;
+                currentHomeScreenUserControl = null;
+
+                //set the main theme music here?
             }
             else
             {
@@ -100,10 +113,12 @@ namespace Ascendancy
             }
         }
 
+        //todo trying to edit the z-index in this class is pointless as
+        //the z-index property is handled in the UserControlAnimations.cs
         private static void FadeInControl(ContentControl control, int index)
         {
             // Bring the control up front
-            Panel.SetZIndex(control, index);
+            //Panel.SetZIndex(control, index);
 
             UserControlAnimation.FadeInContentControl(control);
         }
@@ -113,7 +128,7 @@ namespace Ascendancy
             UserControlAnimation.FadeOutContentControl(control);
 
             //set the Content control to the back
-            Panel.SetZIndex(control, 0);
+            //Panel.SetZIndex(control, 0);
         }
     }
 }
