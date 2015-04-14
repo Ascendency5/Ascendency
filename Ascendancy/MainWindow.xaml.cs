@@ -33,15 +33,20 @@ namespace Ascendancy
             ContentControlActions.baseContentControl = HomeScreenContentControl;
             ContentControlActions.popupContentControl = PopupContentControl;
 
-            HomeScreenIntroUserControl intro = new HomeScreenIntroUserControl();
+            VolumeManager.MainThemeVolume = .5;
+            VolumeManager.BattleThemeVolume = .5;
+            VolumeManager.SoundVolume = .5;
+
+            IntroUserControl intro = new IntroUserControl();
             intro.OnComplete += on_intro_completed;
             //setBaseContent(new HomeScreenUserControl());
             setBaseContent(intro);
 
-            Networkmanager.OnDiscovery += PeerHolder.on_peer_discovery;
-            Networkmanager.OnDisconnect += PeerHolder.on_peer_disconnect;
+            //todo moving the network manager to the online lobby (makes no sense to have it here)
+            //Networkmanager.OnDiscovery += PeerHolder.on_peer_discovery;
+            //Networkmanager.OnDisconnect += PeerHolder.on_peer_disconnect;
 
-            Networkmanager.Start();
+            //Networkmanager.Start();
         }
 
         private void on_intro_completed(object sender, EventArgs e)
@@ -51,7 +56,7 @@ namespace Ascendancy
 
         private void setBaseContent(UserControl control)
         {
-            ContentControlActions.setUpControl(control);
+            ContentControlActions.setBaseContentControl(control);
         }
 
         /********** Misc Event Functions *********/
@@ -63,16 +68,16 @@ namespace Ascendancy
             this.WindowStyle = WindowStyle.None;
             this.Focus();
         }
- 
+
         private void AscendancyHomeScreen_KeyDown(object sender, KeyEventArgs e)
         {
             //if the intro isn't in progress, and no other UserControl is active...
             ContentControl baseControl = ContentControlActions.baseContentControl;
-            if (baseControl.Content is HomeScreenIntroUserControl)
+            if (baseControl.Content is IntroUserControl)
             {
                 if (e.Key == Key.Space || e.Key == Key.Escape)
                 {
-                    ((HomeScreenIntroUserControl) baseControl.Content).stopIntro();
+                    ((IntroUserControl)baseControl.Content).stopIntro();
                     return;
                 }
             }
@@ -107,7 +112,8 @@ namespace Ascendancy
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
-            Networkmanager.Shutdown();
+            //todo moving the network manager to the online lobby (makes no sense to have it here)
+            //Networkmanager.Shutdown();
             Application.Current.Shutdown();
         }
     }

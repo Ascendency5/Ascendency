@@ -46,9 +46,7 @@ namespace Ascendancy.User_Controls
 
         private void Help_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            // todo This is a control, but controls don't actually work.
-            // ContentControlActions.setUpControl(new HelpPopUpUserControl());
-            throw new NotImplementedException();
+            ContentControlActions.setPopup(new HelpPopUpUserControl());
         }
 
         private void Restart_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)

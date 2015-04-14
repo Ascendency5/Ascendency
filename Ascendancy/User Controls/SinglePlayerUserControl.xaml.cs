@@ -24,7 +24,7 @@ namespace Ascendancy.User_Controls
     /// </summary>
     public partial class SinglePlayerUserControl : UserControl
     {
-        private bool gameModeIsEasy;
+        private bool gameModeIsHard;
         private bool playerGoesFirst;
         private Storyboard fadeInSprite;
         private Storyboard fadeOutSprite;
@@ -34,7 +34,7 @@ namespace Ascendancy.User_Controls
             InitializeComponent();
 
             //set the default difficulty and playerGoesFirst/second state
-            gameModeIsEasy = true;
+            gameModeIsHard = false;
             playerGoesFirst = true;
             InsertSprites();
             fadeOutSprite = FindResource("FadeOutSpriteStoryboard") as Storyboard;
@@ -46,17 +46,17 @@ namespace Ascendancy.User_Controls
             ContentControlActions.FadeOut();
 
             // Set up game engine
-            // todo Add code for gameModeIsEasy/hard AI
+            // todo Add code for gameModeIsHard/hard AI
             HumanPlayer humanPlayer = new HumanPlayer(GameBoardUserControl.human_move_handler);
             AIPlayer aiPlayer = new AIPlayer();
 
-            Board board = BoardSetup.board_team5;
+            Board board = BoardSetup.Random();
 
             GameEngine engine = new GameEngine(board, humanPlayer, aiPlayer,
                 playerGoesFirst ? PieceType.Red : PieceType.Black
                 );
 
-            ContentControlActions.setUpControl(new GameBoardUserControl(engine));
+            ContentControlActions.setBaseContentControl(new GameBoardUserControl(engine, gameModeIsHard));
         }
 
         private void Play_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -73,22 +73,22 @@ namespace Ascendancy.User_Controls
 
         private void Easy_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (!gameModeIsEasy)
+            if (gameModeIsHard)
             {
                 transition(EasyRobotCanvas, HardRobotCanvas);
             }
-            gameModeIsEasy = true;
+            gameModeIsHard = false;
             Easy.Selected = true;
             Hard.Selected = false;
         }
 
         private void Hard_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (gameModeIsEasy)
+            if (!gameModeIsHard)
             {
                 transition(HardRobotCanvas, EasyRobotCanvas);
             }
-            gameModeIsEasy = false;
+            gameModeIsHard = true;
             Easy.Selected = false;
             Hard.Selected = true;
         }

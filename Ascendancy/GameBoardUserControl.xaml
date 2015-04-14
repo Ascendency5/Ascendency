@@ -23,204 +23,89 @@
             </Rectangle.Fill>
         </Rectangle>
         <Image x:Name="GameBoardBackground" Width="1440" Height="900" Source="Resources/Images/GameBoard/Map1.png" Panel.ZIndex="2"/>
-
-        <Grid x:Name="Panels" Margin="97,176,171,10" Panel.ZIndex="2">
-            <Path Data="M129.72973,887.83784 L180.58082,681.93226 433.28396,679.22999 402.20265,884.63497 z" HorizontalAlignment="Left" Height="209.608" Margin="0,504.054,0,0" Stretch="Fill" Stroke="#FF35291B" VerticalAlignment="Top" Width="304.554" StrokeLineJoin="Round" StrokeThickness="8" Opacity="0.8">
-                <Path.Effect>
-                    <BlurEffect Radius="8"/>
-                </Path.Effect>
-            </Path>
-            <Path Data="M459.45946,678.37838 L425.17615,887.33819 553.55542,885.98668 571.12322,679.23009 z" HorizontalAlignment="Left" Height="209.96" Margin="295.446,503.202,0,0" Stretch="Fill" Stroke="#FF35291B" VerticalAlignment="Top" Width="146.946" StrokeLineJoin="Round" StrokeThickness="8" Opacity="0.8">
-                <Path.Effect>
-                    <BlurEffect Radius="8"/>
-                </Path.Effect>
-            </Path>
-            <Path Data="M579.72973,885.13514 L994.09433,885.13514 984.6345,788.68932 584.63487,792.74357 z" HorizontalAlignment="Left" Height="97.446" Margin="450,613.513,0,0" Stretch="Fill" Stroke="#FF35291B" VerticalAlignment="Top" Width="415.365" StrokeLineJoin="Round" StrokeThickness="8" Opacity="0.8">
-                <Path.Effect>
-                    <BlurEffect Radius="8"/>
-                </Path.Effect>
-            </Path>
-            <Path Data="M570.27027,654.05405 L584.6354,490.04062 233.28141,487.33745 195.44305,656.25684 z" HorizontalAlignment="Left" Height="169.919" Margin="65.716,312.162,0,0" Stretch="Fill" Stroke="#FF35291B" VerticalAlignment="Top" Width="390.189" StrokeLineJoin="Round" StrokeThickness="8" Opacity="0.8">
-                <Path.Effect>
-                    <BlurEffect Radius="8"/>
-                </Path.Effect>
-            </Path>
-            <Path Data="M590.54054,762.16216 L703.55358,764.36504 708.95905,487.35287 606.25635,488.70399 z" HorizontalAlignment="Left" Height="278.027" Margin="460.811,312.162,0,0" Stretch="Fill" Stroke="#FF35291B" VerticalAlignment="Top" Width="119.418" StrokeLineJoin="Round" StrokeThickness="8" Opacity="0.8">
-                <Path.Effect>
-                    <BlurEffect Radius="8"/>
-                </Path.Effect>
-            </Path>
-            <Path Data="M722.97297,762.16216 L987.3378,764.36504 977.87821,679.23439 730.58104,679.23439 z" HorizontalAlignment="Left" Height="86.135" Margin="593.243,504.054,0,0" Stretch="Fill" Stroke="#FF35291B" VerticalAlignment="Top" Width="265.365" StrokeLineJoin="Round" StrokeThickness="8" Opacity="0.8">
-                <Path.Effect>
-                    <BlurEffect Radius="8"/>
-                </Path.Effect>
-            </Path>
-            <Path Data="M1025.6757,887.83784 L1300.851,880.58091 1226.5269,573.82861 996.79693,576.5316 z" HorizontalAlignment="Left" Height="315.014" Margin="867.067,398.648,0,0" Stretch="Fill" Stroke="#FF35291B" VerticalAlignment="Top" Width="305.054" StrokeLineJoin="Round" StrokeThickness="8" Opacity="0.8">
-                <Path.Effect>
-                    <BlurEffect Radius="8"/>
-                </Path.Effect>
-            </Path>
-            <Path Data="M979.72973,654.05405 L734.63487,657.60819 731.93232,403.54439 946.79711,399.49025 z" HorizontalAlignment="Left" Height="259.108" Margin="602.202,224.324,0,0" Stretch="Fill" Stroke="#FF35291B" VerticalAlignment="Top" Width="248.798" StrokeLineJoin="Round" StrokeThickness="8" Opacity="0.8">
-                <Path.Effect>
-                    <BlurEffect Radius="8"/>
-                </Path.Effect>
-            </Path>
-            <Path Data="M990.54054,547.2973 L1229.2293,548.14895 1173.8236,314.46809 967.06712,321.22172 z" HorizontalAlignment="Left" Height="234.784" Margin="837.338,139.189,0,0" Stretch="Fill" Stroke="#FF35291B" VerticalAlignment="Top" Width="263.162" StrokeLineJoin="Round" StrokeThickness="8" Opacity="0.8">
-                <Path.Effect>
-                    <BlurEffect Radius="8"/>
-                </Path.Effect>
-            </Path>
-            <Path Data="M1167.5676,295.94595 L1144.0942,181.93239 952.19876,177.87878 963.0095,295.4459 z" HorizontalAlignment="Left" Height="119.068" Margin="822.473,2.702,0,0" Stretch="Fill" Stroke="#FF35291B" VerticalAlignment="Top" Width="216.365" StrokeLineJoin="Round" StrokeThickness="8" Opacity="0.8">
-                <Path.Effect>
-                    <BlurEffect Radius="8"/>
-                </Path.Effect>
-            </Path>
-            <Path Data="M945.94595,378.37838 L933.28371,248.14904 737.33395,248.14904 730.57687,383.28418 z" HorizontalAlignment="Left" Height="136.135" Margin="600.851,72.973,0,0" Stretch="Fill" Stroke="#FF35291B" VerticalAlignment="Top" Width="216.365" StrokeLineJoin="Round" StrokeThickness="8" Opacity="0.8">
-                <Path.Effect>
-                    <BlurEffect Radius="8"/>
-                </Path.Effect>
-            </Path>
-            <Path Data="M927.02703,231.08108 L930.58112,176.52711 622.4664,175.17579 617.06088,229.22981 z" HorizontalAlignment="Left" Height="56.905" Margin="487.338,0,0,0" Stretch="Fill" Stroke="#FF35291B" VerticalAlignment="Top" Width="314.513" StrokeLineJoin="Round" StrokeThickness="8" Opacity="0.8">
-                <Path.Effect>
-                    <BlurEffect Radius="8"/>
-                </Path.Effect>
-            </Path>
-            <Path Data="M305.40541,178.37838 L600.85175,181.9328 598.14939,231.93926 291.39227,230.58816 z" HorizontalAlignment="Left" Height="54.554" Margin="161.662,3.202,0,0" Stretch="Fill" Stroke="#FF35291B" VerticalAlignment="Top" Width="310.459" StrokeLineJoin="Round" StrokeThickness="8" Opacity="0.8">
-                <Path.Effect>
-                    <BlurEffect Radius="8"/>
-                </Path.Effect>
-            </Path>
-            <Path Data="M705.40541,466.21622 L710.31121,327.8786 500.85914,325.17628 485.99518,468.41914 z" HorizontalAlignment="Left" Height="144.243" Margin="356.256,150,0,0" Stretch="Fill" Stroke="#FF35291B" VerticalAlignment="Top" Width="225.325" StrokeLineJoin="Round" StrokeThickness="8" Opacity="0.8">
-                <Path.Effect>
-                    <BlurEffect Radius="8"/>
-                </Path.Effect>
-            </Path>
-            <Path Data="M477.02703,404.05405 L246.79734,399.50005 227.87874,471.12146 461.66224,471.12146 z" HorizontalAlignment="Left" Height="72.622" Margin="98.148,224.324,0,0" Stretch="Fill" Stroke="#FF35291B" VerticalAlignment="Top" Width="250.149" StrokeLineJoin="Round" StrokeThickness="8" Opacity="0.8">
-                <Path.Effect>
-                    <BlurEffect Radius="8"/>
-                </Path.Effect>
-            </Path>
-            <Path Data="M471.62162,381.08108 L487.33745,249.50009 287.3392,250.85144 256.25823,381.93252 z" HorizontalAlignment="Left" Height="133.432" Margin="126.527,74.324,0,0" Stretch="Fill" Stroke="#FF35291B" VerticalAlignment="Top" Width="232.081" StrokeLineJoin="Round" StrokeThickness="8" Opacity="0.8">
-                <Path.Effect>
-                    <BlurEffect Radius="8"/>
-                </Path.Effect>
-            </Path>
-            <Path Data="M713.51351,248.64865 L508.95995,250.851 500.85233,307.61704 710.31131,306.26558 z" HorizontalAlignment="Left" Height="59.959" Margin="371.121,73.473,0,0" Stretch="Fill" Stroke="#FF35291B" VerticalAlignment="Top" Width="213.662" StrokeLineJoin="Round" StrokeThickness="8" Opacity="0.8">
-                <Path.Effect>
-                    <BlurEffect Radius="8"/>
-                </Path.Effect>
-            </Path>
+        <Image x:Name="GameConfigMask" Width="1440" Height="900" Source="Resources/Images/GameBoard/Map1.png" Panel.ZIndex="2" Visibility="Hidden"/>
 
 
 
-        </Grid>
         <Grid x:Name="PlayableGameBoardGridEventListener" Panel.ZIndex="3">
-            <Image x:Name="p00" HorizontalAlignment="Left" Height="52" Margin="263,181,0,0" VerticalAlignment="Top" Width="82" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p01" HorizontalAlignment="Left" Height="52" Margin="361,182,0,0" VerticalAlignment="Top" Width="82" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p02" HorizontalAlignment="Left" Height="52" Margin="468,185,0,0" VerticalAlignment="Top" Width="82" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p03" HorizontalAlignment="Left" Height="52" Margin="591,182,0,0" VerticalAlignment="Top" Width="82" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p04" HorizontalAlignment="Left" Height="52" Margin="694,182,0,0" VerticalAlignment="Top" Width="82" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p05" HorizontalAlignment="Left" Height="52" Margin="805,182,0,0" VerticalAlignment="Top" Width="82" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p06" HorizontalAlignment="Left" Height="52" Margin="918,182,0,0" VerticalAlignment="Top" Width="82" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p07" HorizontalAlignment="Left" Height="52" Margin="1023,181,0,0" VerticalAlignment="Top" Width="82" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p10" HorizontalAlignment="Left" Height="55" Margin="248,256,0,0" VerticalAlignment="Top" Width="86" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p11" HorizontalAlignment="Left" Height="55" Margin="358,256,0,0" VerticalAlignment="Top" Width="86" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p12" HorizontalAlignment="Left" Height="55" Margin="480,253,0,0" VerticalAlignment="Top" Width="86" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p13" HorizontalAlignment="Left" Height="55" Margin="588,253,0,0" VerticalAlignment="Top" Width="86" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p14" HorizontalAlignment="Left" Height="55" Margin="709,256,0,0" VerticalAlignment="Top" Width="86" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p15" HorizontalAlignment="Left" Height="55" Margin="813,253,0,0" VerticalAlignment="Top" Width="86" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p16" HorizontalAlignment="Left" Height="55" Margin="928,238,0,0" VerticalAlignment="Top" Width="86" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p17" HorizontalAlignment="Left" Height="55" Margin="1036,238,0,0" VerticalAlignment="Top" Width="86" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p20" HorizontalAlignment="Left" Height="62" Margin="231,313,0,0" VerticalAlignment="Top" Width="92" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p21" HorizontalAlignment="Left" Height="62" Margin="342,316,0,0" VerticalAlignment="Top" Width="92" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p22" HorizontalAlignment="Left" Height="62" Margin="465,336,0,0" VerticalAlignment="Top" Width="92" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p23" HorizontalAlignment="Left" Height="62" Margin="582,336,0,0" VerticalAlignment="Top" Width="92" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p24" HorizontalAlignment="Left" Height="62" Margin="704,321,0,0" VerticalAlignment="Top" Width="92" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p25" HorizontalAlignment="Left" Height="62" Margin="813,321,0,0" VerticalAlignment="Top" Width="92" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p26" HorizontalAlignment="Left" Height="62" Margin="938,328,0,0" VerticalAlignment="Top" Width="92" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p27" HorizontalAlignment="Left" Height="62" Margin="1051,328,0,0" VerticalAlignment="Top" Width="92" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p30" HorizontalAlignment="Left" Height="59" Margin="213,408,0,0" VerticalAlignment="Top" Width="98" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p31" HorizontalAlignment="Left" Height="59" Margin="336,408,0,0" VerticalAlignment="Top" Width="98" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p32" HorizontalAlignment="Left" Height="59" Margin="455,408,0,0" VerticalAlignment="Top" Width="98" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p33" HorizontalAlignment="Left" Height="59" Margin="577,408,0,0" VerticalAlignment="Top" Width="98" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p34" HorizontalAlignment="Left" Height="59" Margin="701,408,0,0" VerticalAlignment="Top" Width="98" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p35" HorizontalAlignment="Left" Height="59" Margin="823,401,0,0" VerticalAlignment="Top" Width="98" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p36" HorizontalAlignment="Left" Height="59" Margin="956,401,0,0" VerticalAlignment="Top" Width="98" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p37" HorizontalAlignment="Left" Height="59" Margin="1069,395,0,0" VerticalAlignment="Top" Width="98" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p40" HorizontalAlignment="Left" Height="70" Margin="201,489,0,0" VerticalAlignment="Top" Width="91" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p41" HorizontalAlignment="Left" Height="70" Margin="321,489,0,0" VerticalAlignment="Top" Width="91" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p42" HorizontalAlignment="Left" Height="70" Margin="444,489,0,0" VerticalAlignment="Top" Width="91" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p43" HorizontalAlignment="Left" Height="70" Margin="578,482,0,0" VerticalAlignment="Top" Width="91" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p44" HorizontalAlignment="Left" Height="70" Margin="705,482,0,0" VerticalAlignment="Top" Width="91" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p45" HorizontalAlignment="Left" Height="70" Margin="825,476,0,0" VerticalAlignment="Top" Width="91" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p46" HorizontalAlignment="Left" Height="70" Margin="969,471,0,0" VerticalAlignment="Top" Width="91" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p47" HorizontalAlignment="Left" Height="70" Margin="1089,471,0,0" VerticalAlignment="Top" Width="91" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p50" HorizontalAlignment="Left" Height="74" Margin="174,573,0,0" VerticalAlignment="Top" Width="91" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p51" HorizontalAlignment="Left" Height="74" Margin="299,573,0,0" VerticalAlignment="Top" Width="91" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p52" HorizontalAlignment="Left" Height="74" Margin="425,573,0,0" VerticalAlignment="Top" Width="91" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p53" HorizontalAlignment="Left" Height="74" Margin="570,578,0,0" VerticalAlignment="Top" Width="91" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p54" HorizontalAlignment="Left" Height="74" Margin="718,578,0,0" VerticalAlignment="Top" Width="91" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p55" HorizontalAlignment="Left" Height="74" Margin="835,573,0,0" VerticalAlignment="Top" Width="91" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p56" HorizontalAlignment="Left" Height="74" Margin="977,578,0,0" VerticalAlignment="Top" Width="91" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p57" HorizontalAlignment="Left" Height="74" Margin="1098,573,0,0" VerticalAlignment="Top" Width="91" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p60" HorizontalAlignment="Left" Height="76" Margin="143,696,0,0" VerticalAlignment="Top" Width="107" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p61" HorizontalAlignment="Left" Height="76" Margin="263,690,0,0" VerticalAlignment="Top" Width="107" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p62" HorizontalAlignment="Left" Height="76" Margin="420,690,0,0" VerticalAlignment="Top" Width="107" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p63" HorizontalAlignment="Left" Height="76" Margin="557,677,0,0" VerticalAlignment="Top" Width="107" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p64" HorizontalAlignment="Left" Height="76" Margin="704,690,0,0" VerticalAlignment="Top" Width="107" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p65" HorizontalAlignment="Left" Height="76" Margin="837,681,0,0" VerticalAlignment="Top" Width="107" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p66" HorizontalAlignment="Left" Height="76" Margin="985,681,0,0" VerticalAlignment="Top" Width="107" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p67" HorizontalAlignment="Left" Height="76" Margin="1116,677,0,0" VerticalAlignment="Top" Width="107" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p70" HorizontalAlignment="Left" Height="81" Margin="119,783,0,0" VerticalAlignment="Top" Width="111" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p71" HorizontalAlignment="Left" Height="81" Margin="248,783,0,0" VerticalAlignment="Top" Width="111" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p72" HorizontalAlignment="Left" Height="81" Margin="405,796,0,0" VerticalAlignment="Top" Width="111" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p73" HorizontalAlignment="Left" Height="81" Margin="553,796,0,0" VerticalAlignment="Top" Width="111" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p74" HorizontalAlignment="Left" Height="81" Margin="691,796,0,0" VerticalAlignment="Top" Width="111" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p75" HorizontalAlignment="Left" Height="81" Margin="830,796,0,0" VerticalAlignment="Top" Width="111" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p76" HorizontalAlignment="Left" Height="81" Margin="989,796,0,0" VerticalAlignment="Top" Width="111" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
-            <Image x:Name="p77" HorizontalAlignment="Left" Height="81" Margin="1133,796,0,0" VerticalAlignment="Top" Width="111" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.2"/>
+            <Image x:Name="p00" HorizontalAlignment="Left" Height="55" Margin="283,189,0,0" VerticalAlignment="Top" Width="90" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6"/>
+            <Image x:Name="p01" HorizontalAlignment="Left" Height="55" Margin="389,189,0,0" VerticalAlignment="Top" Width="90" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p02" HorizontalAlignment="Left" Height="55" Margin="494,189,0,0" VerticalAlignment="Top" Width="90" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p03" HorizontalAlignment="Left" Height="55" Margin="596,189,0,0" VerticalAlignment="Top" Width="90" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p04" HorizontalAlignment="Left" Height="55" Margin="701,189,0,0" VerticalAlignment="Top" Width="90" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p05" HorizontalAlignment="Left" Height="55" Margin="805,189,0,0" VerticalAlignment="Top" Width="90" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p06" HorizontalAlignment="Left" Height="55" Margin="918,189,0,0" VerticalAlignment="Top" Width="90" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p07" HorizontalAlignment="Left" Height="55" Margin="1023,189,0,0" VerticalAlignment="Top" Width="90" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p10" HorizontalAlignment="Left" Height="60" Margin="261,255,0,0" VerticalAlignment="Top" Width="92" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p11" HorizontalAlignment="Left" Height="60" Margin="371,255,0,0" VerticalAlignment="Top" Width="92" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p12" HorizontalAlignment="Left" Height="60" Margin="486,255,0,0" VerticalAlignment="Top" Width="92" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p13" HorizontalAlignment="Left" Height="60" Margin="591,255,0,0" VerticalAlignment="Top" Width="92" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p14" HorizontalAlignment="Left" Height="60" Margin="702,255,0,0" VerticalAlignment="Top" Width="92" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p15" HorizontalAlignment="Left" Height="60" Margin="813,255,0,0" VerticalAlignment="Top" Width="92" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p16" HorizontalAlignment="Left" Height="60" Margin="928,255,0,0" VerticalAlignment="Top" Width="92" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p17" HorizontalAlignment="Left" Height="60" Margin="1036,255,0,0" VerticalAlignment="Top" Width="92" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p20" HorizontalAlignment="Left" Height="65" Margin="239,326,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p21" HorizontalAlignment="Left" Height="65" Margin="356,326,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p22" HorizontalAlignment="Left" Height="65" Margin="473,326,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p23" HorizontalAlignment="Left" Height="65" Margin="590,326,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p24" HorizontalAlignment="Left" Height="65" Margin="706,326,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p25" HorizontalAlignment="Left" Height="65" Margin="821,326,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p26" HorizontalAlignment="Left" Height="65" Margin="937,326,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p27" HorizontalAlignment="Left" Height="65" Margin="1051,326,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p30" HorizontalAlignment="Left" Height="70" Margin="215,408,0,0" VerticalAlignment="Top" Width="106" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p31" HorizontalAlignment="Left" Height="70" Margin="338,408,0,0" VerticalAlignment="Top" Width="106" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p32" HorizontalAlignment="Left" Height="70" Margin="461,408,0,0" VerticalAlignment="Top" Width="106" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p33" HorizontalAlignment="Left" Height="70" Margin="584,408,0,0" VerticalAlignment="Top" Width="106" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p34" HorizontalAlignment="Left" Height="70" Margin="706,408,0,0" VerticalAlignment="Top" Width="106" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p35" HorizontalAlignment="Left" Height="70" Margin="829,408,0,0" VerticalAlignment="Top" Width="106" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p36" HorizontalAlignment="Left" Height="70" Margin="948,408,0,0" VerticalAlignment="Top" Width="106" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p37" HorizontalAlignment="Left" Height="70" Margin="1067,408,0,0" VerticalAlignment="Top" Width="106" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p40" HorizontalAlignment="Left" Height="75" Margin="193,492,0,0" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p41" HorizontalAlignment="Left" Height="75" Margin="321,492,0,0" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p42" HorizontalAlignment="Left" Height="75" Margin="448,492,0,0" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p43" HorizontalAlignment="Left" Height="75" Margin="579,492,0,0" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p44" HorizontalAlignment="Left" Height="75" Margin="711,492,0,0" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p45" HorizontalAlignment="Left" Height="75" Margin="838,492,0,0" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p46" HorizontalAlignment="Left" Height="75" Margin="965,492,0,0" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p47" HorizontalAlignment="Left" Height="75" Margin="1091,493,0,0" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p50" HorizontalAlignment="Left" Height="80" Margin="172,584,0,0" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p51" HorizontalAlignment="Left" Height="80" Margin="304,584,0,0" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p52" HorizontalAlignment="Left" Height="80" Margin="434,584,0,0" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p53" HorizontalAlignment="Left" Height="80" Margin="574,584,0,0" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p54" HorizontalAlignment="Left" Height="80" Margin="712,584,0,0" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p55" HorizontalAlignment="Left" Height="80" Margin="840,584,0,0" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p56" HorizontalAlignment="Left" Height="80" Margin="977,584,0,0" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p57" HorizontalAlignment="Left" Height="80" Margin="1112,584,0,0" VerticalAlignment="Top" Width="109" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p60" HorizontalAlignment="Left" Height="85" Margin="134,682,0,0" VerticalAlignment="Top" Width="110" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p61" HorizontalAlignment="Left" Height="85" Margin="274,682,0,0" VerticalAlignment="Top" Width="110" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p62" HorizontalAlignment="Left" Height="85" Margin="423,682,0,0" VerticalAlignment="Top" Width="110" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p63" HorizontalAlignment="Left" Height="85" Margin="570,682,0,0" VerticalAlignment="Top" Width="110" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p64" HorizontalAlignment="Left" Height="85" Margin="715,682,0,0" VerticalAlignment="Top" Width="110" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p65" HorizontalAlignment="Left" Height="85" Margin="851,682,0,0" VerticalAlignment="Top" Width="110" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p66" HorizontalAlignment="Left" Height="85" Margin="988,682,0,0" VerticalAlignment="Top" Width="110" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p67" HorizontalAlignment="Left" Height="85" Margin="1124,682,0,0" VerticalAlignment="Top" Width="110" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p70" HorizontalAlignment="Left" Height="90" Margin="104,791,0,0" VerticalAlignment="Top" Width="111" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p71" HorizontalAlignment="Left" Height="90" Margin="248,791,0,0" VerticalAlignment="Top" Width="111" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p72" HorizontalAlignment="Left" Height="90" Margin="405,791,0,0" VerticalAlignment="Top" Width="111" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p73" HorizontalAlignment="Left" Height="90" Margin="561,791,0,0" VerticalAlignment="Top" Width="111" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p74" HorizontalAlignment="Left" Height="90" Margin="717,791,0,0" VerticalAlignment="Top" Width="111" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p75" HorizontalAlignment="Left" Height="90" Margin="857,791,0,0" VerticalAlignment="Top" Width="111" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p76" HorizontalAlignment="Left" Height="90" Margin="989,791,0,0" VerticalAlignment="Top" Width="111" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
+            <Image x:Name="p77" HorizontalAlignment="Left" Height="90" Margin="1139,791,0,0" VerticalAlignment="Top" Width="111" RenderTransformOrigin="0.52,0.48" Source="{DynamicResource inactivePosition}" Panel.ZIndex="3" MouseLeftButtonUp="PodPositionListener_MouseLeftButtonUp" Stretch="Fill" Opacity="0.6" MouseEnter="Position_MouseEnter" MouseLeave="Position_MouseLeave"/>
         </Grid>
-        <Grid x:Name="ScoreHUD" Margin="4,10,1074,770" Panel.ZIndex="2" Height="120">
+        <Grid x:Name="ScoreHUD" Margin="4,10,1033,725" Panel.ZIndex="2">
             <Grid.Background>
                 <ImageBrush ImageSource="Resources/Images/MenuBackdrop.png"/>
             </Grid.Background>
-            <Path x:Name="HumanScoreBar" Data="M90,100 L90,120 210,120 190,100 z" HorizontalAlignment="Left" Height="27.702" Margin="49.316,18.041,0,0" Stretch="Fill" Stroke="Black" VerticalAlignment="Top" Width="27.243" Panel.ZIndex="2" RenderTransformOrigin="0.5,0.5">
-                <Path.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Path.RenderTransform>
-                <Path.Fill>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black" Offset="0"/>
-                        <GradientStop Color="#FF34A051" Offset="1"/>
-                        <GradientStop Color="#FF1A5028" Offset="0.211"/>
-                    </LinearGradientBrush>
-                </Path.Fill>
-            </Path>
-            <Path x:Name="RobotScoreBar" Data="M90,100 L90,120 210,120 190,100 z" HorizontalAlignment="Left" Height="27.702" Margin="49.316,72.665,0,0" Stretch="Fill" Stroke="Black" VerticalAlignment="Top" Width="27.243" Panel.ZIndex="2" RenderTransformOrigin="0.5,0.5">
-                <Path.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Path.RenderTransform>
-                <Path.Fill>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black" Offset="0"/>
-                        <GradientStop Color="#FF933838" Offset="1"/>
-                        <GradientStop Color="#FF481B1B" Offset="0.099"/>
-                    </LinearGradientBrush>
-                </Path.Fill>
-            </Path>
-            <Label x:Name="HumanScoreLabel" Content="0" FontSize="24" FontFamily="Agency FB" Foreground="White" RenderTransformOrigin="0.5,0.5" Margin="46,12,-35,52" Panel.ZIndex="2"/>
+            <Label x:Name="HumanPlayerName" Content="Humans" FontSize="24" FontFamily="Agency FB" Foreground="White" RenderTransformOrigin="0.5,0.5" Margin="31,64,211,65" Panel.ZIndex="2"/>
+            <Label x:Name="RobotPlayerName" Content="Robots" FontSize="24" FontFamily="Agency FB" Foreground="White" Margin="31,100,211,28" Panel.ZIndex="2"/>
+            <Label x:Name="HumanScoreLabel" Content="0" FontSize="24" FontFamily="Agency FB" Foreground="White" RenderTransformOrigin="0.5,0.5" Margin="192,64,175,65" Panel.ZIndex="2" Width="36" Height="36"/>
 
-            <Label x:Name="RobotScoreLabel" Content="0" FontSize="24" FontFamily="Agency FB" Foreground="White" Margin="46,68,-35,-4" Panel.ZIndex="2"/>
+            <Label x:Name="RobotScoreLabel" Content="0" FontSize="24" FontFamily="Agency FB" Foreground="White" Margin="192,99,175,30" Panel.ZIndex="2" Width="36" Height="36"/>
+            <Label x:Name="HumanPodsLabel" Content="28" FontSize="24" FontFamily="Agency FB" Foreground="White" RenderTransformOrigin="0.5,0.5" Margin="294,64,73,65" Panel.ZIndex="2" Width="36" Height="36"/>
+            <Label x:Name="RobotPodsLabel" Content="28" FontSize="24" FontFamily="Agency FB" Foreground="White" Margin="294,101,73,28" Panel.ZIndex="2" Width="36" Height="36"/>
+            <Label x:Name="PodsLeftHeaderLabel" Content="Pods Left" FontSize="24" FontFamily="Agency FB" Foreground="White" Margin="266,10,56,119" Panel.ZIndex="2" Height="36"/>
+            <Label x:Name="ScoreHeaderLabel" Content="Score" FontSize="24" FontFamily="Agency FB" Foreground="White" Margin="172,10,175,119" Panel.ZIndex="2" Height="36"/>
 
         </Grid>
 
@@ -229,6 +114,7 @@
                             Width="203" Height="41"
                             MouseLeftButtonUp="Menu_OnMouseLeftButtonUp"/>
         </Grid>
+        <Image Source="Resources/Images/Buttons/NetworkGame/Back_To_Lobby.png" Panel.ZIndex="4" Width="155" Height="155" Margin="1275,86,10,659" MouseDown="Image_MouseDown"></Image>
 
     </Grid>
 

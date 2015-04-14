@@ -1,30 +1,109 @@
-﻿<UserControl x:Name="HelpScreenUC" x:Class="Ascendancy.User_Control.HelpPopUpUserControl"
+<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Ascendancy="clr-namespace:Ascendancy" x:Name="HelpScreenUC" x:Class="Ascendancy.User_Control.HelpPopUpUserControl" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Width="1440" Height="900">
+
+    <UserControl.Resources>
+        <Storyboard x:Key="HelpPage1Storyboard">
+            <MediaTimeline Source="Resources/Video/HelpPage1.wmv" Storyboard.TargetName="PageX"
+                RepeatBehavior="Forever" BeginTime="0:0:0" Duration="0:0:4"/>
+        </Storyboard>
+        <Storyboard x:Key="HelpPage2Storyboard">
+            <MediaTimeline Source="Resources/Video/HelpPage2.wmv" Storyboard.TargetName="PageX"
+                RepeatBehavior="Forever" BeginTime="0:0:0" Duration="0:0:4"/>
+        </Storyboard>
+        <Storyboard x:Key="HelpPage3Storyboard">
+            <MediaTimeline Source="Resources/Video/HelpPage3.wmv" Storyboard.TargetName="PageX"
+                RepeatBehavior="Forever" BeginTime="0:0:0" Duration="0:0:4"/>
+        </Storyboard>
+        <Storyboard x:Key="HelpPage4Storyboard">
+            <MediaTimeline Source="Resources/Video/HelpPage4.wmv" Storyboard.TargetName="PageX"
+                RepeatBehavior="Forever" BeginTime="0:0:0" Duration="0:0:4"/>
+        </Storyboard>
+        <Storyboard x:Key="HelpPage5Storyboard">
+            <MediaTimeline Source="Resources/Video/HelpPage5.wmv" Storyboard.TargetName="PageX"
+                RepeatBehavior="Forever" BeginTime="0:0:0" Duration="0:0:4"/>
+        </Storyboard>
+        <Storyboard x:Key="HelpPage6Storyboard">
+            <MediaTimeline Source="Resources/Video/HelpPage6.wmv" Storyboard.TargetName="PageX"
+                RepeatBehavior="Forever" BeginTime="0:0:0" Duration="0:0:4"/>
+        </Storyboard>
+    </UserControl.Resources>
     <Grid x:Name="HelpScreenGrid" Width="1440" Height="900">
-        <Label x:Name="ScreenShotCatcher" Content="" Margin="179,115,180,110" Width="1080" Height="675" Panel.ZIndex="2" Foreground="{x:Null}" Background="Black"/>
-        <Grid x:Name="ScreenShotGrid" Margin="179,115,180,110" Width="1080" Height="675" Panel.ZIndex="2">
-            <Image x:Name="Page1PodPlacement" Source="/Ascendancy;component/Resources/Images/UserControlResources/HelpScreen/Screenshots/ScreenShot1.png" Width="1080" Height="675" Opacity="0" Panel.ZIndex="2"/>
-            <Image x:Name="Page2EnemyTakesPanel" Source="/Ascendancy;component/Resources/Images/UserControlResources/HelpScreen/Screenshots/ScreenShot2.png" Width="1080" Height="675" Opacity="0" Panel.ZIndex="2"/>
-            <Image x:Name="Page3HighlightHoles" Source="/Ascendancy;component/Resources/Images/UserControlResources/HelpScreen/Screenshots/Screenshot3.png" Width="1080" Height="675" Opacity="0" Panel.ZIndex="2"/>
-            <Image x:Name="Page4HighlightWonPanel" Source="/Ascendancy;component/Resources/Images/UserControlResources/HelpScreen/Screenshots/Screenshot4.png" Width="1080" Height="675" Opacity="0" Panel.ZIndex="2"/>
-            <Image x:Name="Page5WinningScreen" Source="/Ascendancy;component/Resources/Images/UserControlResources/HelpScreen/Screenshots/Screenshot4.png" Width="1080" Height="675" Opacity="0" Panel.ZIndex="2"/>
-            <Image x:Name="Page6HeadsUpDisplayDescription" Source="/Ascendancy;component/Resources/Images/GameBoard/matchingboard2.png" Width="1080" Height="675" Opacity="0" Panel.ZIndex="2"/>
+        <Label x:Name="ScreenShotCatcher" Content="" Margin="0" Width="1440" Height="900" Panel.ZIndex="2" Foreground="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Label.Background>
+                <ImageBrush ImageSource="/Ascendancy;component/Resources/Images/Buttons/Help/HelpBackdrop.png"/>
+            </Label.Background>
+        </Label>
+        <Rectangle x:Name="AstronautBackdrop_Copy" Panel.ZIndex="2" StrokeLineJoin="Round" StrokeMiterLimit="35" StrokeThickness="15" StrokeStartLineCap="Round" Margin="322,123,106,178" RadiusY="105" RadiusX="85" Fill="Black">
+            <Rectangle.Effect>
+                <BlurEffect Radius="59"/>
+            </Rectangle.Effect>
+        </Rectangle>
+        <Label x:Name="LoadingLabel" Content="&#xA;&#xA;&#xA;&#xA;                             Loading..." HorizontalAlignment="Left" Margin="345,153,0,0" VerticalAlignment="Top" Height="538" Width="958" Background="Black" FontSize="48" Panel.ZIndex="2" Foreground="White"/>
+        <MediaElement x:Name="PageX" LoadedBehavior="Play"
+			Panel.ZIndex="2" Width="958" Height="599" Margin="345,123,137,178"/>
+        <Grid x:Name="Buttons" Panel.ZIndex="2" VerticalAlignment="Center" HorizontalAlignment="Center" Height="900" Width="1440">
+            <Ascendancy:ImageButton x:Name="PreviousSlideButton" Source="/Ascendancy;component/Resources/Images/Buttons/SinglePlayer/Buttons_Cancel.png"
+                Margin="464,703,676,137" Height="60" Width="300"
+                MouseLeftButtonUp="previousIdle_MouseUp"/>
+
+            <Ascendancy:ImageButton x:Name="NextSlideButton" Source="/Ascendancy;component/Resources/Images/Buttons/SinglePlayer/Buttons_Play.png"
+                Margin="846,703,294,137" Height="60" Width="300"
+                MouseLeftButtonUp="nextIdle_MouseUp"/>
+
+            <Ascendancy:ImageButton x:Name="BackButton" Source="/Ascendancy;component/Resources/Images/Buttons/Back.png"
+                Margin="649,804,491,36" Height="60" Width="300"
+                MouseLeftButtonUp="closeHelpIdle_MouseUp"/>
         </Grid>
-        <Image x:Name="closeHelpClick" Height="55" Margin="1192,122,0,0" VerticalAlignment="Top" Width="59" Source="/Resources/Images/UserControlResources/HelpScreen/CloseHelpClick.png" Stretch="Fill" HorizontalAlignment="Left" Panel.ZIndex="2"/>
-        <Image x:Name="closeHelpHover" Height="55" Margin="1192,122,0,0" VerticalAlignment="Top" Width="59" Source="/Resources/Images/UserControlResources/HelpScreen/CloseHelpHover.png" Stretch="Fill" HorizontalAlignment="Left" Panel.ZIndex="2"/>
-        <Image x:Name="closeHelpIdle" Height="55" Margin="1192,122,0,0" VerticalAlignment="Top" Width="59" Source="/Resources/Images/UserControlResources/HelpScreen/CloseHelpIdle.png" Stretch="Fill" HorizontalAlignment="Left" MouseUp="closeHelpIdle_MouseUp" MouseDown="userControlButton_MouseDown" MouseEnter="userControlButton_MouseEnter" MouseLeave="userControlButton_MouseLeave" Panel.ZIndex="2"/>
-        <Canvas x:Name="buttonCatcher" HorizontalAlignment="Left" Height="75" VerticalAlignment="Top" Width="673" Panel.ZIndex="2" Margin="390,675,0,0" Opacity="0"/>
-        <Image x:Name="previousClick" Height="75" Margin="390,675,0,0" VerticalAlignment="Top" Width="280" Source="/Resources/Images/UserControlResources/HelpScreen/PreviousClick.png" Stretch="UniformToFill" HorizontalAlignment="Left" Panel.ZIndex="2"/>
-        <Image x:Name="previousHover" Height="75" Margin="390,675,0,0" VerticalAlignment="Top" Width="280" Source="/Resources/Images/UserControlResources/HelpScreen/PreviousHover.png" Stretch="UniformToFill" HorizontalAlignment="Left" Panel.ZIndex="2"/>
-        <Image x:Name="previousIdle" Height="75" Margin="390,675,0,0" VerticalAlignment="Top" Width="280" Source="/Resources/Images/UserControlResources/HelpScreen/PreviousIdle.png" Stretch="UniformToFill" HorizontalAlignment="Left" MouseUp="previousIdle_MouseUp" MouseDown="userControlButton_MouseDown" MouseEnter="userControlButton_MouseEnter" MouseLeave="userControlButton_MouseLeave" Panel.ZIndex="2"/>
-        <Image x:Name="nextClick" Height="75" Margin="783,675,0,0" VerticalAlignment="Top" Width="280" Source="/Resources/Images/UserControlResources/HelpScreen/NextClick.png" Stretch="UniformToFill" HorizontalAlignment="Left" Panel.ZIndex="2"/>
-        <Image x:Name="nextHover" Height="75" Margin="783,675,0,0" VerticalAlignment="Top" Width="280" Source="/Resources/Images/UserControlResources/HelpScreen/NextHover.png" Stretch="UniformToFill" HorizontalAlignment="Left" Panel.ZIndex="2"/>
-        <Image x:Name="nextIdle" Height="75" Margin="783,675,0,0" VerticalAlignment="Top" Width="280" Source="/Resources/Images/UserControlResources/HelpScreen/NextIdle.png" Stretch="UniformToFill" HorizontalAlignment="Left" MouseUp="nextIdle_MouseUp" MouseDown="userControlButton_MouseDown" MouseEnter="userControlButton_MouseEnter" MouseLeave="userControlButton_MouseLeave" Panel.ZIndex="2"/>
+        <Rectangle x:Name="AstronautBackdrop" Panel.ZIndex="2" StrokeLineJoin="Round" StrokeMiterLimit="35" StrokeThickness="15" StrokeStartLineCap="Round" Margin="102.601,543,1118.085,17.721" RadiusY="105" RadiusX="85" Fill="#FF243949">
+            <Rectangle.Effect>
+                <BlurEffect Radius="59"/>
+            </Rectangle.Effect>
+        </Rectangle>
+        <Canvas x:Name="AstronautCanvas" HorizontalAlignment="Center" Height="347" VerticalAlignment="Center" Width="266" Margin="74,543,1100,10" Panel.ZIndex="3" ClipToBounds="True">
+            <MediaElement x:Name="AstroIdleMedia" LoadedBehavior="Manual"
+				Panel.ZIndex="5" Width="618" Height="575" ClipToBounds="True" Canvas.Left="-167.567" Canvas.Top="-116.478">
+
+                <MediaElement.Clip>
+                    <CombinedGeometry GeometryCombineMode="Intersect">
+                        <CombinedGeometry.Geometry1>
+                            <RectangleGeometry Rect="190,128,190,320"/>
+                        </CombinedGeometry.Geometry1>
+                        <CombinedGeometry.Geometry2>
+                            <EllipseGeometry RadiusX="110" RadiusY="170" Center="285,285" />
+                        </CombinedGeometry.Geometry2>
+                    </CombinedGeometry>
+                </MediaElement.Clip>
+
+                <MediaElement.Triggers>
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard x:Name="AstroIdleMediaStoryboard">
+                                <MediaTimeline Source="Resources/Video/AstroIdle.wmv" Storyboard.TargetName="AstroIdleMedia" RepeatBehavior="Forever" BeginTime="0:0:0" Duration="0:0:15"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </MediaElement.Triggers>
+            </MediaElement>
+        </Canvas>
+        <Grid x:Name="HelpTextGrid" HorizontalAlignment="Left" Height="283" Margin="33,260,0,0" VerticalAlignment="Top" Width="336" Panel.ZIndex="2">
+            <Rectangle x:Name="AstronautBackdrop_Copy1" Panel.ZIndex="2" StrokeLineJoin="Round" StrokeMiterLimit="35" StrokeThickness="15" StrokeStartLineCap="Round" Margin="0,10,10,10" RadiusY="20" RadiusX="20" Fill="Black">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="59"/>
+                </Rectangle.Effect>
+            </Rectangle>
+            <Label x:Name="HelpLabel1" Content="Help us take back Earth by firing &#xD;&#xA;pods at the barren battleground. &#xD;&#xA;These pods will plant trees that &#xD;&#xA;will give us oxygen to live on Earth &#xD;&#xA;again." HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Height="252" Width="316" Panel.ZIndex="2" Margin="20,20,0,0" FontFamily="Segoe WP Light" FontSize="20" Opacity="0" HorizontalContentAlignment="Stretch"/>
+            <Label x:Name="HelpLabel2" Content="Oh no! The robots are advancing &#xD;&#xA;on the battleground too!" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Height="263" Width="316" Panel.ZIndex="2" Margin="20,20,0,0" FontFamily="Segoe WP Light" FontSize="20" Opacity="0" HorizontalContentAlignment="Stretch"/>
+            <Label x:Name="HelpLabel3" Content="Counter attack by sending one &#xD;&#xA;of our pods horizontally or &#xD;&#xA;vertically of the last robots  &#xD;&#xA;pod. Our pods are unstable &#xD;&#xA;so we can't fire them back to &#xD;&#xA;back into the same territory." HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Height="263" Width="316" Panel.ZIndex="2" Margin="20,20,0,0" FontFamily="Segoe WP Light" FontSize="20" Opacity="0" HorizontalContentAlignment="Stretch"/>
+            <Label x:Name="HelpLabel4" Content="To win a territory, you must control &#xD;&#xA;the majority of the battlegrounds &#xD;&#xA;in that area." HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Height="263" Width="316" Panel.ZIndex="2" Margin="20,20,0,0" FontFamily="Segoe WP Light" FontSize="20" Opacity="0" HorizontalContentAlignment="Stretch"/>
+            <Label x:Name="HelpLabel5" Content="Our battle will be complete &#xD;&#xA;when we either run out of pods &#xD;&#xA;or are unable to land them. The &#xD;&#xA;mission will only be successful &#xD;&#xA;if we control the majority of Earth." HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Height="263" Width="316" Panel.ZIndex="2" Margin="20,20,0,0" FontFamily="Segoe WP Light" FontSize="20" Opacity="0" HorizontalContentAlignment="Stretch"/>
+            <Label x:Name="HelpLabel6" Content="Here are some extra tools that &#xD;&#xA;will help you on your mission to &#xD;&#xA;take back Earth." HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" Height="263" Width="316" Panel.ZIndex="2" Margin="20,20,0,0" FontFamily="Segoe WP Light" FontSize="20" Opacity="0" HorizontalContentAlignment="Stretch"/>
+        </Grid>
 
     </Grid>
 </UserControl>

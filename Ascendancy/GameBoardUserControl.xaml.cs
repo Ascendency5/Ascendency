@@ -32,14 +32,15 @@ namespace Ascendancy
     public partial class GameBoardUserControl : UserControl
     {
         private GameEngine engine;
+        private bool difficultyIsHard = true;
 
-        private readonly Image[,] inactiveImages;
+        private Image[,] inactiveImages;
         private Image[,] activeImages;
 
         private Move[] validMoves;
         private static bool humanTurn;
         private static Move humanMove;
-        private readonly List<Move> playedMoves;
+        private List<Move> playedMoves;
 
         readonly Sprite originalPossibleMoveSprite = new Sprite("PossibleMoveSprite", 311, AnimationType.AnimateForever)
         {
@@ -51,10 +52,37 @@ namespace Ascendancy
             Name = "PossibleMoveSprite"
         };
 
-        public GameBoardUserControl(GameEngine engine)
+
+        //local multiplayer loader
+        public GameBoardUserControl(GameEngine engine, string firstPlayer, string secondPlayer)
         {
             InitializeComponent();
 
+            //set the players names
+            HumanPlayerName.Content = firstPlayer;
+            RobotPlayerName.Content = secondPlayer;
+
+            //startUp the engine! vroom vroom!
+            startUp(engine);
+        }
+
+        //online multiplayer mode
+        public GameBoardUserControl(GameEngine engine, bool getDifficulty)
+        {
+            InitializeComponent();
+            startUp(engine);
+            difficultyIsHard = getDifficulty;
+        }
+
+        //single player mode
+        public GameBoardUserControl(GameEngine engine)
+        {
+            InitializeComponent();
+            startUp(engine);
+        }
+
+        private void startUp(GameEngine engine)
+        {
             inactiveImages = new[,]
             {
                 {p00, p01, p02, p03, p04, p05, p06, p07},
@@ -82,48 +110,93 @@ namespace Ascendancy
             engine.start();
             this.engine = engine;
 
-            StartMusic();
+            //StartMusic();
+
+            //this gets the board configuration and shows the proper mask on the gameboard
+            setGameboardConfig(engine.GetBoard().GetBoardType());
         }
 
-        private void StartMusic()
+        private void TryGameComplete(object gameengine, PlayerMoveEventArgs eventargs)
         {
-            //start up the looped media
-            VolumeManager.play(@"Resources/Audio/BattleTheme.wav", SoundType.Music, SoundLoop.Loop);
+            // animate the cancel button from the ExitControl, then kill anim object
+            //ContentControlActions.FadeOut();
+            //get the proper variables to find out who won
+            BoardState state = eventargs.State;
+            int redScore, blackScore;
+            eventargs.Board.GetScore(state, out redScore, out blackScore);
+            GameResult finalGameState;
+
+            //change the score labels
+            HumanScoreLabel.Content = redScore;
+            RobotScoreLabel.Content = blackScore;
+
+            //set the final state
+            if (redScore == blackScore)
+                finalGameState = GameResult.Tie;
+            else if (redScore < blackScore)
+                finalGameState = GameResult.Loss;
+            else
+                finalGameState = GameResult.Win;
+
+
+            ContentControlActions.setPopup(new GameCompleteUserControl(finalGameState, on_game_complete_callback));
+
+            //VolumeManager.BattleThemeTransition = false;
+            engine.kill();
         }
+
+        //private void StartMusic()
+        //{
+        //    //start up the looped media
+        //    VolumeManager.play(@"Resources/Audio/BattleTheme.wav", SoundType.BattleMusic, SoundLoop.Loop);
+        //    VolumeManager.BattleThemeTransition = true;
+        //}
 
         private void on_player_moved(object gameengine, PlayerMoveEventArgs eventargs)
         {
             BoardState state = eventargs.State;
             Move move = eventargs.Move;
 
+
             Dispatcher.Invoke(() =>
             {
-                playedMoves.Add(move);
-
-                int row = move.Row;
-                int col = move.Col;
-
-                inactiveImages[row, col].Opacity = 0;
-                if (activeImages[row, col] != null)
+                //if game is over, end it
+                if ((state.RedMovesLeft == 0 && state.BlackMovesLeft == 0))
                 {
-                    Sprite previousSprite = activeImages[row, col] as Sprite;
-                    if (previousSprite != null)
-                    {
-                        previousSprite.Opacity = 0;
-                        originalPossibleMoveSprite.RemoveDependent(previousSprite);
-                    }
+                    TryGameComplete(gameengine, eventargs);
                 }
-                activeImages[row, col] = addPod(state[move], inactiveImages[row, col], move);
 
-                int redScore, blackScore;
-                eventargs.Board.GetScore(state, out redScore, out blackScore);
+                //otherwise, process the move
+                else
+                {
+                    playedMoves.Add(move);
 
-                //change the score labels
-                HumanScoreLabel.Content = redScore;
-                RobotScoreLabel.Content = blackScore;
+                    int row = move.Row;
+                    int col = move.Col;
 
-                animateScoreBar(HumanScoreBar, redScore);
-                animateScoreBar(RobotScoreBar, blackScore);
+                    inactiveImages[row, col].Opacity = 0;
+                    if (activeImages[row, col] != null)
+                    {
+                        Sprite previousSprite = activeImages[row, col] as Sprite;
+                        if (previousSprite != null)
+                        {
+                            previousSprite.Opacity = 0;
+                            originalPossibleMoveSprite.RemoveDependent(previousSprite);
+                        }
+                    }
+                    activeImages[row, col] = addPod(state[move], inactiveImages[row, col], move);
+
+                    int redScore, blackScore;
+                    eventargs.Board.GetScore(state, out redScore, out blackScore);
+
+                    //change the score labels
+                    HumanPodsLabel.Content = state.RedMovesLeft;
+                    RobotPodsLabel.Content = state.BlackMovesLeft;
+
+                    HumanScoreLabel.Content = redScore;
+                    RobotScoreLabel.Content = blackScore;
+                }
+
             });
         }
 
@@ -195,7 +268,7 @@ namespace Ascendancy
             {
                 PlayableGameBoardGridEventListener.Children.Remove(activeImages[move.Row, move.Col]);
 
-                inactiveImages[move.Row, move.Col].Opacity = .2;
+                inactiveImages[move.Row, move.Col].Opacity = .7;
                 activeImages[move.Row, move.Col] = null;
             }
 
@@ -270,7 +343,6 @@ namespace Ascendancy
             trans.BeginAnimation(TranslateTransform.XProperty, anim1);
             trans.BeginAnimation(TranslateTransform.YProperty, anim2);
 
-            // todo add in a little recoil
 
         }
 
@@ -315,9 +387,19 @@ namespace Ascendancy
             }
             else
             {
-                podType = "HardRobotGameboardSprite";
-                dropPod = FindResource("DropRobotPod") as Storyboard;
-                sound = "Resources/Audio/RobotPodDown.wav";
+                if (difficultyIsHard)
+                {
+                    podType = "HardRobotSprite";
+                    dropPod = FindResource("DropRobotPod") as Storyboard;
+                    //todo change sound effect per robot type
+                    sound = "Resources/Audio/RobotPodDown.wav";
+                }
+                else
+                {
+                    podType = "EasyRobotSprite";
+                    dropPod = FindResource("DropRobotPod") as Storyboard;
+                    sound = "Resources/Audio/RobotPodDown.wav";
+                }
             }
 
             // Sprite resource name and width
@@ -370,8 +452,13 @@ namespace Ascendancy
                 case MenuOption.Exit:
                     // Fade out the popup
                     ContentControlActions.FadeOut();
-                    // Fade out the user control
-                    ContentControlActions.FadeOut();
+                    //// Fade out the user control
+                    //ContentControlActions.FadeOut();
+
+                    //todo get game complete funcitonality working here
+                    ContentControlActions.setPopup(new GameCompleteUserControl(GameResult.Loss, on_game_complete_callback));
+                    engine.kill();
+
                     break;
             }
         }
@@ -384,15 +471,15 @@ namespace Ascendancy
                     ContentControlActions.FadeOut();
                     //todo: figure out which type of game user was playing and start a new one
                     break;
-                case GameCompleteMenuOption.Restart:
-                    ContentControlActions.FadeOut();
+                //case GameCompleteMenuOption.Restart:
+                //    ContentControlActions.FadeOut();
 
-                    //for testing purposes
-                    //todo: put this in correct spot
-                    ContentControlActions.setPopup(new NetworkGameDisconnectUserControl(new KulamiPeer(), on_network_game_disconnect_callback));
+                //    //for testing purposes
+                //    //todo: put this in correct spot
+                //    ContentControlActions.setPopup(new NetworkGameDisconnectUserControl(new KulamiPeer(), on_network_game_disconnect_callback));
 
-                    //todo: put restart functionality here, plus transition music/sounds
-                    break;
+                //    //todo: put restart functionality here, plus transition music/sounds
+                //    break;
                 case GameCompleteMenuOption.MainMenu:
                     engine.kill();
                     // Fade out the popup
@@ -439,6 +526,42 @@ namespace Ascendancy
         private void Menu_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             ContentControlActions.setPopup(new InGameMenuUserControl(on_menu_callback));
+        }
+
+        //sets what gameboard is being played for the current game
+        private void setGameboardConfig(int boardConfig)
+        {
+            string filename = @"/Resources/Images/GameBoard/Team" + boardConfig + ".png";
+
+            //set the gameboard as a mask to the main scenery
+            GameConfigMask.Source = new BitmapImage(
+                new Uri(filename, UriKind.Relative));
+        }
+
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ContentControlActions.setPopup(new GameCompleteUserControl(GameResult.Win, on_game_complete_callback));
+        }
+
+        private void Position_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (!humanTurn) return;
+            Move move = findMoveFromPosition(sender);
+            if (validMove(move))
+            {
+                FrameworkElement element = sender as FrameworkElement;
+                element.Opacity = 1;
+            }
+        }
+        private void Position_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (!humanTurn) return;
+            Move move = findMoveFromPosition(sender);
+            if (validMove(move))
+            {
+                FrameworkElement element = sender as FrameworkElement;
+                element.Opacity = 0;
+            }
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Ascendancy
     {
         //todo delete the old FadeIUserControlButton method after all other buttons have been replaced
         //all user control objects animate their buttons with this method
-        public static void FadeInUserControlButton(object sender, bool fadeIn)
+        public static void FadeInElement(object sender, bool fadeIn)
         {
             Storyboard buttonStoryboard = new Storyboard();
             DoubleAnimation changeButtonOpacity;
@@ -41,17 +41,29 @@ namespace Ascendancy
         {
             Storyboard userControlStoryboard = new Storyboard();
             DoubleAnimation changeContentOpacity;
+            Int32Animation changeContentIndex;
 
-            Duration transitionDuration = new Duration(TimeSpan.FromMilliseconds(400));
+            Duration durationOpacity = new Duration(TimeSpan.FromMilliseconds(401));
+            Duration durationIndex = new Duration(TimeSpan.FromMilliseconds(0));
             if (fadeIn)
-                changeContentOpacity = new DoubleAnimation(0, 1, transitionDuration);
+            {
+                changeContentOpacity = new DoubleAnimation(0, 1, durationOpacity);
+                changeContentIndex = new Int32Animation(0, 3, durationIndex);
+                changeContentIndex.BeginTime = TimeSpan.FromMilliseconds(0);
+            }
             else
-                changeContentOpacity = new DoubleAnimation(1, 0, transitionDuration);
+            {
+                changeContentOpacity = new DoubleAnimation(1, 0, durationOpacity);
+                changeContentIndex = new Int32Animation(3, 0, durationIndex);
+                changeContentIndex.BeginTime = TimeSpan.FromMilliseconds(400);
+            }
 
             //add to the storyboard
             userControlStoryboard.Children.Add(changeContentOpacity);
-            Storyboard.SetTarget(changeContentOpacity, currentContentControl);
+            userControlStoryboard.Children.Add(changeContentIndex);
+            Storyboard.SetTarget(userControlStoryboard, currentContentControl);
             Storyboard.SetTargetProperty(changeContentOpacity, new PropertyPath("Opacity"));
+            Storyboard.SetTargetProperty(changeContentIndex, new PropertyPath("(Panel.ZIndex)"));
 
             //animate this object
             userControlStoryboard.Begin(currentContentControl);
