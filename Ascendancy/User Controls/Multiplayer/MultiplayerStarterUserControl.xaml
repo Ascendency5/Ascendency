@@ -29,8 +29,8 @@
 
 
         </Grid>
-
-
+        <Image x:Name="LocalLogoImage" HorizontalAlignment="Left" Height="300" Margin="781,212,0,0" VerticalAlignment="Top" Width="300" Panel.ZIndex="2" Source="/Ascendancy;component/Resources/Images/Buttons/MultiplayerStarter/LocalLogo.png"/>
+        <Image x:Name="OnlineLogoImage" HorizontalAlignment="Left" Height="300" Margin="359,212,0,0" VerticalAlignment="Top" Width="300" Panel.ZIndex="2" Source="/Ascendancy;component/Resources/Images/Buttons/MultiplayerStarter/OnlineLogo.png"/>
 
     </Grid>
 </UserControl>

@@ -1,19 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Ascendancy.Game_Engine;
 using Ascendancy.Networking;
 
@@ -26,12 +16,14 @@ namespace Ascendancy.User_Controls.Multiplayer
     {
         public OnlineLobbyUserControl()
         {
-            InitializeComponent();
-            UserControlAnimation.StartButtonGradientSpin(IncomingChallengesButton);
-            UserControlAnimation.StartButtonGradientSpin(PlayersOnlineButtons);
-            UserControlAnimation.StartButtonGradientSpin(PlayersChallengedButtons);
+            InitializeComponent();            
+            
+            //todo moved the network manager from the main window
+            Networkmanager.OnDiscovery += PeerHolder.on_peer_discovery;
+            Networkmanager.OnDisconnect += PeerHolder.on_peer_disconnect;
+            Networkmanager.Start();
             Networkmanager.OnDiscovery += on_peer_discovery;
-            Networkmanager.OnDisconnect += on_peer_disconnect;
+            Networkmanager.OnDisconnect += on_peer_disconnect; 
             
             List<ListBoxItem> items = new List<ListBoxItem>();
 
@@ -43,9 +35,9 @@ namespace Ascendancy.User_Controls.Multiplayer
                     items.Add(new ListBoxItem() {Content = peer});
             }
 
-            OnlinePlayersListBox.ItemsSource = items;
-            OnlinePlayerChallengesListBox.ItemsSource = new List<ListBoxItem>();
-            PlayersChallengedListBox.ItemsSource = new List<ListBoxItem>();
+            PlayersListBox.ItemsSource = items;
+            IncomingChallengesListBox.ItemsSource = new List<ListBoxItem>();
+            OutgoingChallengesListBox.ItemsSource = new List<ListBoxItem>();
         }
 
         private void subscribe(KulamiPeer peer)
@@ -56,6 +48,7 @@ namespace Ascendancy.User_Controls.Multiplayer
             peer.OnUpdate += on_peer_update;
         }
 
+        //todo why?
         private void unsubscribe(KulamiPeer peer)
         {
             TraceHelper.WriteLine("Unsubscribing {0}", peer.Identifier);
@@ -74,7 +67,7 @@ namespace Ascendancy.User_Controls.Multiplayer
             if (string.IsNullOrEmpty(peer.Name)) return;
             Dispatcher.Invoke(() =>
             {
-                AddPeer(OnlinePlayersListBox, peer);
+                PlayersListBox.AddPeer(peer);
             });
         }
 
@@ -82,28 +75,20 @@ namespace Ascendancy.User_Controls.Multiplayer
         {
             KulamiPeer peer = sender as KulamiPeer;
             if (peer == null) return;
-            TraceHelper.WriteLine("on peer update {0}", peer.Identifier);
 
             Dispatcher.Invoke(() =>
             {
                 if (string.IsNullOrEmpty(peer.Name))
                 {
-                    RemovePeer(OnlinePlayersListBox, peer);
-                    RemovePeer(OnlinePlayerChallengesListBox, peer);
+                    PlayersListBox.RemovePeer(peer);
+                    IncomingChallengesListBox.RemovePeer(peer);
+                    OutgoingChallengesListBox.RemovePeer(peer);
                     return;
                 }
 
-                // Add the peer if we don't have it, or just update
-                if (OnlinePlayersListBox.Contains(peer))
-                {
-                    UpdatePeer(OnlinePlayersListBox, peer);
-                }
-                else
-                {
-                    AddPeer(OnlinePlayersListBox, peer);
-                }
-
-                UpdatePeer(OnlinePlayerChallengesListBox, peer);
+                PlayersListBox.AddOrUpdatePeer(peer);
+                IncomingChallengesListBox.UpdatePeer(peer);
+                OutgoingChallengesListBox.UpdatePeer(peer);
             });
         }
 
@@ -116,36 +101,13 @@ namespace Ascendancy.User_Controls.Multiplayer
 
             Dispatcher.Invoke(() =>
             {
-                RemovePeer(OnlinePlayersListBox, peer);
-                RemovePeer(OnlinePlayerChallengesListBox, peer);
+                PlayersListBox.RemovePeer(peer);
+                IncomingChallengesListBox.RemovePeer(peer);
+                if(!IncomingChallengesListBox.HasItems) hide(IncomingChallengesCanvas);
+
+                OutgoingChallengesListBox.RemovePeer(peer);
+                if(!OutgoingChallengesListBox.HasItems) hide(OutgoingChallengesCanvas);
             });
-        }
-
-        private void AddPeer(ListBox listBox, KulamiPeer peer)
-        {
-            List<ListBoxItem> items = (List<ListBoxItem>)listBox.ItemsSource;
-            items.Add(new ListBoxItem { Content = peer });
-            listBox.ItemsSource = items;
-            listBox.Items.Refresh();
-        }
-
-        private void RemovePeer(ListBox listBox, KulamiPeer peer)
-        {
-            List<ListBoxItem> items = (List<ListBoxItem>) listBox.ItemsSource;
-            listBox.ItemsSource = items.Where(
-                x => ((KulamiPeer) x.Content).Identifier != peer.Identifier
-                ).ToList();
-            listBox.Items.Refresh();
-        }
-
-        private void UpdatePeer(ListBox listBox, KulamiPeer peer)
-        {
-            TraceHelper.WriteLine("Updating peer {0}", peer.Identifier);
-
-            if (!listBox.Contains(peer)) return;
-
-            RemovePeer(listBox, peer);
-            AddPeer(listBox, peer);
         }
 
         private void on_game_request(object sender, NetGameRequestEventArgs e)
@@ -155,14 +117,11 @@ namespace Ascendancy.User_Controls.Multiplayer
 
             Dispatcher.Invoke(() =>
             {
-                //todo: make this into an animation instead
-                if (IncomingChallengesCanvas.Visibility == Visibility.Hidden)
-                {
-                    IncomingChallengesCanvas.Visibility = Visibility.Visible;
-                }
+                show(IncomingChallengesCanvas);
+
                 // Don't add them if they've already challenged us
-                if(!OnlinePlayerChallengesListBox.Contains(peer))
-                    AddPeer(OnlinePlayerChallengesListBox, peer);
+                if(!IncomingChallengesListBox.Contains(peer))
+                    IncomingChallengesListBox.AddPeer(peer);
             });
         }
 
@@ -177,28 +136,10 @@ namespace Ascendancy.User_Controls.Multiplayer
             {
                 Dispatcher.Invoke(() =>
                 {
-                    RemovePeer(OnlinePlayerChallengesListBox, peer);
-
-                    //todo: make this into an animation instead
-                    if (!OnlinePlayerChallengesListBox.HasItems)
-                    {
-                        IncomingChallengesCanvas.Visibility = Visibility.Hidden;
-                    }
-
+                    IncomingChallengesListBox.RemovePeer(peer);
+                    if(!IncomingChallengesListBox.HasItems) hide(IncomingChallengesCanvas);
                 });
             }
-        }
-
-        private KulamiPeer getSelectedPeer(ListBox listBox)
-        {
-            ListBoxItem boxItem = listBox.SelectedItem as ListBoxItem;
-            
-            // todo Make this return the only element if there's only one elemet
-            if (boxItem == null) return null;
-
-            KulamiPeer peer = boxItem.Content as KulamiPeer;
-
-            return peer;
         }
 
         private static void StartGame(KulamiPeer peer, Board board, bool goFirst)
@@ -212,107 +153,90 @@ namespace Ascendancy.User_Controls.Multiplayer
                 );
             engine.OnPlayerMove += networkPlayer.on_player_move;
 
-            ContentControlActions.setUpControl(new GameBoardUserControl(engine));
+            ContentControlActions.setBaseContentControl(new GameBoardUserControl(engine));
         }
 
-
-        private void EventFilter(object sender)
+        private void Back_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (sender == Back)
+            // Set the client name to null, as we've exited the lobby
+            Networkmanager.ClientName = null;
+
+            Networkmanager.OnDiscovery -= on_peer_discovery;
+            Networkmanager.OnDisconnect -= on_peer_disconnect;
+
+            PeerHolder.Peers.ToList().ForEach(unsubscribe);
+
+            ContentControlActions.FadeOut(); 
+            Networkmanager.Shutdown();
+        }
+
+        private void Challenge_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            KulamiPeer peer = PlayersListBox.SelectedPeer();
+            if (peer == null) return;
+
+            //todo: make this an animation instead
+            if (OutgoingChallengesCanvas.Visibility == Visibility.Hidden)
             {
-                // Set the client name to null, as we've exited the lobby
-                Networkmanager.ClientName = null;
-
-                Networkmanager.OnDiscovery -= on_peer_discovery;
-                Networkmanager.OnDisconnect -= on_peer_disconnect;
-
-                PeerHolder.Peers.ToList().ForEach(unsubscribe);
-                
-                ContentControlActions.FadeOut();
+                OutgoingChallengesCanvas.Visibility = Visibility.Visible;
             }
-            else if (sender == Challenge)
+
+            if (OutgoingChallengesListBox.Contains(peer))
             {
-                KulamiPeer peer = getSelectedPeer(OnlinePlayersListBox);
-                if (peer == null) return;
-
-                //todo: make this an animation instead
-                if (PlayersChallengedCanvas.Visibility == Visibility.Hidden)
-                {
-                    PlayersChallengedCanvas.Visibility = Visibility.Visible;
-                }
-
-                if (PlayersChallengedListBox.Contains(peer))
-                {
-                    UpdatePeer(PlayersChallengedListBox, peer);
-                }
-                else
-                {
-                    AddPeer(PlayersChallengedListBox, peer);
-                }
-
-                // todo make this random number
-                peer.SendRequest(5, true);
+                OutgoingChallengesListBox.UpdatePeer(peer);
             }
-            else if (sender == Connect)
+            else
             {
-                KulamiPeer peer = getSelectedPeer(OnlinePlayerChallengesListBox);
-                if (peer == null) return;
-
-                peer.SendResponse(true);
-                StartGame(peer,
-                    BoardSetup.GetBoard(peer.Request.BoardNum),
-                    !peer.Request.ChallengerGoesFirst);
+                OutgoingChallengesListBox.AddPeer(peer);
             }
-            else if (sender == ChallengeCancel)
+
+            // todo make this random number
+            peer.SendRequest(5, true);
+        }
+
+        private void Connect_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            KulamiPeer peer = IncomingChallengesListBox.SelectedPeer();
+            if (peer == null) return;
+
+            peer.SendResponse(true);
+            StartGame(peer,
+                BoardSetup.GetBoard(peer.IncomingRequest.BoardNum),
+                !peer.IncomingRequest.ChallengerGoesFirst);
+        }
+
+        private void ChallengeCancel_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            KulamiPeer peer = OutgoingChallengesListBox.SelectedPeer();
+            if (peer == null) return;
+
+            //todo: rescind challenge request for selected peer
+            peer.SendResponse(false);
+
+            OutgoingChallengesListBox.RemovePeer(peer);
+
+            //todo: make this an animation instead
+            if (!OutgoingChallengesListBox.HasItems)
             {
-                KulamiPeer peer = getSelectedPeer(PlayersChallengedListBox);
-                if (peer == null) return;
-
-                //todo: rescind challenge request for selected peer
-                peer.SendResponse(false);
-
-                RemovePeer(PlayersChallengedListBox, peer);
-
-                //todo: make this an animation instead
-                if (!PlayersChallengedListBox.HasItems)
-                {
-                    PlayersChallengedCanvas.Visibility = Visibility.Hidden;
-                }
+                OutgoingChallengesCanvas.Visibility = Visibility.Hidden;
             }
         }
 
-        private void MultiplayerLobbyButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void show(Canvas canvas)
         {
-            Canvas sss = (Canvas)sender;
-            Storyboard localStoryboard = App.Current.FindResource("ButtonUpStoryboard") as Storyboard;
-            Storyboard.SetTarget(localStoryboard, sss.Children[1]);
-            localStoryboard.Begin();
-
-            EventFilter(sender);
+            // todo convert this and hide to animations
+            if (canvas.Visibility == Visibility.Hidden)
+            {
+                canvas.Visibility = Visibility.Visible;
+            }
         }
 
-        private void MultiplayerLobbyButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void hide(Canvas canvas)
         {
-            Canvas sss = (Canvas)sender;
-            Storyboard localStoryboard = App.Current.FindResource("ButtonDownStoryboard") as Storyboard;
-            Storyboard.SetTarget(localStoryboard, sss.Children[1]);
-            localStoryboard.Begin();
-
-        }
-
-        private void MultiplayerLobbyButton_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Canvas animateThisCanvas = (Canvas)sender;
-            UserControlAnimation.FadeInUserControlButton(animateThisCanvas.Children[0], true);
-            //added sound effect for the button
-            VolumeManager.play(@"Resources/Audio/UserControlButtonHover.wav");
-        }
-
-        private void MultiplayerLobbyButton_MouseLeave(object sender, MouseEventArgs e)
-        {
-            //todo get mouse down working with this
-            Canvas animateThisCanvas = (Canvas)sender;
-            UserControlAnimation.FadeInUserControlButton(animateThisCanvas.Children[0], false);
+            if (canvas.Visibility == Visibility.Visible)
+            {
+                canvas.Visibility = Visibility.Hidden;
+            }
         }
     }
 
@@ -324,6 +248,59 @@ namespace Ascendancy.User_Controls.Multiplayer
             return items
                 .Select(x => (KulamiPeer) x.Content)
                 .Any(x => x.Identifier == peer.Identifier);
+        }
+
+        public static void AddOrUpdatePeer(this ListBox listBox, KulamiPeer peer)
+        {
+            // Add the peer if we don't have it, or just update
+            if (listBox.Contains(peer))
+            {
+                listBox.UpdatePeer(peer);
+            }
+            else
+            {
+                listBox.AddPeer(peer);
+            }
+        }
+
+        public static void AddPeer(this ListBox listBox, KulamiPeer peer)
+        {
+            List<ListBoxItem> items = (List<ListBoxItem>)listBox.ItemsSource;
+            items.Add(new ListBoxItem { Content = peer });
+            listBox.ItemsSource = items;
+            listBox.Items.Refresh();
+        }
+
+        public static void RemovePeer(this ListBox listBox, KulamiPeer peer)
+        {
+            List<ListBoxItem> items = (List<ListBoxItem>)listBox.ItemsSource;
+            listBox.ItemsSource = items.Where(
+                x => ((KulamiPeer)x.Content).Identifier != peer.Identifier
+                ).ToList();
+            listBox.Items.Refresh();
+        }
+
+        public static void UpdatePeer(this ListBox listBox, KulamiPeer peer)
+        {
+            if (!listBox.Contains(peer)) return;
+
+            listBox.RemovePeer(peer);
+            listBox.AddPeer(peer);
+        }
+
+        public static KulamiPeer SelectedPeer(this ListBox listBox)
+        {
+            ListBoxItem boxItem = listBox.SelectedItem as ListBoxItem;
+            if (boxItem == null && listBox.Items.Count == 1)
+            {
+                boxItem = listBox.Items[0] as ListBoxItem;
+            }
+
+            if (boxItem == null) return null;
+
+            KulamiPeer peer = boxItem.Content as KulamiPeer;
+
+            return peer;
         }
     }
 }

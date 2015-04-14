@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using Ascendancy.Game_Engine;
 using Lidgren.Network;
 
@@ -20,7 +21,8 @@ namespace Ascendancy.Networking
         public EventHandler<NetPlayerMoveEventArgs> OnPlayerMove;
         public EventHandler OnUpdate;
 
-        public NetGameRequestEventArgs Request { get; set; }
+        public NetGameRequestEventArgs IncomingRequest { get; set; }
+        public NetGameRequestEventArgs OutgoingRequest { get; private set; }
 
         public void SendChat(string message)
         {
@@ -34,7 +36,7 @@ namespace Ascendancy.Networking
 
         public void SendRequest(int boardNum, bool challengerGoesFirst)
         {
-            Request = new NetGameRequestEventArgs(
+            OutgoingRequest = new NetGameRequestEventArgs(
                        boardNum,
                        challengerGoesFirst
                        );

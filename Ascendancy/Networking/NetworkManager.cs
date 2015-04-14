@@ -16,6 +16,7 @@ namespace Ascendancy.Networking
     {
         public static event EventHandler OnDiscovery;
         public static event EventHandler OnDisconnect;
+        private static bool isRunning;
 
         public enum MessageType
         {
@@ -28,23 +29,25 @@ namespace Ascendancy.Networking
             PlayerMove
         }
 
-        const int PORT = 47020;
+        //todo could this conflict with someone else's game?
+        const int PORT = 47021;
 
         public static string Identifier { get; private set; }
-        public static NetPeer Client { get; private set; }
+        private static NetPeer Client { get; set; }
         public static string ClientName { get; set; }
 
         private static Thread broadcastThread;
 
         public static void Start()
         {
+            isRunning = true;
             Identifier = Guid.NewGuid().ToString();
 
             NetPeerConfiguration netPeerConfiguration = new NetPeerConfiguration("HelloWorld Kulami")
             {
                 AcceptIncomingConnections = true,
                 AutoFlushSendQueue = true,
-                ConnectionTimeout = 10,
+                ConnectionTimeout = 7,
                 Port = PORT
             };
 
@@ -63,8 +66,14 @@ namespace Ascendancy.Networking
 
         public static void Shutdown()
         {
+            isRunning = false;
             broadcastThread.Abort();
             Client.Shutdown("Goodbye everyone!");
+        }
+
+        public static bool IsRunning()
+        {
+            return isRunning;
         }
 
         private static void repeat_broadcast()
@@ -74,11 +83,11 @@ namespace Ascendancy.Networking
                 //Broadcast sent to other computers listening on this same port.
                 //Other computers receive this message as of type DiscoveryRequest
                 Client.DiscoverLocalPeers(PORT);
-                // Sleep for 2 seconds
-                Thread.Sleep(2000);
+
+                Thread.Sleep(100);
 
                 List<KulamiPeer> disconnectablePeers =
-                    PeerHolder.Peers.Where(x => x.LastSeen < DateTime.Now.AddSeconds(-10)).ToList();
+                    PeerHolder.Peers.Where(x => x.LastSeen < DateTime.Now.AddSeconds(-2)).ToList();
 
                 if (OnDisconnect != null)
                 {
@@ -250,7 +259,7 @@ namespace Ascendancy.Networking
                     (bool) gameRequestPacket.Data[1]
                     );
 
-                peer.Request = eventArgs;
+                peer.IncomingRequest = eventArgs;
 
                 if (peer.OnGameRequest != null)
                 {
@@ -259,12 +268,13 @@ namespace Ascendancy.Networking
             }
 
             Packet gameResponsePacket = packets.Type(MessageType.GameResponse);
-            if (gameResponsePacket != null && peer.OnGameResponse != null && peer.Request != null)
+            if (gameResponsePacket != null && peer.OnGameResponse != null && peer.OutgoingRequest != null)
             {
+                bool gameAccepted = (bool) gameResponsePacket.Data[0];
                 peer.OnGameResponse(peer, new NetGameResponseEventArgs(
-                    peer.Request.BoardNum,
-                    peer.Request.ChallengerGoesFirst,
-                    (bool)gameResponsePacket.Data[0]
+                    peer.OutgoingRequest.BoardNum,
+                    peer.OutgoingRequest.ChallengerGoesFirst,
+                    gameAccepted
                     ));
             }
 

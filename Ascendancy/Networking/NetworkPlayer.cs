@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Ascendancy.Game_Engine;
+using Ascendancy.User_Controls.Multiplayer;
 
 namespace Ascendancy.Networking
 {
@@ -20,6 +21,7 @@ namespace Ascendancy.Networking
             move = Move.None;
             lastMove = Move.None;
             peer.OnPlayerMove += on_move_received;
+            peer.OnChatMessage += on_chat_received;
         }
 
         private void on_move_received(object sender, NetPlayerMoveEventArgs e)
@@ -29,6 +31,11 @@ namespace Ascendancy.Networking
 
             move = e.Move;
             lastMove = e.Move;
+        }
+
+        private void on_chat_received(object sender, NetChatEventArgs e)
+        {
+            
         }
 
         public Move getMove(Board board, BoardState state)

@@ -10,16 +10,22 @@ namespace Ascendancy.Networking
     public class Packet
     {
         public Networkmanager.MessageType Type { get; private set; }
+        public string Token;
         public object[] Data { get; private set; }
 
-        public Packet(Networkmanager.MessageType type, params object[] data)
+        public Packet(Networkmanager.MessageType type, params object[] data) :
+            this(Guid.NewGuid().ToString(), type, data)
         {
+        }
+
+        private Packet(string token, Networkmanager.MessageType type, params object[] data)
+        {
+            Token = token;
             Type = type;
-            if (data != null)
-            {
-                Data = new object[data.Length];
-                Array.Copy(data, Data, data.Length);
-            }
+            if (data == null) return;
+
+            Data = new object[data.Length];
+            Array.Copy(data, Data, data.Length);
         }
 
         public static Packet[] Read(NetIncomingMessage message)
@@ -30,6 +36,7 @@ namespace Ascendancy.Networking
             for (int i = 0; i < packetCount; i++)
             {
                 Networkmanager.MessageType type = (Networkmanager.MessageType)message.ReadInt32();
+                string token = "";//message.ReadString();
                 List<object> data = new List<object>();
                 switch (type)
                 {
@@ -55,7 +62,7 @@ namespace Ascendancy.Networking
                         break;
                 }
 
-                packets.Add(new Packet(type, data.ToArray()));
+                packets.Add(new Packet(token, type, data.ToArray()));
             }
 
             return packets.ToArray<Packet>();
@@ -66,12 +73,7 @@ namespace Ascendancy.Networking
             string result = Type.ToString();
             result += ": ";
 
-            foreach (var dat in Data)
-            {
-                result += dat.ToString() + " ";
-            }
-
-            return result;
+            return Data.Aggregate(result, (current, dat) => current + (dat.ToString() + " "));
         }
     }
 }

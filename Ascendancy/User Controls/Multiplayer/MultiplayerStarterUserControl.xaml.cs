@@ -65,7 +65,7 @@ namespace Ascendancy.User_Controls.Multiplayer
         private void MultiplayerStarterButton_MouseEnter(object sender, MouseEventArgs e)
         {
             Canvas animateThisCanvas = (Canvas)sender;
-            UserControlAnimation.FadeInUserControlButton(animateThisCanvas.Children[0], true);
+            UserControlAnimation.FadeInElement(animateThisCanvas.Children[0], true);
             //added sound effect for the button
             VolumeManager.play(@"Resources/Audio/UserControlButtonHover.wav");
         }
@@ -74,7 +74,7 @@ namespace Ascendancy.User_Controls.Multiplayer
         {
             //todo get mouse down working with this
             Canvas animateThisCanvas = (Canvas)sender;
-            UserControlAnimation.FadeInUserControlButton(animateThisCanvas.Children[0], false);
+            UserControlAnimation.FadeInElement(animateThisCanvas.Children[0], false);
         }
 
     }

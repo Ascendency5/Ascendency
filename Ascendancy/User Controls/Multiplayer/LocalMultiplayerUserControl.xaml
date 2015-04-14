@@ -10,15 +10,53 @@
     <Grid x:Name="LocalMultiplayerGrid" Width="1440" Height="900">
         <Rectangle x:Name="TransparencyEffect" Fill="Black" HorizontalAlignment="Left" Height="900" Stroke="Black" VerticalAlignment="Top" Width="1440" Opacity="0.745"/>
         <Image x:Name="Background" HorizontalAlignment="Center" Height="710" VerticalAlignment="Center" Width="1122" Source="/Ascendancy;component/Resources/Images/MenuBackdrop.png" Margin="135,79,183,111"/>
+        <TextBox x:Name="PlayerOneNamePrompt" Text="Player One"
+                 VerticalAlignment="Top" HorizontalAlignment="Left" Height="48" Width="327"
+                 Margin="300,491,0,0" FontSize="36" TextWrapping="Wrap" MaxLength="12" 
+                 Loaded="NamePromptText_Loaded" PreviewMouseLeftButtonDown="NamePromptText_PreviewMouseLeftButtonDown"/>
+        <TextBox x:Name="PlayerTwoNamePrompt" Text="Player Two"
+        	VerticalAlignment="Top" HorizontalAlignment="Left" Height="48" Width="360"
+        	Margin="762,491,0,0" FontSize="36" TextWrapping="Wrap" MaxLength="12" 
+        	PreviewMouseLeftButtonDown="NamePromptText_PreviewMouseLeftButtonDown"/>
+
+
+
         <Grid x:Name="Buttons" Margin="400,594,350,244">
             <my:ImageButton x:Name="Back" Source="/Ascendancy;component/Resources/Images/Buttons/Back.png"
-                            Margin="388,0,0,0" Width="300" Height="60"
+                            Margin="328,0,62,2" Width="300" Height="60"
                             MouseLeftButtonUp="Back_OnMouseLeftButtonUp"/>
-            
+
             <my:ImageButton x:Name="Play" Source="/Ascendancy;component/Resources/Images/Buttons/LocalMultiplayer/Play.png"
-                            Margin="0,0,388,0" Width="300" Height="60"
+                            Margin="-40,1,430,1" Width="300" Height="60"
                             MouseLeftButtonUp="Play_OnMouseLeftButtonUp"/>
         </Grid>
+        <Canvas x:Name="AstronautCanvas" HorizontalAlignment="Center" Height="347" VerticalAlignment="Center" Width="266" Margin="335,139,839,414" Panel.ZIndex="3" ClipToBounds="True">
+            <MediaElement x:Name="AstroIdleMedia" LoadedBehavior="Manual"
+				Panel.ZIndex="5" Width="618" Height="575" ClipToBounds="True" Canvas.Left="-167.567" Canvas.Top="-116.478">
+
+                <MediaElement.Clip>
+                    <CombinedGeometry GeometryCombineMode="Intersect">
+                        <CombinedGeometry.Geometry1>
+                            <RectangleGeometry Rect="190,128,190,320"/>
+                        </CombinedGeometry.Geometry1>
+                        <CombinedGeometry.Geometry2>
+                            <EllipseGeometry RadiusX="110" RadiusY="170" Center="285,285" />
+                        </CombinedGeometry.Geometry2>
+                    </CombinedGeometry>
+                </MediaElement.Clip>
+
+                <MediaElement.Triggers>
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard x:Name="AstroIdleMediaStoryboard">
+                                <MediaTimeline Source="Resources/Video/AstroIdle.wmv" Storyboard.TargetName="AstroIdleMedia" RepeatBehavior="Forever" BeginTime="0:0:0" Duration="0:0:15"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </MediaElement.Triggers>
+            </MediaElement>
+        </Canvas>
+        <Canvas x:Name="PlayerTwoSpriteCanvas" HorizontalAlignment="Left" Height="310" Margin="780,146,0,0" VerticalAlignment="Top" Width="310" Panel.ZIndex="3"/>
 
     </Grid>
 </UserControl>
