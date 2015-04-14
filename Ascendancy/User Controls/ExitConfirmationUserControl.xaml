@@ -11,12 +11,12 @@
         <Rectangle x:Name="TransparencyEffect" Fill="Black" HorizontalAlignment="Left" Height="900" Stroke="Black" VerticalAlignment="Top" Width="1440" Opacity="0.745"/>
         <Image x:Name="Background" HorizontalAlignment="Center" Height="524" VerticalAlignment="Center" Width="822" Source="/Ascendancy;component/Resources/Images/MenuBackdrop.png" Margin="310,186,308,190"/>
 
-        <Label Content="Are you sure you want to &#xA;quit this awesome game?&#xA;" HorizontalAlignment="Left" Margin="484,323,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="167" Width="478" Foreground="White" Background="{x:Null}">
+        <Label Content="Are you sure you want to &#xA;   leave ASCENDANCY?&#xA;" HorizontalAlignment="Left" Margin="484,323,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="167" Width="478" Foreground="White" Background="{x:Null}">
             <Label.Effect>
                 <BlurEffect Radius="10"/>
             </Label.Effect>
         </Label>
-        <Label Content="Are you sure you want to &#xA;quit this awesome game?&#xA;" HorizontalAlignment="Left" Margin="484,323,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="167" Width="478" Foreground="White" Background="{x:Null}"/>
+        <Label Content="Are you sure you want to &#xA;   leave ASCENDANCY?&#xA;" HorizontalAlignment="Left" Margin="484,323,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="167" Width="478" Foreground="White" Background="{x:Null}"/>
         <Grid x:Name="Buttons" Margin="396,495,385,343">
             <my:ImageButton x:Name="Cancel" Source="/Ascendancy;component/Resources/Images/Buttons/Cancel.png"
                             Margin="357,0,0,0" Width="300" Height="58"
