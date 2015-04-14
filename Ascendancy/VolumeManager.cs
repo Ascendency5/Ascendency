@@ -19,28 +19,6 @@ namespace Ascendancy
 
         private static MediaPlayer battleThemePlayer;
 
-        //justin's code
-        //public static double SoundVolume
-        //{
-        //    get { return _soundVolume; }
-        //    set
-        //    {
-        //        _soundVolume = value;
-        //        if(OnVolumeChanged != null)
-        //            OnVolumeChanged(null, new VolumeChangeEventArgs(SoundType.SoundEffect, value));
-        //    }
-        //}
-        //public static double MusicVolume
-        //{
-        //    get { return _musicVolume; }
-        //    set
-        //    {
-        //        _musicVolume = value;
-        //        if (OnVolumeChanged != null)
-        //            OnVolumeChanged(null, new VolumeChangeEventArgs(SoundType.Music, value));
-        //    }
-        //}
-
         public static double SoundVolume
         {
             get { return _soundVolume; }
