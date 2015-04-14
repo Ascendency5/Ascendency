@@ -447,7 +447,7 @@ namespace Ascendancy
                     ContentControlActions.FadeOut();
                     break;
                 case MenuOption.Restart:
-                    ContentControlActions.setPopup(new ChatboxUserControl());
+                    // todo Actually implement the restart code
                     break;
                 case MenuOption.Exit:
                     // Fade out the popup

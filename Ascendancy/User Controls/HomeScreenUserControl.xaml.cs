@@ -24,13 +24,23 @@ namespace Ascendancy.User_Controls
     /// </summary>
     public partial class HomeScreenUserControl : UserControl
     {
+        // Sprite resource name and width
+        Sprite logoSprite = new Sprite("LogoSprite", 601, AnimationType.AnimateOnce)
+        {
+            Width = 600,
+            Height = 250,
+            HorizontalAlignment = HorizontalAlignment.Left,
+            VerticalAlignment = VerticalAlignment.Top,
+            Stretch = Stretch.Fill,
+            Name = "LogoSprite"
+        };
         public HomeScreenUserControl()
         {
             InitializeComponent();
 
             StartMusic();
-
             Load3DModel();
+            LoadLogoSprite();
         }
 
         #region mouse callbacks
@@ -48,7 +58,7 @@ namespace Ascendancy.User_Controls
 
         private void HelpHover_MouseLeftButtonUp(object sender, RoutedEventArgs e)
         {
-            ContentControlActions.setUpControl(new HelpPopUpUserControl());
+            popup(new HelpPopUpUserControl());
         }
 
         private void OptionsHover_MouseLeftButtonUp(object sender, RoutedEventArgs e)
@@ -68,40 +78,9 @@ namespace Ascendancy.User_Controls
 
         #endregion
 
-        private void MenuLogo_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Storyboard logoStoryboard = new Storyboard();
-
-            var gradientAnimation = new DoubleAnimationUsingKeyFrames
-            {
-                Duration = new Duration(new TimeSpan(0, 0, 0, 0, 900))
-            };
-
-            gradientKeyFrame(gradientAnimation, 0.5, 0);
-            gradientKeyFrame(gradientAnimation, 1, 300);
-            gradientKeyFrame(gradientAnimation, 0.1, 600);
-            gradientKeyFrame(gradientAnimation, 0.5, 900);
-
-            //Storyboard.SetTarget(gradientAnimation, LogoGradient);
-            Storyboard.SetTargetName(gradientAnimation, "LogoGradient");
-            Storyboard.SetTargetProperty(gradientAnimation, new PropertyPath(GradientStop.OffsetProperty));
-
-            logoStoryboard.Children.Add(gradientAnimation);
-
-            logoStoryboard.Begin(this);
-
-            VolumeManager.play(@"Resources/Audio/LogoHover.wav");
-        }
-
-        private static void gradientKeyFrame(DoubleAnimationUsingKeyFrames epicAnimation, double gradientPosition, int milliseconds)
-        {
-            epicAnimation.KeyFrames.Add(new EasingDoubleKeyFrame(gradientPosition,
-                KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(milliseconds))));
-        }
-
         private void HomeScreen_MouseEnter(object sender, MouseEventArgs e)
         {
-            UserControlAnimation.FadeInUserControlButton(sender, true);
+            UserControlAnimation.FadeInElement(sender, true);
 
             //sound effect style 1
             VolumeManager.play(@"Resources/Audio/HomeScreenButtonHover.wav");
@@ -109,19 +88,46 @@ namespace Ascendancy.User_Controls
 
         private void HomeScreen_MouseLeave(object sender, MouseEventArgs e)
         {
-            UserControlAnimation.FadeInUserControlButton(sender, false);
+            UserControlAnimation.FadeInElement(sender, false);
+        }
+
+        //todo get this function working
+        private void LogoCanvas_MouseEnter(object sender, MouseEventArgs e)
+        {
+            //animate the sprite
+            //Sprite animateLogo = new Sprite(logoSprite);
+            //LogoCanvas.Children.Add(animateLogo);
+            //Panel.SetZIndex(animateLogo, 4);
+            VolumeManager.play("Resources/Audio/LogoHover.wav");
+            logoSprite.ResetAnimation();
         }
         #endregion
 
         private void StartMusic()
         {
             //start up the looped media
-            VolumeManager.play(@"Resources/Audio/ThemeSong.wav", SoundType.Music, SoundLoop.Loop);
+            VolumeManager.play(@"Resources/Audio/ThemeSong.wav", SoundType.MenuMusic, SoundLoop.Loop);
+        }
+
+        private void LoadLogoSprite()
+        {
+            //Easy or Hard AI
+            logoSprite.Margin = new Thickness(0, 0, 0, 0);
+            LogoCanvas.Children.Add(logoSprite);
+            Panel.SetZIndex(logoSprite, 3);
         }
 
         private void Load3DModel()
         {
             HomeScreenContentControl.Content = new Earth3DModelUserControl();
+        }
+
+
+        private void HomeScreenUserControlView_Unloaded(object sender, RoutedEventArgs e)
+        {
+
+            VolumeManager.play(@"Resources/Audio/BattleTheme.wav", SoundType.BattleMusic, SoundLoop.Battle);
+            //VolumeManager.BattleThemeTransition = true;
         }
     }
 }

@@ -12,8 +12,34 @@ namespace Ascendancy
 {
     public static class VolumeManager
     {
-        private static double _soundVolume = .5;
-        private static double _musicVolume = .5;
+        private static double _soundVolume = .60;
+        private static double _menuMusicVolume = .60;
+        private static double _battleMusicVolume = 0;
+        private static bool _battleThemeIsPlaying = false;
+
+        private static MediaPlayer battleThemePlayer;
+
+        //justin's code
+        //public static double SoundVolume
+        //{
+        //    get { return _soundVolume; }
+        //    set
+        //    {
+        //        _soundVolume = value;
+        //        if(OnVolumeChanged != null)
+        //            OnVolumeChanged(null, new VolumeChangeEventArgs(SoundType.SoundEffect, value));
+        //    }
+        //}
+        //public static double MusicVolume
+        //{
+        //    get { return _musicVolume; }
+        //    set
+        //    {
+        //        _musicVolume = value;
+        //        if (OnVolumeChanged != null)
+        //            OnVolumeChanged(null, new VolumeChangeEventArgs(SoundType.Music, value));
+        //    }
+        //}
 
         public static double SoundVolume
         {
@@ -21,18 +47,70 @@ namespace Ascendancy
             set
             {
                 _soundVolume = value;
-                if(OnVolumeChanged != null)
+                if (OnVolumeChanged != null)
                     OnVolumeChanged(null, new VolumeChangeEventArgs(SoundType.SoundEffect, value));
             }
         }
-        public static double MusicVolume
+
+        public static double MainThemeVolume
         {
-            get { return _musicVolume; }
+            get { return _menuMusicVolume; }
             set
             {
-                _musicVolume = value;
+                _menuMusicVolume = value;
                 if (OnVolumeChanged != null)
-                    OnVolumeChanged(null, new VolumeChangeEventArgs(SoundType.Music, value));
+                    OnVolumeChanged(null, new VolumeChangeEventArgs(SoundType.MenuMusic, value));
+            }
+        }
+
+        public static double BattleThemeVolume
+        {
+            get { return _battleMusicVolume; }
+            set
+            {
+                _battleMusicVolume = value;
+                //if (OnVolumeChanged != null)
+                //    OnVolumeChanged(null, new VolumeChangeEventArgs(SoundType.BattleMusic, value));
+                if (battleThemePlayer != null)
+                    battleThemePlayer.Volume = value;
+            }
+        }
+
+        public static double GetMusicVolume
+        {
+            get
+            {
+                if(_battleThemeIsPlaying)
+                    return _battleMusicVolume;
+
+                return _menuMusicVolume;
+            }
+        }
+
+
+        public static bool BattleThemeTransition
+        {
+            get { return _battleThemeIsPlaying; }
+            set
+            {
+                //swap the values of the battle music and the menu music
+                //should swap a zero with the current global volume
+
+                _battleThemeIsPlaying = value;
+                if (_battleThemeIsPlaying)
+                {
+                    //OnVolumeChanged(null, new VolumeChangeEventArgs(SoundType.BattleMusic, GetMusicVolume));
+
+                    if (battleThemePlayer != null)
+                        battleThemePlayer.Volume = GetMusicVolume;
+                    OnVolumeChanged(null, new VolumeChangeEventArgs(SoundType.MenuMusic, 0));
+                }
+                else
+                {
+                    OnVolumeChanged(null, new VolumeChangeEventArgs(SoundType.MenuMusic, GetMusicVolume));
+                    if(battleThemePlayer != null)
+                        battleThemePlayer.Volume = 0;
+                }
             }
         }
 
@@ -42,7 +120,22 @@ namespace Ascendancy
 
         public static void play(string uriString, SoundType type = SoundType.SoundEffect, SoundLoop loop = SoundLoop.None)
         {
-            play(new Uri(uriString, UriKind.Relative), type, loop);
+            if (type == SoundType.BattleMusic)
+            {
+                //if it's never been created before
+                if (battleThemePlayer == null)
+                {
+                    battleThemePlayer = new MediaPlayer();
+                    battleThemePlayer.Open(new Uri(uriString, UriKind.Relative));
+                    battleThemePlayer.Volume = BattleThemeVolume;
+                    battleThemePlayer.MediaEnded += on_battle_player_end;
+                    battleThemePlayer.Play();
+                }
+            }
+            else
+            {
+                play(new Uri(uriString, UriKind.Relative), type, loop);
+            }
         }
 
         public static void play(Uri uri, SoundType type = SoundType.SoundEffect, SoundLoop loop = SoundLoop.None)
@@ -60,16 +153,29 @@ namespace Ascendancy
             switch (type)
             {
                 //todo make music transition flow correctly
-                case SoundType.Music:
-                    player.Volume = MusicVolume;
+                case SoundType.BattleMusic:
+                    player.Volume = BattleThemeVolume;
+                    break;
+                case SoundType.MenuMusic:
+                    player.Volume = MainThemeVolume;
                     break;
                 case SoundType.SoundEffect:
-                    player.Volume = SoundVolume;
-                    break;
+                   player.Volume = SoundVolume;
+                   break;
             }
+
             player.MediaEnded += on_player_end;
             player.Play();
         }
+
+        private static void on_battle_player_end(object sender, EventArgs e)
+        {
+            MediaPlayer player = (MediaPlayer)sender;
+            player.Position = TimeSpan.FromMilliseconds(1);
+            player.Play();
+        }
+
+
 
         private static void on_player_end(object sender, EventArgs e)
         {
@@ -122,15 +228,18 @@ namespace Ascendancy
         }
     }
 
+
     public enum SoundType
     {
-        Music,
+        BattleMusic,
+        MenuMusic,
         SoundEffect
     }
 
     public enum SoundLoop
     {
         None,
-        Loop
+        Loop,
+        Battle
     }
 }

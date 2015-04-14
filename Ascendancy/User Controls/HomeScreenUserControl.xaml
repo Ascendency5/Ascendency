@@ -1,12 +1,12 @@
-﻿<UserControl x:Class="Ascendancy.User_Controls.HomeScreenUserControl"
+<UserControl x:Name="SinglePlayerUserControlView" x:Class="Ascendancy.User_Controls.HomeScreenUserControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:my="clr-namespace:Ascendancy"
              mc:Ignorable="d" 
-             d:DesignHeight="900" d:DesignWidth="1400">
-    <Grid Height="900" Width="1440" Background="Black">
+             d:DesignHeight="900" d:DesignWidth="1400" Unloaded="HomeScreenUserControlView_Unloaded">
+    <Grid x:Name="SinglePlayerGrid" Height="900" Width="1440" Background="Black">
         <!-- A Note On Media Players:
         When distributing media with your application, you cannot use a media file as a project resource. 
         In your project file, you must instead set the media type to Content and set CopyToOutputDirectory to PreserveNewest or Always
@@ -16,61 +16,42 @@
 
         <Image x:Name="HomeScreenUserControlCatcher" HorizontalAlignment="Left" Height="900" VerticalAlignment="Top" Width="1440" Opacity="0.01" Panel.ZIndex="3"
                Source="Resources/Images/UserControlResources/ExitConfirmation/QuitBackdrop.png" Stretch="Fill"/>
+        <Path x:Name="EarthClickCatcher" Data="M-4,-10 L-4,903.5 985.5,907.5 987.5,875.5 C987.5,875.5 663.5,831.5 665.5,528.5 667.5,225.5 992.5,173.5 1004.5,188.5 1016.5,203.5 1295.4999,164.5 1351,517 1341.9999,860.5 1019.5,883 1000,875.5 980.5,868 1000,905.5 1000,905.5 L1445.4999,904 1448.4999,-15.5 z" HorizontalAlignment="Left" Height="924" Margin="-4,-15.5,-9.5,-8.5" Stretch="Fill" VerticalAlignment="Top" Width="1453.5" Panel.ZIndex="3">
+            <Path.Fill>
+                <SolidColorBrush Color="#FFF4F4F5" Opacity="0"/>
+            </Path.Fill>
+        </Path>
         <ContentControl x:Name="HomeScreenContentControl" Content="ContentControl" HorizontalAlignment="Left" VerticalAlignment="Top" Width="1440" Height="900" Panel.ZIndex="2"/>
+        <Canvas x:Name="LogoCanvas" HorizontalAlignment="Left" Height="168" Margin="104,24,0,0" VerticalAlignment="Top" Width="551" MouseEnter="LogoCanvas_MouseEnter" Panel.ZIndex="3"/>
 
-        <Label x:Name="MenuLogoGlow" Style="{DynamicResource AscendancyLogoStyle}">
-            <Label.Effect>
-                <BlurEffect KernelType="Box"/>
-            </Label.Effect>
-            <Label.Foreground>
-                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                    <GradientStop Color="#FF00354F"/>
-                    <GradientStop Color="#FF001729" Offset="1"/>
-                    <GradientStop Color="#FF8AAEC5" Offset="0.5"/>
-                </LinearGradientBrush>
-            </Label.Foreground>
-        </Label>
-        <Label x:Name="MenuLogo" Style="{DynamicResource AscendancyLogoStyle}" MouseEnter="MenuLogo_MouseEnter">
-            <Label.Effect>
-                <BlurEffect Radius="1"/>
-            </Label.Effect>
-            <Label.Foreground>
-                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                    <GradientStop Color="#FF00354F"/>
-                    <GradientStop Color="#FF001729" Offset="1"/>
-                    <GradientStop x:Name="LogoGradient" Color="#FF8AAEC5" Offset="0.5"/>
-                </LinearGradientBrush>
-            </Label.Foreground>
-        </Label>
-
-        <Canvas Margin="124,245,816,57" Panel.ZIndex="5">
+        <Canvas x:Name="Buttons" Margin="124,245,816,57" Panel.ZIndex="5">
             <Image x:Name="SinglePlayerIdle" Source="/Ascendancy;component/Resources/Images/HomeScreenButtons/SinglePlayerIdle.png" Style="{DynamicResource ButtonNoHover}"/>
             <Image x:Name="SinglePlayerHover" Source="/Ascendancy;component/Resources/Images/HomeScreenButtons/SinglePlayerHover.png" Style="{DynamicResource ButtonWithHover}"
                 MouseLeftButtonUp="SinglePlayerHover_MouseLeftButtonUp" MouseEnter="HomeScreen_MouseEnter" MouseLeave="HomeScreen_MouseLeave"/>
-            
+
             <Image x:Name="MultiplayerIdle" Canvas.Top="128" Source="/Ascendancy;component/Resources/Images/HomeScreenButtons/MultiplayerIdle.png" Style="{DynamicResource ButtonNoHover}"/>
             <Image x:Name="MultiplayerHover" Canvas.Top="128" Source="/Ascendancy;component/Resources/Images/HomeScreenButtons/MutiplayerHover.png" Style="{DynamicResource ButtonWithHover}"
                 MouseLeftButtonUp="MultiplayerHover_MouseLeftButtonUp" MouseEnter="HomeScreen_MouseEnter" MouseLeave="HomeScreen_MouseLeave"/>
-            
+
             <Image x:Name="HelpIdle" Canvas.Top="256" Source="/Ascendancy;component/Resources/Images/HomeScreenButtons/HelpIdle.png" Style="{DynamicResource ButtonNoHover}"/>
             <Image x:Name="HelpHover" Canvas.Top="256" Source="/Ascendancy;component/Resources/Images/HomeScreenButtons/HelpHover.png" Style="{DynamicResource ButtonWithHover}"
                 MouseLeftButtonUp="HelpHover_MouseLeftButtonUp" MouseEnter="HomeScreen_MouseEnter" MouseLeave="HomeScreen_MouseLeave"/>
-            
+
             <Image x:Name="OptionsIdle" Canvas.Top="384" Source="/Ascendancy;component/Resources/Images/HomeScreenButtons/OptionsIdle.png" Style="{DynamicResource ButtonNoHover}"/>
             <Image x:Name="OptionsHover" Canvas.Top="384" Source="/Ascendancy;component/Resources/Images/HomeScreenButtons/OptionsHover.png" Style="{DynamicResource ButtonWithHover}"
                 MouseLeftButtonUp="OptionsHover_MouseLeftButtonUp" MouseEnter="HomeScreen_MouseEnter" MouseLeave="HomeScreen_MouseLeave"/>
-            
+
             <Image x:Name="ExitIdle" Canvas.Top="512" Source="/Ascendancy;component/Resources/Images/HomeScreenButtons/ExitIdle.png" Style="{DynamicResource ButtonNoHover}"/>
             <Image x:Name="ExitHover" Canvas.Top="512" Source="/Ascendancy;component/Resources/Images/HomeScreenButtons/ExitHover.png" Style="{DynamicResource ButtonWithHover}"
                 MouseLeftButtonUp="ExitHover_MouseLeftButtonUp" MouseEnter="HomeScreen_MouseEnter" MouseLeave="HomeScreen_MouseLeave"/>
         </Canvas>
     </Grid>
-    
+
     <UserControl.Resources>
         <Storyboard x:Key="PlayHomeButtonSoundEffect">
             <MediaTimeline Source="Resources/Audio/HomeScreenButtonHover.wav" Storyboard.TargetName="HomeScreenButtonSoundEffect" BeginTime="0:0:0"/>
         </Storyboard>
-        
+
         <Style x:Key="ButtonNoHover" TargetType="Image">
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Top" />
