@@ -48,11 +48,11 @@
         <MediaElement x:Name="PageX" LoadedBehavior="Play"
 			Panel.ZIndex="2" Width="958" Height="599" Margin="345,123,137,178"/>
         <Grid x:Name="Buttons" Panel.ZIndex="2" VerticalAlignment="Center" HorizontalAlignment="Center" Height="900" Width="1440">
-            <Ascendancy:ImageButton x:Name="PreviousSlideButton" Source="/Ascendancy;component/Resources/Images/Buttons/SinglePlayer/Buttons_Cancel.png"
+            <Ascendancy:ImageButton x:Name="PreviousSlideButton" Source="/Ascendancy;component/Resources/Images/Buttons/Help/Previous.png"
                 Margin="464,703,676,137" Height="60" Width="300"
                 MouseLeftButtonUp="previousIdle_MouseUp"/>
 
-            <Ascendancy:ImageButton x:Name="NextSlideButton" Source="/Ascendancy;component/Resources/Images/Buttons/SinglePlayer/Buttons_Play.png"
+            <Ascendancy:ImageButton x:Name="NextSlideButton" Source="/Ascendancy;component/Resources/Images/Buttons/Help/Next.png"
                 Margin="846,703,294,137" Height="60" Width="300"
                 MouseLeftButtonUp="nextIdle_MouseUp"/>
 
