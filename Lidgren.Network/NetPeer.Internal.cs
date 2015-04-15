@@ -183,9 +183,13 @@ namespace Lidgren.Network
 
 				var boundEp = m_socket.LocalEndPoint as NetEndPoint;
 				byte[] epBytes = BitConverter.GetBytes(boundEp.GetHashCode());
-				byte[] combined = new byte[epBytes.Length + macBytes.Length];
+			    byte[] randBytes = new byte[1];
+                new Random().NextBytes(randBytes);
+
+				byte[] combined = new byte[epBytes.Length + macBytes.Length + 1];
 				Array.Copy(epBytes, 0, combined, 0, epBytes.Length);
 				Array.Copy(macBytes, 0, combined, epBytes.Length, macBytes.Length);
+                Array.Copy(randBytes, 0, combined, epBytes.Length + macBytes.Length, 1);
 				m_uniqueIdentifier = BitConverter.ToInt64(NetUtility.ComputeSHAHash(combined), 0);
 
 				m_status = NetPeerStatus.Running;

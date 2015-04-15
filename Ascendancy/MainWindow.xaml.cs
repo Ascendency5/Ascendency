@@ -43,7 +43,6 @@ namespace Ascendancy
             setBaseContent(intro);
 
             Networkmanager.OnDiscovery += PeerHolder.on_peer_discovery;
-            Networkmanager.OnDisconnect += PeerHolder.on_peer_disconnect;
 
             Networkmanager.Start();
         }

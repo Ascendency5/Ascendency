@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ascendancy.Game_Engine;
 using Lidgren.Network;
 
@@ -10,9 +6,14 @@ namespace Ascendancy.Networking
 {
     public static class NetOutgoingMessageHelper
     {
-        public static void Write(this NetOutgoingMessage message, Networkmanager.MessageType type)
+        public static void Write(this NetOutgoingMessage message, NetMessageType type)
         {
             message.Write((int)type);
+        }
+
+        public static void Write(this NetOutgoingMessage message, Guid guid)
+        {
+            message.Write(guid.ToString());
         }
 
         public static void Write(this NetOutgoingMessage message, Packet packet)
@@ -39,15 +40,6 @@ namespace Ascendancy.Networking
                     message.Write(move.Row);
                     message.Write(move.Col);
                 }
-            }
-        }
-
-        public static void Write(this NetOutgoingMessage message, NetPacketBuilder builder)
-        {
-            message.Write(builder.Count);
-            foreach (Packet packet in builder)
-            {
-                message.Write(packet);
             }
         }
     }

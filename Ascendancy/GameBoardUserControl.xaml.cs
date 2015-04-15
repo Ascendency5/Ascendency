@@ -84,7 +84,6 @@ namespace Ascendancy
             engine.OnPlayerChanged += on_player_changed;
             engine.OnPlayerMove += on_player_moved;
             engine.OnGameEnd += on_game_end;
-            // todo add on game end to show the game ending screen and update valid moves
 
             setUpPlayerCustom(playerOne);
             setUpPlayerCustom(playerTwo);
@@ -122,20 +121,20 @@ namespace Ascendancy
                 //change the score labels
                 HumanScoreLabel.Content = redScore;
                 RobotScoreLabel.Content = blackScore;
+
+                //set the final state
+                if (redScore == blackScore)
+                    finalGameState = GameResult.Tie;
+                else if (redScore < blackScore)
+                    finalGameState = GameResult.Loss;
+                else
+                    finalGameState = GameResult.Win;
+
+                ContentControlActions.setPopup(new GameCompleteUserControl(finalGameState, on_game_complete_callback));
+
+                //VolumeManager.BattleThemeTransition = false;
+                engine.kill();
             });
-
-            //set the final state
-            if (redScore == blackScore)
-                finalGameState = GameResult.Tie;
-            else if (redScore < blackScore)
-                finalGameState = GameResult.Loss;
-            else
-                finalGameState = GameResult.Win;
-
-            ContentControlActions.setPopup(new GameCompleteUserControl(finalGameState, on_game_complete_callback));
-
-            //VolumeManager.BattleThemeTransition = false;
-            engine.kill();
         }
 
         //private void StartMusic()
@@ -158,7 +157,7 @@ namespace Ascendancy
                 int row = move.Row;
                 int col = move.Col;
 
-                inactiveImages[row, col].Opacity = 0;
+                UserControlAnimation.FadeInElement(inactiveImages[row, col], false);
                 if (activeImages[row, col] != null)
                 {
                     Sprite previousSprite = activeImages[row, col] as Sprite;
@@ -346,18 +345,18 @@ namespace Ascendancy
             }
             else if (move.Row > 4)
             {
-                wid = 110;
-                hit = 110;
+                wid = 115;
+                hit = 115;
             }
             else if (move.Row > 2)
             {
-                wid = 98;
-                hit = 98;
+                wid = 105;
+                hit = 105;
             }
             else
             {
-                wid = 80;
-                hit = 80;
+                wid = 95;
+                hit = 95;
             }
 
 
@@ -374,13 +373,13 @@ namespace Ascendancy
                     podType = "HardRobotSprite";
                     dropPod = FindResource("DropRobotPod") as Storyboard;
                     //todo change sound effect per robot type
-                    sound = "Resources/Audio/RobotPodDown.wav";
+                    sound = "Resources/Audio/HardRobotSound.wav";
                 }
                 else
                 {
                     podType = "EasyRobotSprite";
                     dropPod = FindResource("DropRobotPod") as Storyboard;
-                    sound = "Resources/Audio/RobotPodDown.wav";
+                    sound = "Resources/Audio/EasyRobotSound.wav";
                 }
             }
 
@@ -533,7 +532,8 @@ namespace Ascendancy
             if (validMove(move))
             {
                 FrameworkElement element = sender as FrameworkElement;
-                element.Opacity = 1;
+                UserControlAnimation.FadeInElement(element, true);
+                //element.Opacity = 1;
             }
         }
         private void Position_MouseLeave(object sender, MouseEventArgs e)
@@ -543,7 +543,8 @@ namespace Ascendancy
             if (validMove(move))
             {
                 FrameworkElement element = sender as FrameworkElement;
-                element.Opacity = 0;
+                UserControlAnimation.FadeInElement(element, false);
+                //element.Opacity = 0;
             }
         }
     }

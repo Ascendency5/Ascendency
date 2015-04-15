@@ -104,7 +104,7 @@ namespace Ascendancy
                     if (animationType == AnimationType.AnimateOnceThenHide)
                     {
                         // todo apply this to all dependents, but see if it works first
-                        this.Visibility = Visibility.Hidden;
+                        Visibility = Visibility.Hidden;
                     }
                     return;
                 }

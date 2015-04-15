@@ -20,11 +20,5 @@ namespace Ascendancy.Networking
 
             Peers.Add((KulamiPeer) sender);
         }
-
-        public static void on_peer_disconnect(object sender, EventArgs e)
-        {
-            KulamiPeer peer = (KulamiPeer) sender;
-            Peers.Remove(peer);
-        }
     }
 }

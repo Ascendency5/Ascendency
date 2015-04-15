@@ -104,9 +104,7 @@ namespace Ascendancy.User_Controls
             }
             else if (sender == MainMenu)
             {
-                //adjust the sound and kill the network manager if its running
-                if(Networkmanager.IsRunning())
-                    Networkmanager.Shutdown();
+                //adjust the sound
                 VolumeManager.MainThemeVolume = tempVolume;
                 callback(this, new GameCompleteMenuOptionEventArgs(GameCompleteMenuOption.MainMenu));
             }
