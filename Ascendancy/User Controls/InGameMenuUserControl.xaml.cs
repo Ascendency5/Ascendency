@@ -24,19 +24,17 @@ namespace Ascendancy.User_Controls
     /// </summary>
     public partial class InGameMenuUserControl : UserControl
     {
-        private InGameMenuButtonHandler callback;
+        private readonly VoidFunctionTemplate.Function Callback;
 
-        public delegate void InGameMenuButtonHandler(object sender, MenuOptionEventArgs eventArgs);
-
-        public InGameMenuUserControl(InGameMenuButtonHandler callback)
+        public InGameMenuUserControl(VoidFunctionTemplate.Function callback)
         {
             InitializeComponent();
-            this.callback = callback;
+            this.Callback = callback;
         }
 
         private void Resume_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            callback(this, new MenuOptionEventArgs(MenuOption.Resume));
+            ContentControlActions.FadeOut();
         }
 
         private void Options_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -49,31 +47,10 @@ namespace Ascendancy.User_Controls
             ContentControlActions.setPopup(new HelpPopUpUserControl());
         }
 
-        private void Restart_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            callback(this, new MenuOptionEventArgs(MenuOption.Restart));
-        }
-
         private void LeaveGame_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            callback(this, new MenuOptionEventArgs(MenuOption.Exit));
+            ContentControlActions.FadeOut();
+            Callback();
         }
-    }
-
-    public class MenuOptionEventArgs : EventArgs
-    {
-        public readonly MenuOption Option;
-
-        public MenuOptionEventArgs(MenuOption option)
-        {
-            this.Option = option;
-        }
-    }
-
-    public enum MenuOption
-    {
-        Resume,
-        Restart,
-        Exit
     }
 }

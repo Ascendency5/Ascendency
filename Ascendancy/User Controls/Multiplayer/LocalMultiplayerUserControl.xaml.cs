@@ -30,30 +30,23 @@ namespace Ascendancy.User_Controls.Multiplayer
         }
         private void InsertSprites()
         {
-            string hardRobotFile;
-            string sound;
-
-            hardRobotFile = "HardRobotIdle";
-            sound = "Resources/Audio/RobotPodDown.wav";
-
-
             // Sprite resource name and width
-            Sprite hardRobotSprite = new Sprite(hardRobotFile, 311, AnimationType.AnimateForever)
+            Sprite hardRobotSprite = new Sprite("HardRobotIdle", 311, AnimationType.AnimateForever)
             {
                 Width = 310,
                 Height = 310,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top,
                 Stretch = Stretch.Fill,
-                Name = hardRobotFile
+                Name = "HardRobotIdle",
+                Margin = new Thickness(0, 0, 0, 0)
             };
 
             //Easy or Hard AI
-            hardRobotSprite.Margin = new Thickness(0, 0, 0, 0);
             PlayerTwoSpriteCanvas.Children.Add(hardRobotSprite);
             Panel.SetZIndex(hardRobotSprite, 3);
 
-            VolumeManager.play(sound);
+            VolumeManager.play(@"Resources/Audio/RobotPodDown.wav");
         }
 
         private void Back_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -68,8 +61,6 @@ namespace Ascendancy.User_Controls.Multiplayer
             HumanPlayer humanPlayerBlack = new HumanPlayer(PlayerTwoNamePrompt.Text, GameBoardUserControl.human_move_handler);
 
             Board board = BoardSetup.Random();
-
-            GameEngine engine = new GameEngine(board, humanPlayerRed, humanPlayerBlack, PieceType.Red);
 
             GameBoardUserControl control = new GameBoardUserControl(
                 board,
@@ -89,16 +80,12 @@ namespace Ascendancy.User_Controls.Multiplayer
 
         private void NamePromptText_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (sender == PlayerOneNamePrompt)
-            {
-                if (PlayerOneNamePrompt.Text == "Player One")
-                    PlayerOneNamePrompt.Text = "";
-            }
-            else
-            {
-                if (PlayerTwoNamePrompt.Text == "Player Two")
-                    PlayerTwoNamePrompt.Text = "";
-            }
+            TextBox textBox = sender as TextBox;
+            if (textBox == null) return;
+
+            if (textBox.Text != "Player One" && textBox.Text != "Player Two") return;
+
+            textBox.Text = "";
         }
     }
 }

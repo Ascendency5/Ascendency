@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:my="clr-namespace:Ascendancy"
              mc:Ignorable="d" 
-             d:DesignHeight="900" d:DesignWidth="1400" Unloaded="HomeScreenUserControlView_Unloaded">
+             d:DesignHeight="900" d:DesignWidth="1400">
     <Grid x:Name="SinglePlayerGrid" Height="900" Width="1440" Background="Black">
         <!-- A Note On Media Players:
         When distributing media with your application, you cannot use a media file as a project resource. 
@@ -14,8 +14,6 @@
 
         <MediaElement x:Name="HomeScreenButtonSoundEffect"/>
 
-        <Image x:Name="HomeScreenUserControlCatcher" HorizontalAlignment="Left" Height="900" VerticalAlignment="Top" Width="1440" Opacity="0.01" Panel.ZIndex="3"
-               Source="Resources/Images/UserControlResources/ExitConfirmation/QuitBackdrop.png" Stretch="Fill"/>
         <Path x:Name="EarthClickCatcher" Data="M-4,-10 L-4,903.5 985.5,907.5 987.5,875.5 C987.5,875.5 663.5,831.5 665.5,528.5 667.5,225.5 992.5,173.5 1004.5,188.5 1016.5,203.5 1295.4999,164.5 1351,517 1341.9999,860.5 1019.5,883 1000,875.5 980.5,868 1000,905.5 1000,905.5 L1445.4999,904 1448.4999,-15.5 z" HorizontalAlignment="Left" Height="924" Margin="-4,-15.5,-9.5,-8.5" Stretch="Fill" VerticalAlignment="Top" Width="1453.5" Panel.ZIndex="3">
             <Path.Fill>
                 <SolidColorBrush Color="#FFF4F4F5" Opacity="0"/>
@@ -48,10 +46,6 @@
     </Grid>
 
     <UserControl.Resources>
-        <Storyboard x:Key="PlayHomeButtonSoundEffect">
-            <MediaTimeline Source="Resources/Audio/HomeScreenButtonHover.wav" Storyboard.TargetName="HomeScreenButtonSoundEffect" BeginTime="0:0:0"/>
-        </Storyboard>
-
         <Style x:Key="ButtonNoHover" TargetType="Image">
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Top" />

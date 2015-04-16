@@ -32,5 +32,11 @@ namespace Ascendancy.User_Controls
             StreamResourceInfo info = Application.GetResourceStream(new Uri(@"Resources/Images/EarthCursor.cur", UriKind.Relative));
             Cursor = new Cursor(info.Stream);
         }
+
+        private void EarthShadow_MouseEnter(object sender, MouseEventArgs e)
+        {
+            StreamResourceInfo info = Application.GetResourceStream(new Uri(@"Resources/Images/MainWindowCursor.cur", UriKind.Relative));
+            Cursor = new Cursor(info.Stream);
+        }
     }
 }

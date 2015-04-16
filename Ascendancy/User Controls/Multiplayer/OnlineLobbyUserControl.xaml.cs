@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Ascendancy.Game_Engine;
 using Ascendancy.Networking;
+using networkTest;
 
 namespace Ascendancy.User_Controls.Multiplayer
 {
@@ -31,19 +32,6 @@ namespace Ascendancy.User_Controls.Multiplayer
                 if (peer.Name != null && peer.InLobby)
                 {
                     items.Add(new ListBoxItem() {Content = peer});
-                    TraceHelper.WriteLine("Added peer");
-                }
-                else if (peer.Name == null)
-                {
-                    TraceHelper.WriteLine("Peer name is null");
-                }
-                else if (!peer.InLobby)
-                {
-                    TraceHelper.WriteLine("Not in lobby");
-                }
-                else
-                {
-                    TraceHelper.WriteLine("Peer name is not null and it's in a lobby");
                 }
             }
 
@@ -58,16 +46,16 @@ namespace Ascendancy.User_Controls.Multiplayer
             peer.OnGameResponse += on_game_response;
             peer.OnNameUpdate += on_name_update;
             peer.OnLobbyUpdate += on_lobby_update;
-            peer.OnDisconnect += on_peer_disconnect;
+            peer.OnConnectionChange += on_peer_connect_change;
         }
 
         private void unsubscribe(KulamiPeer peer)
         {
-            peer.OnGameRequest -= on_game_request;
-            peer.OnGameResponse -= on_game_response;
-            peer.OnNameUpdate -= on_name_update;
-            peer.OnLobbyUpdate -= on_lobby_update;
-            peer.OnDisconnect -= on_peer_disconnect;
+            peer.OnGameRequest = null;
+            peer.OnGameResponse = null;
+            peer.OnNameUpdate = null;
+            peer.OnLobbyUpdate = null;
+            peer.OnConnectionChange = null;
         }
 
         private void on_peer_discovery(object sender, EventArgs e)
@@ -84,16 +72,18 @@ namespace Ascendancy.User_Controls.Multiplayer
             });
         }
 
-        private void on_peer_disconnect(object sender, EventArgs e)
+        private void on_peer_connect_change(object sender, NetConnectionEventArgs e)
         {
             KulamiPeer peer = sender as KulamiPeer;
             if (peer == null) return;
 
+            if (e.Connected) return;
+
             Dispatcher.Invoke(() =>
             {
-                PlayersListBox.RemovePeer(peer);
-                IncomingChallengesListBox.RemovePeer(peer);
-                OutgoingChallengesListBox.RemovePeer(peer);
+                PlayersListBox.RemovePeer(peer, null);
+                IncomingChallengesListBox.RemovePeer(peer, IncomingChallengesCanvas);
+                OutgoingChallengesListBox.RemovePeer(peer, OutgoingChallengesCanvas);
             });
         }
 
@@ -117,9 +107,9 @@ namespace Ascendancy.User_Controls.Multiplayer
             {
                 if (string.IsNullOrEmpty(peer.Name) || !peer.InLobby)
                 {
-                    PlayersListBox.RemovePeer(peer);
-                    IncomingChallengesListBox.RemovePeer(peer);
-                    OutgoingChallengesListBox.RemovePeer(peer);
+                    PlayersListBox.RemovePeer(peer, null);
+                    IncomingChallengesListBox.RemovePeer(peer, IncomingChallengesCanvas);
+                    OutgoingChallengesListBox.RemovePeer(peer, OutgoingChallengesCanvas);
                     return;
                 }
 
@@ -136,7 +126,7 @@ namespace Ascendancy.User_Controls.Multiplayer
 
             Dispatcher.Invoke(() =>
             {
-                show(IncomingChallengesCanvas);
+                IncomingChallengesCanvas.show();
 
                 // Don't add them if they've already challenged us
                 if(!IncomingChallengesListBox.Contains(peer))
@@ -155,15 +145,14 @@ namespace Ascendancy.User_Controls.Multiplayer
             {
                 Dispatcher.Invoke(() =>
                 {
-                    IncomingChallengesListBox.RemovePeer(peer);
-                    if(!IncomingChallengesListBox.HasItems) hide(IncomingChallengesCanvas);
+                    IncomingChallengesListBox.RemovePeer(peer, IncomingChallengesCanvas);
                 });
             }
         }
 
-        private static void StartGame(KulamiPeer peer, Board board, bool goFirst)
+        private void StartGame(KulamiPeer peer, Board board, bool goFirst)
         {
-            Networkmanager.InLobby = false;
+            Teardown();
 
             // Set up game engine
             HumanPlayer humanPlayer = new HumanPlayer(Networkmanager.ClientName, GameBoardUserControl.human_move_handler);
@@ -176,18 +165,25 @@ namespace Ascendancy.User_Controls.Multiplayer
                 goFirst ? PieceType.Red : PieceType.Black
                 );
 
+            control.SetChat(new ChatboxUserControl(peer));
+
             ContentControlActions.setBaseContentControl(control);
         }
 
         private void Back_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Teardown();
+
+            ContentControlActions.FadeOut();
+        }
+
+        private void Teardown()
         {
             Networkmanager.InLobby = false;
 
             Networkmanager.OnDiscovery -= on_peer_discovery;
 
             PeerHolder.Peers.ToList().ForEach(unsubscribe);
-
-            ContentControlActions.FadeOut();
         }
 
         private void Challenge_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -233,7 +229,7 @@ namespace Ascendancy.User_Controls.Multiplayer
             //todo: rescind challenge request for selected peer
             peer.SendResponse(false);
 
-            OutgoingChallengesListBox.RemovePeer(peer);
+            OutgoingChallengesListBox.RemovePeer(peer, OutgoingChallengesCanvas);
 
             //todo: make this an animation instead
             if (!OutgoingChallengesListBox.HasItems)
@@ -241,8 +237,11 @@ namespace Ascendancy.User_Controls.Multiplayer
                 OutgoingChallengesCanvas.Visibility = Visibility.Hidden;
             }
         }
+    }
 
-        private void show(Canvas canvas)
+    public static class CanvasHelper
+    {
+        public static void show(this Canvas canvas)
         {
             // todo convert this and hide to animations
             if (canvas.Visibility == Visibility.Hidden)
@@ -251,7 +250,7 @@ namespace Ascendancy.User_Controls.Multiplayer
             }
         }
 
-        private void hide(Canvas canvas)
+        public static void hide(this Canvas canvas)
         {
             if (canvas.Visibility == Visibility.Visible)
             {
@@ -291,13 +290,16 @@ namespace Ascendancy.User_Controls.Multiplayer
             listBox.Items.Refresh();
         }
 
-        public static void RemovePeer(this ListBox listBox, KulamiPeer peer)
+        public static void RemovePeer(this ListBox listBox, KulamiPeer peer, Canvas canvas)
         {
             List<ListBoxItem> items = (List<ListBoxItem>)listBox.ItemsSource;
             listBox.ItemsSource = items.Where(
                 x => ((KulamiPeer)x.Content).Identifier != peer.Identifier
                 ).ToList();
             listBox.Items.Refresh();
+
+            if(!listBox.HasItems && canvas != null)
+                canvas.hide();
         }
 
         public static void UpdatePeer(this ListBox listBox, KulamiPeer peer)
@@ -307,7 +309,7 @@ namespace Ascendancy.User_Controls.Multiplayer
             List<ListBoxItem> items = (List<ListBoxItem>) listBox.ItemsSource;
 
             int index = items.IndexOf(
-                    items.SingleOrDefault(x => ((ListBoxItem) x).Content == peer)
+                    items.SingleOrDefault(x => x.Content == peer)
                 );
 
             items.RemoveAt(index);

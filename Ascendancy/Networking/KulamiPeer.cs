@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Concurrent;
+using System.Linq;
 using System.Threading;
 using Ascendancy.Game_Engine;
 using Lidgren.Network;
+using networkTest;
 using Timer = System.Windows.Forms.Timer;
 
 namespace Ascendancy.Networking
@@ -11,9 +13,24 @@ namespace Ascendancy.Networking
     {
         public string Name { get; private set; }
 
-        private NetConnection connection;
-        private object connectionLock = new object();
+        private bool _connected;
+        public bool Connected
+        {
+            get
+            {
+                return _connected;
+            }
+            private set
+            {
+                _connected = value;
+                if (OnConnectionChange == null) return;
 
+                OnConnectionChange(this, new NetConnectionEventArgs(_connected));
+            }
+        }
+
+        private NetConnection connection;
+        private readonly object connectionLock = new object();
         public NetConnection Connection
         {
             get
@@ -27,6 +44,7 @@ namespace Ascendancy.Networking
             {
                 lock (connectionLock)
                 {
+                    Connected = true;
                     connection = value;
                     disconnectTimer.Stop();
                 }
@@ -46,7 +64,8 @@ namespace Ascendancy.Networking
         public EventHandler<NetPlayerMoveEventArgs> OnPlayerMove;
         public EventHandler<NetNameEventArgs> OnNameUpdate;
         public EventHandler<LobbyEventArgs> OnLobbyUpdate;
-        public EventHandler OnDisconnect;
+        public EventHandler<NetConnectionEventArgs> OnConnectionChange;
+        public EventHandler OnPlayerLeave;
 
         public NetGameRequestEventArgs IncomingRequest { get; set; }
         public NetGameRequestEventArgs OutgoingRequest { get; private set; }
@@ -67,8 +86,7 @@ namespace Ascendancy.Networking
 
         private void disconnect_callback(object sender, EventArgs e)
         {
-            if(OnDisconnect != null)
-                OnDisconnect(this, new EventArgs());
+            Connected = false;
             disconnectTimer.Stop();
         }
 
@@ -111,9 +129,9 @@ namespace Ascendancy.Networking
             return result;
         }
 
-        public void SendLobby(bool inLobby)
+        public void SendLobby()
         {
-            Send(Packet.Create(NetMessageType.InLobby, inLobby));
+            Send(Packet.Create(NetMessageType.InLobby, Networkmanager.InLobby));
         }
 
         public void SendName()
@@ -145,6 +163,11 @@ namespace Ascendancy.Networking
             Send(Packet.Create(NetMessageType.GameResponse, challengeAccepted));
         }
 
+        public void SendLeaveGame()
+        {
+            Send(Packet.Create(NetMessageType.Leave));
+        }
+
         private bool Seen(Packet packet)
         {
             return seenTokens.Contains(packet.Token);
@@ -155,6 +178,9 @@ namespace Ascendancy.Networking
             if (Seen(packet)) return;
 
             seenTokens.Add(packet.Token);
+
+            string result = packet.Data.Aggregate("", (current, data) => current + (" " + data));
+            TraceHelper.WriteLine("{2}: {0}: {1}", packet.Type, result, packet.Token);
 
             switch (packet.Type)
             {
@@ -209,6 +235,10 @@ namespace Ascendancy.Networking
                         OnPlayerMove(this, new NetPlayerMoveEventArgs(
                             (Move) packet.Data[0]
                             ));
+                    break;
+                case NetMessageType.Leave:
+                    if (OnPlayerLeave != null)
+                        OnPlayerLeave(this, new EventArgs());
                     break;
             }
         }

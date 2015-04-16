@@ -15,6 +15,8 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using Ascendancy;
 using Ascendancy.Game_Engine;
 using Ascendancy.Networking;
 using Ascendancy.User_Controls;
@@ -31,6 +33,7 @@ namespace Ascendancy
     /// </summary>
     public partial class GameBoardUserControl : UserControl
     {
+        #region core Game board controls
         private GameEngine engine;
         private bool difficultyIsHard = true;
 
@@ -41,6 +44,9 @@ namespace Ascendancy
         private static bool humanTurn;
         private static Move humanMove;
         private List<Move> playedMoves;
+
+        private Player PlayerOne;
+        private Player PlayerTwo;
 
         readonly Sprite originalPossibleMoveSprite = new Sprite("PossibleMoveSprite", 311, AnimationType.AnimateForever)
         {
@@ -55,6 +61,9 @@ namespace Ascendancy
         public GameBoardUserControl(Board board, Player playerOne, Player playerTwo, PieceType firstType)
         {
             InitializeComponent();
+
+            //this gets the board configuration and shows the proper mask on the gameboard
+            setGameboardConfig(BoardSetup.FromBoard(board));
 
             HumanPlayerName.Content = playerOne.GetName();
             RobotPlayerName.Content = playerTwo.GetName();
@@ -73,13 +82,15 @@ namespace Ascendancy
                 {p70, p71, p72, p73, p74, p75, p76, p77}
             };
 
-
             activeImages = new Image[8, 8];
 
             humanTurn = false;
             humanMove = Move.None;
             validMoves = new Move[0];
             playedMoves = new List<Move>();
+
+            PlayerOne = playerOne;
+            PlayerTwo = playerTwo;
 
             engine.OnPlayerChanged += on_player_changed;
             engine.OnPlayerMove += on_player_moved;
@@ -91,10 +102,38 @@ namespace Ascendancy
 
             engine.start();
 
-            //StartMusic();
+            VolumeManager.play(@"Resources/Audio/BattleTheme.wav", SoundType.BattleMusic, SoundLoop.Loop);
+            VolumeManager.PlayBattleTheme = true;
+        }
 
-            //this gets the board configuration and shows the proper mask on the gameboard
-            setGameboardConfig(BoardSetup.FromBoard(board));
+        //sets what gameboard is being played for the current game
+        private void setGameboardConfig(int boardConfig)
+        {
+            //select the appropriate grid to use for the game board panels
+            switch (boardConfig)
+            {
+                case 1:
+                    Team1Grid.Opacity = 1;
+                    break;
+                case 2:
+                    Team2Grid.Opacity = 1;
+                    break;
+                case 3:
+                    Team3Grid.Opacity = 1;
+                    break;
+                case 4:
+                    Team4Grid.Opacity = 1;
+                    break;
+                case 5:
+                    Team5Grid.Opacity = 1;
+                    break;
+                case 6:
+                    Team6Grid.Opacity = 1;
+                    break;
+                case 7:
+                    Team7Grid.Opacity = 1;
+                    break;
+            }
         }
 
         private void setUpPlayerCustom(Player player)
@@ -103,6 +142,8 @@ namespace Ascendancy
             if (networkPlayer != null)
             {
                 engine.OnPlayerMove += networkPlayer.on_player_move;
+                networkPlayer.Peer.OnConnectionChange += peer_connect_change;
+                networkPlayer.Peer.OnPlayerLeave += peer_left;
             }
         }
 
@@ -130,19 +171,9 @@ namespace Ascendancy
                 else
                     finalGameState = GameResult.Win;
 
-                ContentControlActions.setPopup(new GameCompleteUserControl(finalGameState, on_game_complete_callback));
-
-                //VolumeManager.BattleThemeTransition = false;
-                engine.kill();
+                GameComplete(finalGameState);
             });
         }
-
-        //private void StartMusic()
-        //{
-        //    //start up the looped media
-        //    VolumeManager.play(@"Resources/Audio/BattleTheme.wav", SoundType.BattleMusic, SoundLoop.Loop);
-        //    VolumeManager.BattleThemeTransition = true;
-        //}
 
         private void on_player_moved(object gameengine, PlayerMoveEventArgs eventargs)
         {
@@ -188,55 +219,34 @@ namespace Ascendancy
             {
                 updateValidMoves(e);
 
-                if (e.State.CurrentPlayer == PieceType.Red)
+                switch (e.State.CurrentPlayer)
                 {
-                    HumanScoreLabel.Foreground = Brushes.Red;
-                    RobotScoreLabel.Foreground = Brushes.White;
+                    case PieceType.Red:
+                        HumanScoreLabel.Foreground = Brushes.Red;
+                        RobotScoreLabel.Foreground = Brushes.White;
 
-                    GradRed.Color = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#FF02D9FB");
-                }
-                else if (e.State.CurrentPlayer == PieceType.Black)
-                {
-                    HumanScoreLabel.Foreground = Brushes.White;
-                    RobotScoreLabel.Foreground = Brushes.Red;
+                        GradRed.Color = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#FF02D9FB");
+                        break;
+                    case PieceType.Black:
+                        HumanScoreLabel.Foreground = Brushes.White;
+                        RobotScoreLabel.Foreground = Brushes.Red;
 
-                    GradRed.Color = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#FFFB0202");
+                        GradRed.Color = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString("#FFFB0202");
+                        break;
                 }
             });
         }
-
-        #region New Functions
 
         private void PodPositionListener_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (!humanTurn) return;
 
-            //Move move = findMoveFromPosition(e.GetPosition(GameBoardGrid));
             Move move = findMoveFromPosition(sender);
             if (validMove(move))
             {
                 humanMove = move;
             }
         }
-
-        private void animateScoreBar(FrameworkElement barType, int score)
-        {
-            //scale the scorebar
-            score = score * 7 + 30;
-
-            Storyboard animateBar = new Storyboard();
-            DoubleAnimationUsingKeyFrames changeWidth = new DoubleAnimationUsingKeyFrames();
-
-            changeWidth.KeyFrames.Add(new EasingDoubleKeyFrame(score,
-                KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(500)), new SineEase()));
-
-            animateBar.Children.Add(changeWidth);
-            Storyboard.SetTarget(changeWidth, barType);
-            Storyboard.SetTargetProperty(changeWidth, new PropertyPath("Width"));
-            animateBar.Begin(barType);
-        }
-
-        #endregion
 
         private void updateValidMoves(PlayerEventArgs e)
         {
@@ -266,6 +276,13 @@ namespace Ascendancy
             {
                 Sprite duplicate = originalPossibleMoveSprite.Duplicate();
                 duplicate.Margin = inactiveImages[move.Row, move.Col].Margin;
+
+                duplicate.Margin = new Thickness(
+                    duplicate.Margin.Left + 20, 
+                    duplicate.Margin.Top, 
+                    duplicate.Margin.Right,
+                    duplicate.Margin.Bottom);
+
                 inactiveImages[move.Row, move.Col].Opacity = 0;
 
                 activeImages[move.Row, move.Col] = duplicate;
@@ -287,7 +304,7 @@ namespace Ascendancy
             //var col = ((int) point.X - 290) / 113;
 
             DependencyObject position = sender as DependencyObject;
-            string name = position.GetValue(FrameworkElement.NameProperty) as string;
+            string name = position.GetValue(NameProperty) as string;
 
             int row = Convert.ToInt32(name.Substring(1, 1));
             int col = Convert.ToInt32(name.Substring(2, 1));
@@ -313,10 +330,6 @@ namespace Ascendancy
             //var left = Canvas.GetLeft(target);
             TranslateTransform trans = new TranslateTransform();
             target.RenderTransform = trans;
-            //DoubleAnimation anim1 = new DoubleAnimation(top, newY - top, TimeSpan.FromSeconds(10));
-            //DoubleAnimation anim2 = new DoubleAnimation(left, newX - left, TimeSpan.FromSeconds(10));
-            //DoubleAnimation anim1 = new DoubleAnimation(0 - newY,0, TimeSpan.FromMilliseconds(300));
-            //DoubleAnimation anim2 = new DoubleAnimation(0 - newX,0, TimeSpan.FromMilliseconds(300));
 
             //start it from the top of the screen
             DoubleAnimation anim1 = new DoubleAnimation(0 - newY, 0, TimeSpan.FromMilliseconds(300));
@@ -372,7 +385,6 @@ namespace Ascendancy
                 {
                     podType = "HardRobotSprite";
                     dropPod = FindResource("DropRobotPod") as Storyboard;
-                    //todo change sound effect per robot type
                     sound = "Resources/Audio/HardRobotSound.wav";
                 }
                 else
@@ -417,114 +429,6 @@ namespace Ascendancy
             return podImage;
         }
 
-
-        #region InGameMenu
-
-        private void on_menu_callback(object sender, MenuOptionEventArgs eventargs)
-        {
-            switch (eventargs.Option)
-            {
-                case MenuOption.Resume:
-                    ContentControlActions.FadeOut();
-                    break;
-                case MenuOption.Restart:
-                    //ContentControlActions.setPopup(new ChatboxUserControl());
-                    break;
-                case MenuOption.Exit:
-                    // Fade out the popup
-                    ContentControlActions.FadeOut();
-                    //// Fade out the user control
-                    ContentControlActions.FadeOut();
-
-                    engine.kill();
-
-                    break;
-            }
-        }
-
-        private void on_game_complete_callback(object sender, GameCompleteMenuOptionEventArgs eventArgs)
-        {
-            switch (eventArgs.Option)
-            {
-                case GameCompleteMenuOption.NewGame:
-                    ContentControlActions.FadeOut();
-                    //todo: figure out which type of game user was playing and start a new one
-                    break;
-                //case GameCompleteMenuOption.Restart:
-                //    ContentControlActions.FadeOut();
-
-                //    //for testing purposes
-                //    //todo: put this in correct spot
-                //    ContentControlActions.setPopup(new NetworkGameDisconnectUserControl(new KulamiPeer(), on_network_game_disconnect_callback));
-
-                //    //todo: put restart functionality here, plus transition music/sounds
-                //    break;
-                case GameCompleteMenuOption.MainMenu:
-                    Dispatcher.Invoke(() =>
-                    {
-                        engine.kill();
-                    });
-                    // Fade out the popup
-                    ContentControlActions.FadeOut();
-                    // Fade out the user control
-                    ContentControlActions.FadeOut();
-
-                    //todo: gracefully fade out the music/sound (ie don't let the fanfare play to completion)
-                    break;
-            }
-        }
-
-        private void on_network_game_disconnect_callback(object sender, NetworkGameDisconnectMenuOptionEventArgs eventArgs)
-        {
-            switch (eventArgs.Option)
-            {
-                case NetworkGameDisconnectMenuOption.BackToLobby:
-                    engine.kill();
-                    //fade out the pop up
-                    ContentControlActions.FadeOut();
-                    //fade out the user control
-                    ContentControlActions.FadeOut();
-
-                    //todo: there is probably a much better way to do this
-                    ContentControlActions.setPopup(new MultiplayerStarterUserControl());
-                    ContentControlActions.setPopup(new OnlineNamePromptUserControl());
-                    ContentControlActions.setPopup(new OnlineLobbyUserControl());
-                    break;
-
-                case NetworkGameDisconnectMenuOption.MainMenu:
-                    engine.kill();
-                    // Fade out the popup
-                    ContentControlActions.FadeOut();
-                    // Fade out the user control
-                    ContentControlActions.FadeOut();
-
-                    //todo: gracefully fade out the music/sound
-                    break;
-            }
-        }
-
-        #endregion
-
-        private void Menu_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            ContentControlActions.setPopup(new InGameMenuUserControl(on_menu_callback));
-        }
-
-        //sets what gameboard is being played for the current game
-        private void setGameboardConfig(int boardConfig)
-        {
-            string filename = @"/Resources/Images/GameBoard/Team" + boardConfig + ".png";
-
-            //set the gameboard as a mask to the main scenery
-            GameConfigMask.Source = new BitmapImage(
-                new Uri(filename, UriKind.Relative));
-        }
-
-        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            ContentControlActions.setPopup(new GameCompleteUserControl(GameResult.Win, on_game_complete_callback));
-        }
-
         private void Position_MouseEnter(object sender, MouseEventArgs e)
         {
             if (!humanTurn) return;
@@ -533,7 +437,6 @@ namespace Ascendancy
             {
                 FrameworkElement element = sender as FrameworkElement;
                 UserControlAnimation.FadeInElement(element, true);
-                //element.Opacity = 1;
             }
         }
         private void Position_MouseLeave(object sender, MouseEventArgs e)
@@ -544,8 +447,75 @@ namespace Ascendancy
             {
                 FrameworkElement element = sender as FrameworkElement;
                 UserControlAnimation.FadeInElement(element, false);
-                //element.Opacity = 0;
             }
+        }
+
+        #endregion
+
+        private void Menu_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            ContentControlActions.setPopup(new InGameMenuUserControl(leave));
+        }
+
+        private void GameComplete(GameResult result = GameResult.Loss)
+        {
+            ContentControlActions.setPopup(new GameCompleteUserControl(result, teardown));
+        }
+
+        private void leave()
+        {
+            sendLeftResponse(PlayerOne);
+            sendLeftResponse(PlayerTwo);
+            teardown();
+        }
+
+        private void teardown()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                engine.kill();
+            });
+
+            // Fade out the user control
+            ContentControlActions.FadeOut();
+
+            VolumeManager.PlayBattleTheme = false;
+        }
+
+        private void sendLeftResponse(Player player)
+        {
+            NetworkPlayer networkPlayer = player as NetworkPlayer;
+            if (networkPlayer == null) return;
+
+            networkPlayer.Peer.SendLeaveGame();
+            networkPlayer.Peer.OnConnectionChange = null;
+            networkPlayer.Peer.OnPlayerLeave = null;
+        }
+
+        private void peer_connect_change(object sender, NetConnectionEventArgs e)
+        {
+            if (e.Connected)
+            {
+                return;
+            }
+
+            Dispatcher.Invoke(() =>
+            {
+                ContentControlActions.setPopup(new NetworkGameDisconnectUserControl((KulamiPeer)sender, leave));
+            });
+        }
+
+        private void peer_left(object sender, EventArgs e)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                ContentControlActions.setPopup(new NetworkGameLeftUserControl((KulamiPeer) sender, teardown));
+            });
+        }
+
+        public void SetChat(ChatboxUserControl chatboxUserControl)
+        {
+            ChatBoxContentControl.Content = chatboxUserControl;
         }
     }
 }

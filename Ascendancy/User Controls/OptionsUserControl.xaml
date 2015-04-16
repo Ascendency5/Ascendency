@@ -11,33 +11,33 @@
         <Rectangle x:Name="TransparencyEffect" Fill="Black" HorizontalAlignment="Left" Height="900" Stroke="Black" VerticalAlignment="Top" Width="1440" Opacity="0.745"/>
 
         <Image x:Name="Background" HorizontalAlignment="Center" Height="535" VerticalAlignment="Center" Width="875" Source="/Ascendancy;component/Resources/Images/MenuBackdrop.png" Margin="257,175,308,190"/>
-        <Label x:Name="MusicLabel_Copy" Content="Music" HorizontalAlignment="Left" Margin="361,417,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Ubuntu Mono" Height="83" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+        <Label x:Name="MusicLabel_Copy" Content="Music" HorizontalAlignment="Left" Margin="361,417,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Kozuka Gothic Pr6N L" Height="83" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
             <Label.Effect>
                 <BlurEffect Radius="10"/>
             </Label.Effect>
         </Label>
-        <Label x:Name="OptionsLabel_Copy" Content="Options" HorizontalAlignment="Left" Margin="661,261,0,0" VerticalAlignment="Top" FontSize="36" Background="#00000000" FontFamily="Ubuntu Mono" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
-            <Label.Effect>
-                <BlurEffect Radius="10"/>
-            </Label.Effect>
-        </Label>
-
-        <Label x:Name="SoundsLabel_Copy" Content="Sounds" HorizontalAlignment="Left" Margin="361,321,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Ubuntu Mono" Height="83" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+        <Label x:Name="OptionsLabel_Copy" Content="Options" HorizontalAlignment="Left" Margin="661,261,0,0" VerticalAlignment="Top" FontSize="36" Background="#00000000" FontFamily="Kozuka Gothic Pr6N L" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
             <Label.Effect>
                 <BlurEffect Radius="10"/>
             </Label.Effect>
         </Label>
 
-        <Label x:Name="SoundsLabel" Content="Sounds" HorizontalAlignment="Left" Margin="361,321,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Ubuntu Mono" Height="83" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <Label x:Name="OptionsLabel" Content="Options" HorizontalAlignment="Left" Margin="661,261,0,0" VerticalAlignment="Top" FontSize="36" Background="#00000000" FontFamily="Ubuntu Mono" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-        <Label x:Name="MusicLabel" Content="Music" HorizontalAlignment="Left" Margin="361,417,0,0" VerticalAlignment="Top" FontSize="36" Height="83" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Ubuntu Mono"/>
+        <Label x:Name="SoundsLabel_Copy" Content="Sounds" HorizontalAlignment="Left" Margin="361,321,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Kozuka Gothic Pr6N L" Height="83" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+            <Label.Effect>
+                <BlurEffect Radius="10"/>
+            </Label.Effect>
+        </Label>
+
+        <Label x:Name="SoundsLabel" Content="Sounds" HorizontalAlignment="Left" Margin="361,321,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Kozuka Gothic Pr6N L" Height="83" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Label x:Name="OptionsLabel" Content="Options" HorizontalAlignment="Left" Margin="661,261,0,0" VerticalAlignment="Top" FontSize="36" Background="#00000000" FontFamily="Kozuka Gothic Pr6N L" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <Label x:Name="MusicLabel" Content="Music" HorizontalAlignment="Left" Margin="361,417,0,0" VerticalAlignment="Top" FontSize="36" Height="83" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="Kozuka Gothic Pr6N L"/>
         <Slider x:Name="SoundSlider" Style="{StaticResource SliderStyle}" HorizontalAlignment="Left" Margin="579,350,0,0" VerticalAlignment="Top" Foreground="{x:Null}" Width="300" Height="24" Maximum="1" Minimum="0" ValueChanged="SoundSlider_ValueChanged" TickFrequency="0.05" IsSnapToTickEnabled="True" TickPlacement="TopLeft" LargeChange="0.1" SmallChange="0.05"/>
         <Slider x:Name="MusicSlider" Style="{StaticResource SliderStyle}" HorizontalAlignment="Left" Margin="579,441,0,0" VerticalAlignment="Top" Foreground="{x:Null}" Width="300" Height="24" Maximum="1" Minimum="0" ValueChanged="MusicSlider_ValueChanged" TickFrequency="0.05" IsSnapToTickEnabled="True" TickPlacement="TopLeft" SmallChange="0.05" LargeChange="0.1"/>
 
 
 
-        <Label x:Name="SoundPercentageLabel" Content="50%" HorizontalAlignment="Left" Margin="698,374,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="65" Height="30" FontSize="24" FontFamily="Ubuntu Mono" Foreground="White"/>
-        <Label x:Name="MusicPercentageLabel" Content="50%" HorizontalAlignment="Left" Margin="698,465,0,0" VerticalAlignment="Top" FontSize="24" FontFamily="Ubuntu Mono" Width="65" Height="36" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="White"/>
+        <Label x:Name="SoundPercentageLabel" Content="50%" HorizontalAlignment="Left" Margin="689,374,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="84" Height="62" FontSize="24" FontFamily="Kozuka Gothic Pr6N L" Foreground="White"/>
+        <Label x:Name="MusicPercentageLabel" Content="50%" HorizontalAlignment="Left" Margin="689,465,0,0" VerticalAlignment="Top" FontSize="24" FontFamily="Kozuka Gothic Pr6N L" Width="84" Height="63" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="White"/>
         <Grid x:Name="Buttons" Margin="744,528,394,310">
             <my:ImageButton x:Name="Okay" Source="/Ascendancy;component/Resources/Images/Buttons/Options/Okay.png"
                             Height="60" Width="300"

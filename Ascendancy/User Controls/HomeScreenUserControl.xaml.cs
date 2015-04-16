@@ -121,13 +121,5 @@ namespace Ascendancy.User_Controls
         {
             HomeScreenContentControl.Content = new Earth3DModelUserControl();
         }
-
-
-        private void HomeScreenUserControlView_Unloaded(object sender, RoutedEventArgs e)
-        {
-
-            VolumeManager.play(@"Resources/Audio/BattleTheme.wav", SoundType.BattleMusic, SoundLoop.Battle);
-            //VolumeManager.BattleThemeTransition = true;
-        }
     }
 }

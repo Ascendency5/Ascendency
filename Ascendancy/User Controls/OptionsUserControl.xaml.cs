@@ -26,7 +26,7 @@ namespace Ascendancy.User_Controls
         {
             InitializeComponent();
 
-            updateMusicSlider(VolumeManager.GetMusicVolume);
+            updateMusicSlider(VolumeManager.MusicVolume);
             updateSoundSlider(VolumeManager.SoundVolume);
         }
 
@@ -52,10 +52,7 @@ namespace Ascendancy.User_Controls
         private void MusicSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             updateMusicSlider(MusicSlider.Value);
-            if(VolumeManager.BattleThemeTransition)
-                VolumeManager.BattleThemeVolume = MusicSlider.Value;
-            else
-                VolumeManager.MainThemeVolume = MusicSlider.Value;
+            VolumeManager.MusicVolume = MusicSlider.Value;
         }
 
         private void Okay_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)

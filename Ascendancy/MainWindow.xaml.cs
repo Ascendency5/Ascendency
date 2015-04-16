@@ -33,8 +33,7 @@ namespace Ascendancy
             ContentControlActions.baseContentControl = HomeScreenContentControl;
             ContentControlActions.popupContentControl = PopupContentControl;
 
-            VolumeManager.MainThemeVolume = .5;
-            VolumeManager.BattleThemeVolume = .5;
+            VolumeManager.MusicVolume = .5;
             VolumeManager.SoundVolume = .5;
 
             IntroUserControl intro = new IntroUserControl();
@@ -80,10 +79,15 @@ namespace Ascendancy
                 }
             }
 
+            ContentControl popupControl = ContentControlActions.popupContentControl;
+
             if (ContentControlActions.IsPopupVisible)
             {
                 if (e.Key == Key.Escape)
                 {
+                    if (popupControl.Content is GameCompleteUserControl || popupControl.Content is ChatboxUserControl)
+                        return;
+
                     ContentControlActions.FadeOut();
                     return;
                 }

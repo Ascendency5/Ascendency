@@ -22,31 +22,25 @@ namespace Ascendancy.User_Controls
     /// </summary>
     public partial class GameCompleteUserControl : UserControl
     {
-        private double tempVolume;
-        private MediaPlayer fanfareMediaPlayer;
-        private GameCompleteMenuButtonHandler callback;
+        private readonly double tempVolume;
+        private readonly VoidFunctionTemplate.Function callback;
 
-        public delegate void GameCompleteMenuButtonHandler(object sender, GameCompleteMenuOptionEventArgs eventArgs);
-
-        public GameCompleteUserControl(GameResult gameResult, GameCompleteMenuButtonHandler callback)
+        public GameCompleteUserControl(GameResult gameResult, VoidFunctionTemplate.Function callback)
         {
             this.callback = callback;
             InitializeComponent();
-            UserControlAnimation.StartButtonGradientSpin(Buttons);
             showWinner(gameResult);
 
             //keep the music down while the fanfare plays
-            VolumeManager.BattleThemeTransition = false;
-            tempVolume = VolumeManager.GetMusicVolume;
-            VolumeManager.MainThemeVolume = 0;
-
+            tempVolume = VolumeManager.MusicVolume;
+            VolumeManager.MusicVolume = 0;
         }
 
         private void showWinner(GameResult gameResult)
         {
             string victorySpriteFile = "";
             string uriString = "";
-            Storyboard videoStoryboard;
+            Storyboard videoStoryboard = null;
 
             //set the file name of the sprite to be loaded
             switch (gameResult)
@@ -55,29 +49,25 @@ namespace Ascendancy.User_Controls
                     victorySpriteFile = "VictorySprite";
                     uriString = @"Resources/Audio/FanfareHuman.wav";
                     videoStoryboard = FindResource("AstroWinStoryboard") as Storyboard;
-                    videoStoryboard.Begin();
                     break;
                 case GameResult.Loss:
                     victorySpriteFile = "DefeatSprite";
                     uriString = @"Resources/Audio/FanfareRobot.wav";
                     videoStoryboard = FindResource("AstroLossStoryboard") as Storyboard;
-                    videoStoryboard.Begin();
                     PageX.SetValue(Canvas.LeftProperty,-140.0);
                     break;
                 case GameResult.Tie:
                     victorySpriteFile = "TieSprite";
                     uriString = @"Resources/Audio/FanfareHuman.wav";
                     videoStoryboard = FindResource("AstroTieStoryboard") as Storyboard;
-                    videoStoryboard.Begin();
                     PageX.SetValue(Canvas.LeftProperty,-140.0);
                     break;
             }
+            if(videoStoryboard != null)
+                videoStoryboard.Begin();
 
             //play the correct fanfare
-            fanfareMediaPlayer = new MediaPlayer();
-            fanfareMediaPlayer.Open(new Uri(uriString, UriKind.Relative));
-            fanfareMediaPlayer.Volume = VolumeManager.GetMusicVolume;
-            fanfareMediaPlayer.Play();
+            VolumeManager.play(uriString);
 
             // Sprite resource name and width
             Sprite victorySprite = new Sprite(victorySpriteFile, 641, AnimationType.AnimateOnce)
@@ -87,76 +77,21 @@ namespace Ascendancy.User_Controls
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top,
                 Stretch = Stretch.Uniform,
-                Name = victorySpriteFile
+                Name = victorySpriteFile,
+                Margin = new Thickness(0, 0, 0, 0)
             };
 
-            victorySprite.Margin = new Thickness(0, 0, 0, 0);
             SpriteCanvas.Children.Add(victorySprite);
             Panel.SetZIndex(victorySprite, 3);
         }
 
-        private void EventFilter(object sender)
+        private void MainMenu_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            fanfareMediaPlayer.Volume = 0;
-            if (sender == NewGame)
-            {
-                callback(this, new GameCompleteMenuOptionEventArgs(GameCompleteMenuOption.NewGame));
-            }
-            else if (sender == MainMenu)
-            {
-                //adjust the sound
-                VolumeManager.MainThemeVolume = tempVolume;
-                callback(this, new GameCompleteMenuOptionEventArgs(GameCompleteMenuOption.MainMenu));
-            }
+            VolumeManager.MusicVolume = tempVolume;
+            ContentControlActions.FadeOut();
+
+            callback();
         }
-
-        private void GameCompleteMenuButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            Canvas sss = (Canvas)sender;
-            Storyboard localStoryboard = App.Current.FindResource("ButtonUpStoryboard") as Storyboard;
-            Storyboard.SetTarget(localStoryboard, sss.Children[1]);
-            localStoryboard.Begin();
-
-            EventFilter(sender);
-        }
-
-        private void GameCompleteMenuButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            Canvas sss = (Canvas)sender;
-            Storyboard localStoryboard = App.Current.FindResource("ButtonDownStoryboard") as Storyboard;
-            Storyboard.SetTarget(localStoryboard, sss.Children[1]);
-            localStoryboard.Begin();
-        }
-
-        private void GameCompleteMenuButton_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Canvas animateThisCanvas = (Canvas)sender;
-            UserControlAnimation.FadeInElement(animateThisCanvas.Children[0], true);
-            //added sound effect for the button
-            VolumeManager.play(@"Resources/Audio/UserControlButtonHover.wav");
-        }
-
-        private void GameCompleteMenuButton_MouseLeave(object sender, MouseEventArgs e)
-        {
-            //todo get mouse down working with this
-            Canvas animateThisCanvas = (Canvas)sender;
-            UserControlAnimation.FadeInElement(animateThisCanvas.Children[0], false);
-        }
-    }
-
-    public class GameCompleteMenuOptionEventArgs : EventArgs
-    {
-        public readonly GameCompleteMenuOption Option;
-        public GameCompleteMenuOptionEventArgs(GameCompleteMenuOption option)
-        {
-            Option = option;
-        }
-    }
-
-    public enum GameCompleteMenuOption
-    {
-        NewGame,
-        MainMenu
     }
 
     public enum GameResult

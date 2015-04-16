@@ -13,12 +13,12 @@ namespace Ascendancy.Networking
     {
         private Move move;
         private Move lastMove;
-        private readonly KulamiPeer peer;
-        private string Name;
+        public readonly KulamiPeer Peer;
+        private readonly string Name;
 
         public NetworkPlayer(KulamiPeer peer)
         {
-            this.peer = peer;
+            this.Peer = peer;
             move = Move.None;
             lastMove = Move.None;
             peer.OnPlayerMove += on_move_received;
@@ -71,7 +71,7 @@ namespace Ascendancy.Networking
         {
             Thread thread = new Thread(() =>
             {
-                peer.SendMove(moveToSend);
+                Peer.SendMove(moveToSend);
                 Thread.Sleep(1000);
             }) {IsBackground = true};
             thread.Start();

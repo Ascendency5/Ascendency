@@ -10,14 +10,26 @@
     <Grid x:Name="LocalMultiplayerGrid" Width="1440" Height="900">
         <Rectangle x:Name="TransparencyEffect" Fill="Black" HorizontalAlignment="Left" Height="900" Stroke="Black" VerticalAlignment="Top" Width="1440" Opacity="0.745"/>
         <Image x:Name="Background" HorizontalAlignment="Center" Height="710" VerticalAlignment="Center" Width="1122" Source="/Ascendancy;component/Resources/Images/MenuBackdrop.png" Margin="135,79,183,111"/>
+
+        <Rectangle Fill="Black" HorizontalAlignment="Left" Height="66" Margin="290,486,0,0" Stroke="#FF0B7BB0" VerticalAlignment="Top" Width="347" RadiusX="10" RadiusY="10">
+            <Rectangle.Effect>
+                <BlurEffect Radius="2"/>
+            </Rectangle.Effect>
+        </Rectangle>
+
+        <Rectangle Fill="Black" HorizontalAlignment="Left" Height="66" Margin="754,486,0,0" Stroke="#FF0B7BB0" VerticalAlignment="Top" Width="348" RadiusX="10" RadiusY="10">
+            <Rectangle.Effect>
+                <BlurEffect Radius="2"/>
+            </Rectangle.Effect>
+        </Rectangle>
         <TextBox x:Name="PlayerOneNamePrompt" Text="Player One"
-                 VerticalAlignment="Top" HorizontalAlignment="Left" Height="48" Width="327"
+                 VerticalAlignment="Top" HorizontalAlignment="Left" Height="55" Width="327"
                  Margin="300,491,0,0" FontSize="36" TextWrapping="Wrap" MaxLength="12" 
-                 Loaded="NamePromptText_Loaded" PreviewMouseLeftButtonDown="NamePromptText_PreviewMouseLeftButtonDown"/>
+                 Loaded="NamePromptText_Loaded" PreviewMouseLeftButtonDown="NamePromptText_PreviewMouseLeftButtonDown" Background="{x:Null}" Foreground="White" CaretBrush="White" BorderBrush="{x:Null}" SelectionBrush="#FF3399FF"/>
         <TextBox x:Name="PlayerTwoNamePrompt" Text="Player Two"
-        	VerticalAlignment="Top" HorizontalAlignment="Left" Height="48" Width="360"
+        	VerticalAlignment="Top" HorizontalAlignment="Left" Height="55" Width="328"
         	Margin="762,491,0,0" FontSize="36" TextWrapping="Wrap" MaxLength="12" 
-        	PreviewMouseLeftButtonDown="NamePromptText_PreviewMouseLeftButtonDown"/>
+        	PreviewMouseLeftButtonDown="NamePromptText_PreviewMouseLeftButtonDown" Background="{x:Null}" Foreground="White" CaretBrush="White" BorderBrush="{x:Null}"/>
 
 
 

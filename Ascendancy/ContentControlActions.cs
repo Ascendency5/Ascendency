@@ -25,7 +25,7 @@ namespace Ascendancy
         }
 
         private static readonly Stack<UserControl> popupControls = new Stack<UserControl>();
-        private static HomeScreenUserControl currentHomeScreenUserControl;
+        private static HomeScreenUserControl mainMenuUserControl;
 
         public static void setPopup(UserControl control)
         {
@@ -44,26 +44,10 @@ namespace Ascendancy
                 FadeOutControl(popupContentControl);
             }
 
-            /*
-             * todo This is definitely a hack
-             * It works by seeing if the current
-             * content is the menu, and stores it
-             * if it is to be restored on fade out.
-             */
-
             HomeScreenUserControl homeScreen = baseContentControl.Content as HomeScreenUserControl;
             if (homeScreen != null)
             {
-                currentHomeScreenUserControl = homeScreen;
-            }
-
-            if (control is GameBoardUserControl)
-            {
-                VolumeManager.BattleThemeTransition = true;
-            }
-            else if(control is HomeScreenUserControl)
-            {
-                VolumeManager.BattleThemeTransition = false;
+                mainMenuUserControl = homeScreen;
             }
 
             baseContentControl.Content = control;
@@ -89,13 +73,11 @@ namespace Ascendancy
                 //FadeOutControl(baseContentControl);
 
                 // Do we need to set the menu back up?
-                if (currentHomeScreenUserControl == null) return;
+                if (mainMenuUserControl == null) return;
 
-                baseContentControl.Content = currentHomeScreenUserControl;
+                baseContentControl.Content = mainMenuUserControl;
                 FadeInControl(baseContentControl, 2);
-                currentHomeScreenUserControl = null;
-
-                //set the main theme music here?
+                mainMenuUserControl = null;
             }
             else
             {
@@ -113,13 +95,9 @@ namespace Ascendancy
             }
         }
 
-        //todo trying to edit the z-index in this class is pointless as
-        //the z-index property is handled in the UserControlAnimations.cs
         private static void FadeInControl(ContentControl control, int index)
         {
             // Bring the control up front
-            //Panel.SetZIndex(control, index);
-
             UserControlAnimation.FadeInContentControl(control);
         }
 
@@ -128,7 +106,6 @@ namespace Ascendancy
             UserControlAnimation.FadeOutContentControl(control);
 
             //set the Content control to the back
-            //Panel.SetZIndex(control, 0);
         }
     }
 }

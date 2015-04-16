@@ -13,6 +13,7 @@ namespace Ascendancy.Networking
         Name,
         GameRequest,
         GameResponse,
-        PlayerMove
+        PlayerMove,
+        Leave
     }
 }

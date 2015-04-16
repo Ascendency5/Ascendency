@@ -10,12 +10,20 @@
     <Grid x:Name="OnlineNamePromptGrid" Width="1440" Height="900">
         <Rectangle x:Name="TransparencyEffect" Fill="Black" HorizontalAlignment="Left" Height="900" Stroke="Black" VerticalAlignment="Top" Width="1440" Opacity="0.745"/>
         <Image x:Name="Background" HorizontalAlignment="Center" Height="710" VerticalAlignment="Center" Width="1122" Source="/Ascendancy;component/Resources/Images/MenuBackdrop.png" Margin="135,79,183,111"/>
+
+        <Rectangle Fill="Black" HorizontalAlignment="Left" Height="82" Margin="351,414,0,0" Stroke="#FF0B7BB0" VerticalAlignment="Top" Width="716" RadiusX="10" RadiusY="10" Panel.ZIndex="1">
+            <Rectangle.Effect>
+                <BlurEffect Radius="2"/>
+            </Rectangle.Effect>
+        </Rectangle>
         <TextBox x:Name="NamePromptText" Text="Enter your name here"
                  VerticalAlignment="Top" HorizontalAlignment="Left" Height="48" Width="682"
                  Margin="368,430,0,0" FontSize="36" TextWrapping="Wrap" MaxLength="25"
-                 KeyDown="NamePromptText_KeyDown" Loaded="NamePromptText_Loaded" PreviewMouseLeftButtonDown="NamePromptText_PreviewMouseLeftButtonDown"/>
-
-
+                 KeyDown="NamePromptText_KeyDown" Loaded="NamePromptText_Loaded" PreviewMouseLeftButtonDown="NamePromptText_PreviewMouseLeftButtonDown" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}" CaretBrush="#FFCCFFF8" Panel.ZIndex="1">
+            <TextBox.SelectionBrush>
+                <SolidColorBrush Color="#FF7C9AB8"/>
+            </TextBox.SelectionBrush>
+        </TextBox>
         <Label Content="Create a username below" HorizontalAlignment="Left" Margin="368,340,0,0" VerticalAlignment="Top" FontSize="48" FontFamily="Verdana" Height="90" Width="682" Foreground="White">
             <Label.Effect>
                 <BlurEffect Radius="10"/>

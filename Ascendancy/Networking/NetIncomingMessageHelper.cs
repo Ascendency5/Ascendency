@@ -41,6 +41,8 @@ namespace Ascendancy.Networking
                     int col = message.ReadInt32();
                     data.Add(new Move(row, col));
                     break;
+               case NetMessageType.Leave:
+                    break;
             }
             return new Packet(type, token, data.ToArray());
         }

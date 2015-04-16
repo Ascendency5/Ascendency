@@ -12,13 +12,12 @@ namespace Ascendancy.Networking
     {
         public static event EventHandler OnDiscovery;
 
-        public const int Port = 47021;
+        private const int Port = 47021;
 
         private static NetPeer Client { get; set; }
 
         private static string _ClientName;
-        public static object clientLock = new object();
-
+        private static readonly object clientLock = new object();
         public static string ClientName
         {
             get
@@ -42,7 +41,7 @@ namespace Ascendancy.Networking
         }
 
         private static bool _InLobby;
-        private static object lobbyLock = new object();
+        private static readonly object lobbyLock = new object();
         public static bool InLobby
         {
             get
@@ -60,7 +59,7 @@ namespace Ascendancy.Networking
                     TraceHelper.WriteLine("In lobby update: {0}", Peers.Count);
                     foreach (KulamiPeer peer in Peers.Values)
                     {
-                        peer.SendLobby(_InLobby);
+                        peer.SendLobby();
                     }
                 }
             }
@@ -78,7 +77,7 @@ namespace Ascendancy.Networking
                 AutoFlushSendQueue = true,
                 PingInterval = 1f,
                 //ResendHandshakeInterval = 1f,
-                //ConnectionTimeout = 5,
+                ConnectionTimeout = 7,
                 Port = Port,
                 UseMessageRecycling = false,
                 MaximumHandshakeAttempts = 100
@@ -86,7 +85,6 @@ namespace Ascendancy.Networking
 
             netPeerConfiguration.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
             netPeerConfiguration.EnableMessageType(NetIncomingMessageType.DiscoveryResponse);
-            //netPeerConfiguration.EnableMessageType(NetIncomingMessageType.ConnectionApproval);
             netPeerConfiguration.EnableMessageType(NetIncomingMessageType.UnconnectedData);
             netPeerConfiguration.EnableMessageType(NetIncomingMessageType.StatusChanged);
 
@@ -96,21 +94,31 @@ namespace Ascendancy.Networking
 
             TraceHelper.WriteLine("Personal ID: {0}", Client.UniqueIdentifier);
             TraceHelper.WriteLine("Broadcast: {0}", netPeerConfiguration.BroadcastAddress);
-            Client.DiscoverLocalPeers(Port);
+
             // Broadcast thread
             new Thread(() =>
             {
                 while (true)
                 {
-                    //Client.DiscoverLocalPeers(Port);
-                    Thread.Sleep(500);
+                    Client.DiscoverLocalPeers(Port);
+                    Thread.Sleep(2000);
+                }
+            })
+            {
+                IsBackground = true
+            }.Start();
+
+            // Message queue
+            new Thread(() =>
+            {
+                while (true)
+                {
+                    Thread.Sleep(100);
 
                     // Loop through the clients, and tell them to send what's in their queue
                     foreach (KulamiPeer peer in Peers.Values)
                     {
                         peer.FlushQueue();
-                        peer.SendLobby(InLobby);
-                        peer.SendName();
                     }
                 }
             })
@@ -127,65 +135,50 @@ namespace Ascendancy.Networking
         private static void on_received_mesage(object sender)
         {
             NetIncomingMessage incomingMessage = Client.ReadMessage();
-            NetConnection connection;
 
-            if (incomingMessage.MessageType == NetIncomingMessageType.DiscoveryRequest)
+            switch (incomingMessage.MessageType)
             {
-                TraceHelper.WriteLine("Request from {0}", incomingMessage.SenderEndPoint);
+                case NetIncomingMessageType.DiscoveryRequest:
+                    //TraceHelper.WriteLine("Request from {0}", incomingMessage.SenderEndPoint);
 
-                //This message is received by the sender of the DiscoveryRequest
-                //as of type DiscoveryResponse
-                Client.SendDiscoveryResponse(null, incomingMessage.SenderEndPoint);
-            }
-            else if (incomingMessage.MessageType == NetIncomingMessageType.DiscoveryResponse)
-            {
-                TraceHelper.WriteLine("Response from {0}", incomingMessage.SenderEndPoint);
+                    //This message is received by the sender of the DiscoveryRequest
+                    //as of type DiscoveryResponse
+                    Client.SendDiscoveryResponse(null, incomingMessage.SenderEndPoint);
+                    break;
+                case NetIncomingMessageType.DiscoveryResponse:
+                    //TraceHelper.WriteLine("Response from {0}", incomingMessage.SenderEndPoint);
 
-                // See if we have a connection from the SenderEndPoint
-                // If we don't, try to connect.
+                    // See if we have a connection from the SenderEndPoint
+                    // If we don't, try to connect.
 
-                // todo fix already connected error
-                connection = Client.GetConnection(incomingMessage.SenderEndPoint);
-                if (connection == null)
-                {
-                    TraceHelper.WriteLine("Attempting connection: {0}", incomingMessage.SenderEndPoint);
-                    Client.Connect(incomingMessage.SenderEndPoint);
-                }
-                else
-                {
-
-                }
-            }
-            else if (incomingMessage.MessageType == NetIncomingMessageType.ConnectionApproval)
-            {
-                TraceHelper.WriteLine("Connection from {0}", incomingMessage.SenderEndPoint);
-                //Establishes the connection between ourselves
-                //and the sender of the ConnectionApproval
-                //message
-                incomingMessage.SenderConnection.Approve();
-            }
-            else if (incomingMessage.MessageType == NetIncomingMessageType.Data)
-            {
-                HandleData(incomingMessage);
-            }
-            else if (incomingMessage.MessageType == NetIncomingMessageType.StatusChanged)
-            {
-                NetConnectionStatus status = (NetConnectionStatus) incomingMessage.ReadByte();
-                if (status == NetConnectionStatus.Disconnected)
-                {
-                    if (Peers.ContainsKey(incomingMessage.SenderConnection.RemoteUniqueIdentifier))
+                    // todo fix already connected error
+                    var connection = Client.GetConnection(incomingMessage.SenderEndPoint);
+                    if (connection == null)
                     {
-                        KulamiPeer peer = Peers[incomingMessage.SenderConnection.RemoteUniqueIdentifier];
-                        if (peer != null)
+                        Client.Connect(incomingMessage.SenderEndPoint);
+                    }
+                    break;
+                case NetIncomingMessageType.Data:
+                    HandleData(incomingMessage);
+                    break;
+                case NetIncomingMessageType.StatusChanged:
+                    NetConnectionStatus status = (NetConnectionStatus) incomingMessage.ReadByte();
+                    if (status == NetConnectionStatus.Disconnected)
+                    {
+                        if (Peers.ContainsKey(incomingMessage.SenderConnection.RemoteUniqueIdentifier))
                         {
-                            peer.Disconnect();
+                            KulamiPeer peer = Peers[incomingMessage.SenderConnection.RemoteUniqueIdentifier];
+                            if (peer != null)
+                            {
+                                peer.Disconnect();
+                            }
                         }
                     }
-                }
-                if (status == NetConnectionStatus.Connected)
-                {
-                    AddConnection(incomingMessage.SenderConnection);
-                }
+                    if (status == NetConnectionStatus.Connected)
+                    {
+                        AddConnection(incomingMessage.SenderConnection);
+                    }
+                    break;
             }
         }
 
@@ -206,7 +199,7 @@ namespace Ascendancy.Networking
 
             peer = Peers[connection.RemoteUniqueIdentifier];
             peer.SendName();
-            peer.SendLobby(InLobby);
+            peer.SendLobby();
         }
 
         private static void HandleData(NetIncomingMessage message)

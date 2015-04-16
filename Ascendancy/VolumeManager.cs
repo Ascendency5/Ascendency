@@ -5,7 +5,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using Ascendancy.User_Controls;
 
 namespace Ascendancy
@@ -13,11 +15,8 @@ namespace Ascendancy
     public static class VolumeManager
     {
         private static double _soundVolume = .60;
-        private static double _menuMusicVolume = .60;
-        private static double _battleMusicVolume = 0;
-        private static bool _battleThemeIsPlaying = false;
-
-        private static MediaPlayer battleThemePlayer;
+        private static double _musicVolume = .60;
+        private static bool _battleThemeIsPlaying;
 
         public static double SoundVolume
         {
@@ -30,43 +29,18 @@ namespace Ascendancy
             }
         }
 
-        public static double MainThemeVolume
+        public static double MusicVolume
         {
-            get { return _menuMusicVolume; }
+            get { return _musicVolume; }
             set
             {
-                _menuMusicVolume = value;
+                _musicVolume = value;
                 if (OnVolumeChanged != null)
                     OnVolumeChanged(null, new VolumeChangeEventArgs(SoundType.MenuMusic, value));
             }
         }
 
-        public static double BattleThemeVolume
-        {
-            get { return _battleMusicVolume; }
-            set
-            {
-                _battleMusicVolume = value;
-                //if (OnVolumeChanged != null)
-                //    OnVolumeChanged(null, new VolumeChangeEventArgs(SoundType.BattleMusic, value));
-                if (battleThemePlayer != null)
-                    battleThemePlayer.Volume = value;
-            }
-        }
-
-        public static double GetMusicVolume
-        {
-            get
-            {
-                if(_battleThemeIsPlaying)
-                    return _battleMusicVolume;
-
-                return _menuMusicVolume;
-            }
-        }
-
-
-        public static bool BattleThemeTransition
+        public static bool PlayBattleTheme
         {
             get { return _battleThemeIsPlaying; }
             set
@@ -77,43 +51,61 @@ namespace Ascendancy
                 _battleThemeIsPlaying = value;
                 if (_battleThemeIsPlaying)
                 {
-                    //OnVolumeChanged(null, new VolumeChangeEventArgs(SoundType.BattleMusic, GetMusicVolume));
-
-                    if (battleThemePlayer != null)
-                        battleThemePlayer.Volume = GetMusicVolume;
-                    OnVolumeChanged(null, new VolumeChangeEventArgs(SoundType.MenuMusic, 0));
+                    TransitionAudio(SoundType.MenuMusic, SoundType.BattleMusic);
                 }
                 else
                 {
-                    OnVolumeChanged(null, new VolumeChangeEventArgs(SoundType.MenuMusic, GetMusicVolume));
-                    if(battleThemePlayer != null)
-                        battleThemePlayer.Volume = 0;
+                    TransitionAudio(SoundType.BattleMusic, SoundType.MenuMusic);
                 }
             }
         }
 
-        private static EventHandler<VolumeChangeEventArgs> OnVolumeChanged = on_volume_changed;
+        private static void TransitionAudio(SoundType fromType, SoundType toType)
+        {
+            // Create a storyboard
+            //Storyboard storyboard = new Storyboard();
+            // Reset all audio of the toType to the start
+
+            // Transition from MusicVolume to 0 for fromType
+            var fromPlayers = currentMediaPlayers.Where(x => x.Value.Type == fromType).ToArray();
+
+            // Transition from 0 to MusicVolume for toType
+            var toPlayers = currentMediaPlayers.Where(x => x.Value.Type == toType).ToArray();
+
+            SetUpAnimation(fromPlayers, MusicVolume, 0);
+            SetUpAnimation(toPlayers, 0, MusicVolume);
+
+            foreach (var player in fromPlayers)
+            {
+                player.Key.Position = TimeSpan.FromMilliseconds(1);
+                player.Key.Play();
+            }
+
+            //storyboard.Begin();
+        }
+
+        private static void SetUpAnimation(
+            KeyValuePair<MediaPlayer, SoundConfiguration>[] fromPlayers,
+            double fromVolume,
+            double toVolume)
+        {
+            foreach (var player in fromPlayers)
+            {
+                //var animation = new DoubleAnimation(fromVolume, toVolume, TimeSpan.FromMilliseconds(400));
+                //Storyboard.SetTarget(animation, player.Key);
+                //Storyboard.SetTargetProperty(animation, new PropertyPath(MediaPlayerVolumeProperty));
+                //storyboard.Children.Add(animation);
+                player.Key.Volume = toVolume;
+            }
+        }
+
+        private static readonly EventHandler<VolumeChangeEventArgs> OnVolumeChanged = on_volume_changed;
 
         private static readonly ConcurrentDictionary<MediaPlayer, SoundConfiguration> currentMediaPlayers = new ConcurrentDictionary<MediaPlayer, SoundConfiguration>();
 
         public static void play(string uriString, SoundType type = SoundType.SoundEffect, SoundLoop loop = SoundLoop.None)
         {
-            if (type == SoundType.BattleMusic)
-            {
-                //if it's never been created before
-                if (battleThemePlayer == null)
-                {
-                    battleThemePlayer = new MediaPlayer();
-                    battleThemePlayer.Open(new Uri(uriString, UriKind.Relative));
-                    battleThemePlayer.Volume = BattleThemeVolume;
-                    battleThemePlayer.MediaEnded += on_battle_player_end;
-                    battleThemePlayer.Play();
-                }
-            }
-            else
-            {
-                play(new Uri(uriString, UriKind.Relative), type, loop);
-            }
+            play(new Uri(uriString, UriKind.Relative), type, loop);
         }
 
         public static void play(Uri uri, SoundType type = SoundType.SoundEffect, SoundLoop loop = SoundLoop.None)
@@ -132,10 +124,10 @@ namespace Ascendancy
             {
                 //todo make music transition flow correctly
                 case SoundType.BattleMusic:
-                    player.Volume = BattleThemeVolume;
+                    player.Volume = PlayBattleTheme ? MusicVolume : 0;
                     break;
                 case SoundType.MenuMusic:
-                    player.Volume = MainThemeVolume;
+                    player.Volume = PlayBattleTheme ? 0 : MusicVolume;
                     break;
                 case SoundType.SoundEffect:
                    player.Volume = SoundVolume;
@@ -145,15 +137,6 @@ namespace Ascendancy
             player.MediaEnded += on_player_end;
             player.Play();
         }
-
-        private static void on_battle_player_end(object sender, EventArgs e)
-        {
-            MediaPlayer player = (MediaPlayer)sender;
-            player.Position = TimeSpan.FromMilliseconds(1);
-            player.Play();
-        }
-
-
 
         private static void on_player_end(object sender, EventArgs e)
         {
@@ -217,7 +200,6 @@ namespace Ascendancy
     public enum SoundLoop
     {
         None,
-        Loop,
-        Battle
+        Loop
     }
 }

@@ -16,18 +16,15 @@
                             MouseLeftButtonUp="Resume_OnMouseLeftButtonUp"/>
             
             <my:ImageButton x:Name="Options" Source="/Ascendancy;component/Resources/Images/Buttons/InGameMenu/Options.png"
-                            Margin="0,0,0,158" Width="300" Height="60"
+                            Margin="570,368,570,472" Width="300" Height="60"
                             MouseLeftButtonUp="Options_OnMouseLeftButtonUp"/>
             
             <my:ImageButton x:Name="Help" Source="/Ascendancy;component/Resources/Images/Buttons/InGameMenu/Help.png"
-                            Margin="0,2,0,0" Width="300" Height="60"
+                            Margin="570,474,570,360" Width="300" Height="60"
                             MouseLeftButtonUp="Help_OnMouseLeftButtonUp"/>
             
-            <my:ImageButton x:Name="Restart" Source="/Ascendancy;component/Resources/Images/Buttons/InGameMenu/Restart.png"
-                            Margin="0,162,0,0" Width="300" Height="60"
-                            MouseLeftButtonUp="Restart_OnMouseLeftButtonUp"/>
-            
-            <my:ImageButton x:Name="LeaveGame" Source="/Ascendancy;component/Resources/Images/Buttons/InGameMenu/Leave_Game.png"
+           
+            <my:ImageButton x:Name="LeaveGame" Source="/Ascendancy;component/Resources/Images/Buttons/InGameMenu/Forfeit.png"
                             Margin="0,322,0,0" Width="300" Height="60"
                             MouseLeftButtonUp="LeaveGame_OnMouseLeftButtonUp"/>
         </Grid>
