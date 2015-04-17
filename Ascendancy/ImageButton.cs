@@ -37,15 +37,14 @@ namespace Ascendancy
             glowPath = (Path) GetTemplateChild("GlowPath");
             selectedPath = (Path) GetTemplateChild("SelectedPath");
 
-            // todo Figure out what's wrong with uncommeting these lines
-            // Something about a 'read-only' state
-            //applyAnimation(glowPath);
-            //applyAnimation(selectedPath);
+            applyAnimation(glowPath);
+            applyAnimation(selectedPath);
         }
 
         private void applyAnimation(Path path)
         {
             Storyboard gradientStoryboard = (Storyboard) Application.Current.FindResource("ButtonHoverStoryboard");
+            if (gradientStoryboard == null) return;
 
             Storyboard.SetTarget(gradientStoryboard, path);
             gradientStoryboard.Begin();

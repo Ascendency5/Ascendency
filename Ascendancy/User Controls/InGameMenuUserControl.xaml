@@ -24,7 +24,7 @@
                             MouseLeftButtonUp="Help_OnMouseLeftButtonUp"/>
             
            
-            <my:ImageButton x:Name="LeaveGame" Source="/Ascendancy;component/Resources/Images/Buttons/InGameMenu/Forfeit.png"
+            <my:ImageButton x:Name="LeaveGame" Source="/Ascendancy;component/Resources/Images/Buttons/InGameMenu/Leave_Game.png"
                             Margin="0,322,0,0" Width="300" Height="60"
                             MouseLeftButtonUp="LeaveGame_OnMouseLeftButtonUp"/>
         </Grid>

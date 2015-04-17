@@ -38,7 +38,7 @@ namespace Ascendancy.User_Controls
         {
             InitializeComponent();
 
-            StartMusic();
+            VolumeManager.playMenuSound();
             Load3DModel();
             LoadLogoSprite();
         }
@@ -102,12 +102,6 @@ namespace Ascendancy.User_Controls
             logoSprite.ResetAnimation();
         }
         #endregion
-
-        private void StartMusic()
-        {
-            //start up the looped media
-            VolumeManager.play(@"Resources/Audio/ThemeSong.wav", SoundType.MenuMusic, SoundLoop.Loop);
-        }
 
         private void LoadLogoSprite()
         {

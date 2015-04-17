@@ -16,12 +16,13 @@
                             Margin="195,-8,195,10" Width="300" Height="60"
                             MouseLeftButtonUp="MainMenu_OnMouseLeftButtonUp"/>
         </Grid>
-        <Label x:Name="LeftGameNotificationLabelGlow" Content="Connection lost" HorizontalAlignment="Left" Margin="470,275,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="167" Width="478" Foreground="White" Background="{x:Null}">
+        <Label x:Name="LeftGameNotificationLabelGlow" Content="Connection lost" HorizontalAlignment="Center" Margin="555,275,586,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="167" Width="299" Foreground="White" Background="{x:Null}">
             <Label.Effect>
                 <BlurEffect Radius="10"/>
             </Label.Effect>
         </Label>
-        <Label x:Name="LeftGameNotificationLabel" Content="Connection lost" HorizontalAlignment="Left" Margin="470,275,0,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="167" Width="478" Foreground="White" Background="{x:Null}"/>
+        <Label x:Name="LeftGameNotificationLabel" Content="Connection lost" HorizontalAlignment="Center" Margin="555,275,586,0" VerticalAlignment="Top" FontSize="36" FontFamily="Verdana" Height="167" Width="299" Foreground="White" Background="{x:Null}"/>
+        <Label Content="Attempting to Reconnect" HorizontalAlignment="Center" Margin="576,381,603,0" VerticalAlignment="Top" FontSize="20" FontFamily="Verdana" Height="167" Width="261" Foreground="White" Background="{x:Null}"/>
 
     </Grid>
 </UserControl>

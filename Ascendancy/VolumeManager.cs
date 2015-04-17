@@ -36,7 +36,12 @@ namespace Ascendancy
             {
                 _musicVolume = value;
                 if (OnVolumeChanged != null)
-                    OnVolumeChanged(null, new VolumeChangeEventArgs(SoundType.MenuMusic, value));
+                {
+                    OnVolumeChanged(null,
+                        PlayBattleTheme
+                            ? new VolumeChangeEventArgs(SoundType.BattleMusic, value)
+                            : new VolumeChangeEventArgs(SoundType.MenuMusic, value));
+                }
             }
         }
 
@@ -75,13 +80,11 @@ namespace Ascendancy
             SetUpAnimation(fromPlayers, MusicVolume, 0);
             SetUpAnimation(toPlayers, 0, MusicVolume);
 
-            foreach (var player in fromPlayers)
+            foreach (var player in toPlayers)
             {
                 player.Key.Position = TimeSpan.FromMilliseconds(1);
                 player.Key.Play();
             }
-
-            //storyboard.Begin();
         }
 
         private static void SetUpAnimation(
@@ -102,6 +105,27 @@ namespace Ascendancy
         private static readonly EventHandler<VolumeChangeEventArgs> OnVolumeChanged = on_volume_changed;
 
         private static readonly ConcurrentDictionary<MediaPlayer, SoundConfiguration> currentMediaPlayers = new ConcurrentDictionary<MediaPlayer, SoundConfiguration>();
+
+        public static void playMenuSound()
+        {
+            PlayBattleTheme = false;
+            if (currentMediaPlayers
+                .Select(x => x.Value)
+                .Any(x => x.Type == SoundType.MenuMusic)) return;
+
+            //start up the looped media
+            play(@"Resources/Audio/ThemeSong.wav", SoundType.MenuMusic, SoundLoop.Loop);
+        }
+
+        public static void playBattleTheme()
+        {
+            PlayBattleTheme = true;
+            if (currentMediaPlayers
+                .Select(x => x.Value)
+                .Any(x => x.Type == SoundType.BattleMusic)) return;
+
+            play(@"Resources/Audio/BattleTheme.wav", SoundType.BattleMusic, SoundLoop.Loop);
+        }
 
         public static void play(string uriString, SoundType type = SoundType.SoundEffect, SoundLoop loop = SoundLoop.None)
         {

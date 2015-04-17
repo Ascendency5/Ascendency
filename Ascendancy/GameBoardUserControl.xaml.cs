@@ -102,8 +102,7 @@ namespace Ascendancy
 
             engine.start();
 
-            VolumeManager.play(@"Resources/Audio/BattleTheme.wav", SoundType.BattleMusic, SoundLoop.Loop);
-            VolumeManager.PlayBattleTheme = true;
+            VolumeManager.playBattleTheme();
         }
 
         //sets what gameboard is being played for the current game
@@ -189,6 +188,7 @@ namespace Ascendancy
                 int col = move.Col;
 
                 UserControlAnimation.FadeInElement(inactiveImages[row, col], false);
+
                 if (activeImages[row, col] != null)
                 {
                     Sprite previousSprite = activeImages[row, col] as Sprite;
@@ -259,7 +259,7 @@ namespace Ascendancy
             {
                 PlayableGameBoardGridEventListener.Children.Remove(activeImages[move.Row, move.Col]);
 
-                inactiveImages[move.Row, move.Col].Opacity = .2;
+                inactiveImages[move.Row, move.Col].Opacity = 0;
                 activeImages[move.Row, move.Col] = null;
             }
 
@@ -271,6 +271,8 @@ namespace Ascendancy
             {
                 validMoves = new Move[0];
             }
+
+            if (PlayerTwo is HardAiPlayer) return;
 
             foreach (Move move in validMoves)
             {
@@ -433,7 +435,7 @@ namespace Ascendancy
         {
             if (!humanTurn) return;
             Move move = findMoveFromPosition(sender);
-            if (validMove(move))
+            if (validMove(move) || PlayerTwo is HardAiPlayer)
             {
                 FrameworkElement element = sender as FrameworkElement;
                 UserControlAnimation.FadeInElement(element, true);
@@ -443,7 +445,7 @@ namespace Ascendancy
         {
             if (!humanTurn) return;
             Move move = findMoveFromPosition(sender);
-            if (validMove(move))
+            if (validMove(move) || PlayerTwo is HardAiPlayer)
             {
                 FrameworkElement element = sender as FrameworkElement;
                 UserControlAnimation.FadeInElement(element, false);

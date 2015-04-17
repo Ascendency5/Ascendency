@@ -198,7 +198,3 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
-
-# Ascendancy specific files
-Ascendancy/Resources/Video/*
-Ascendancy/Resources/Audio/*

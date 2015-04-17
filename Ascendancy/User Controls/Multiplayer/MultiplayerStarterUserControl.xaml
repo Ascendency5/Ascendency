@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:my="clr-namespace:Ascendancy"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Width="1440" Height="900">
 
@@ -10,24 +11,17 @@
         <Rectangle x:Name="TransparencyEffect" Fill="Black" HorizontalAlignment="Left" Height="900" Stroke="Black" VerticalAlignment="Top" Width="1440" Opacity="0.745"/>
         <Image x:Name="Background" HorizontalAlignment="Center" Height="746" VerticalAlignment="Center" Width="1097" Source="/Ascendancy;component/Resources/Images/MenuBackdrop.png" Margin="160,98,183,56"/>
         <Grid x:Name="Buttons" Margin="359,550,307,189">
-            <Canvas x:Name="Back" Margin="472,99,0,0" MouseEnter="MultiplayerStarterButton_MouseEnter" MouseLeave="MultiplayerStarterButton_MouseLeave" MouseLeftButtonDown="MultiplayerStarterButton_MouseLeftButtonDown" MouseLeftButtonUp="MultiplayerStarterButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
-                <Path x:Name="BackGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
-                <Image x:Name="BackImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/Back.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
+            <my:ImageButton x:Name="Back" Source="/Ascendancy;component/Resources/Images/Buttons/Back.png"
+                            Margin="472,99,0,0" Width="300" Height="60"
+                            MouseLeftButtonUp="Back_OnMouseLeftButtonUp"/>
+            
+            <my:ImageButton x:Name="Online" Source="/Ascendancy;component/Resources/Images/Buttons/MultiplayerStarter/Online.png"
+                            Margin="0,0,472,99" Width="300" Height="60"
+                            MouseLeftButtonUp="Online_OnMouseLeftButtonUp"/>
 
-            </Canvas>
-            <Canvas x:Name="Online" Margin="0,0,472,99" MouseEnter="MultiplayerStarterButton_MouseEnter" MouseLeave="MultiplayerStarterButton_MouseLeave" MouseLeftButtonDown="MultiplayerStarterButton_MouseLeftButtonDown" MouseLeftButtonUp="MultiplayerStarterButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
-                <Path x:Name="OnlineGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
-                <Image x:Name="OnlineImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/MultiplayerStarter/Online.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
-
-            </Canvas>
-            <Canvas x:Name="Local" Margin="421,0,51,99" MouseEnter="MultiplayerStarterButton_MouseEnter" MouseLeave="MultiplayerStarterButton_MouseLeave" MouseLeftButtonDown="MultiplayerStarterButton_MouseLeftButtonDown" MouseLeftButtonUp="MultiplayerStarterButton_MouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Width="302" Height="62" Panel.ZIndex="2">
-                <Path x:Name="LocalGlow" Style="{StaticResource ResourceKey=ButtonGlowStyle}" HorizontalAlignment="Left" Height="58.435" Stretch="Fill" VerticalAlignment="Top" Width="300.834" Opacity="0" Canvas.Top="1" Panel.ZIndex="2"/>
-                <Image x:Name="LocalImage" Style="{StaticResource UserControlButtonStyle}"  HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="300" Source="/Ascendancy;component/Resources/Images/Buttons/MultiplayerStarter/Local.png" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="2"/>
-
-            </Canvas>
-
-
-
+            <my:ImageButton x:Name="Local" Source="/Ascendancy;component/Resources/Images/Buttons/MultiplayerStarter/Local.png"
+                            Margin="421,0,51,99" Width="300" Height="60"
+                            MouseLeftButtonUp="Local_OnMouseLeftButtonUp"/>
         </Grid>
         <Image x:Name="LocalLogoImage" HorizontalAlignment="Left" Height="300" Margin="781,212,0,0" VerticalAlignment="Top" Width="300" Panel.ZIndex="2" Source="/Ascendancy;component/Resources/Images/Buttons/MultiplayerStarter/LocalLogo.png"/>
         <Image x:Name="OnlineLogoImage" HorizontalAlignment="Left" Height="300" Margin="359,212,0,0" VerticalAlignment="Top" Width="300" Panel.ZIndex="2" Source="/Ascendancy;component/Resources/Images/Buttons/MultiplayerStarter/OnlineLogo.png"/>
